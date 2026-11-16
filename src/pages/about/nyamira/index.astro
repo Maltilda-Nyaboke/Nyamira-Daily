@@ -15,7 +15,7 @@ const townList = towns.places.filter((p) => p.kind === 'town');
 const centres = towns.places.filter((p) => p.kind === 'centre').sort((a, b) => a.name.localeCompare(b.name));
 ---
 <Base title="About Nyamira County" description="Nyamira County in figures: population, households, area, wards, towns, and how the county is governed.">
-  <PageHead title="About Nyamira County" lead={`${county.countyName} has ${wards.length} wards in ${county.constituencies.length} constituencies. Here are the basic facts, with their sources.`} />
+  <PageHead title="About Nyamira County" lead={`${county.countyName} in figures: its people, its wards and its towns, with a source for each.`} />
   <div class="stack-lg" style="margin-top:16px">
     <section class="stack" aria-labelledby="facts">
       <h2 id="facts">Facts and figures</h2>

@@ -15,7 +15,7 @@ const county = byG.filter((x) => !groups[x.g].who.startsWith('National'));
 const national = byG.filter((x) => groups[x.g].who.startsWith('National'));
 ---
 <Base title="Contracts" description="Every public contract we can find in Nyamira: county and national, who got it, for how much, and where it says so.">
-  <PageHead eyebrow="Money" title="Contracts" lead={`${contracts.length.toLocaleString('en-GB')} contracts and allocations in Nyamira, from official records: who got each one, for how much, and the document that says so.`} crumbs={[{ href: '/money/', label: 'Money' }, { href: '/money/contracts/', label: 'Contracts' }]} />
+  <PageHead eyebrow="Money" title="Contracts" lead={`${contracts.length.toLocaleString('en-GB')} contracts and allocations in Nyamira. See who got each one, for how much, and the record that shows it.`} crumbs={[{ href: '/money/', label: 'Money' }, { href: '/money/contracts/', label: 'Contracts' }]} />
 
   <section class="stack" style="margin-top:24px" aria-labelledby="find">
     <h2 id="find">Find a contract</h2>

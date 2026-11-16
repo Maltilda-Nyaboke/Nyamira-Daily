@@ -39,9 +39,9 @@ const data = JSON.stringify({ wards: info, lead: leadW, centres: Object.fromEntr
   <svg class="contours" aria-hidden="true" viewBox="0 0 1440 640" preserveAspectRatio="none"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M-20 480C200 420 360 530 600 460S1000 390 1460 450" /><path d="M-20 515C220 455 380 565 620 495S1020 425 1460 485" /><path d="M-20 550C240 490 400 600 640 530S1040 460 1460 520" /><path d="M-20 585C260 525 420 635 660 565S1060 495 1460 555" /></g></svg>
   <div class="wrap hero-grid">
     <div class="hero-top">
-      <span class="eyebrow">Nyamira County · 20 wards · 4 sub-counties</span>
-      <h1 id="hero-title">What our county has, spends and does</h1>
-      <p class="lead">Every number has a source and a label that says how solid it is. Point at a ward on the map, or choose yours.</p>
+      <span class="eyebrow">Nyamira County · 20 wards</span>
+      <h1 id="hero-title">Know your ward. Follow the money.</h1>
+      <p class="lead">What is in your ward, what condition it is in, and where the county's money goes. Every figure has a source.</p>
     </div>
 
     <div class="hero-pick">
@@ -106,8 +106,8 @@ const data = JSON.stringify({ wards: info, lead: leadW, centres: Object.fromEntr
           <a class="pill-btn" href={leadW.href}>Read the story</a>
         </>) : (<>
           <div class="hc-top"><span class="eyebrow">Your ward</span></div>
-          <h2 class="hc-title">Point at a ward to see what it has</h2>
-          <p>Each of the 20 wards has a page: the places listed there, the money set aside for it, and who represents it.</p>
+          <h2 class="hc-title">Start with your ward</h2>
+          <p>Pick your ward to see its schools, clinics and roads, the money set aside for it, and who represents you.</p>
           <a class="pill-btn" href="/ward/">See all 20 wards</a>
         </>)}
       </div>

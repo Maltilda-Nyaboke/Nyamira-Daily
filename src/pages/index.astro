@@ -1,6 +1,6 @@
 ---
 // Home (decision #121): a summary of the whole site, like a newspaper's front page.
-// 1. Coming fast: hand-edited, dated items (src/data/living/now.json), hidden when there are none.
+// 1. Happening now (first called Coming fast): hand-edited, dated items (src/data/living/now.json), hidden when there are none.
 // 2. The county map with the lead story pinned to its ward (or, with no lead, an invitation to explore).
 // 3. Three numbers, one door each: places checked on site, money spent, contracts.
 // 4. Latest: the newest explainers, numbers of the week and videos. 5. Watch, when there are videos.
@@ -55,9 +55,9 @@ const wardCards = wards.map((w) => ({
 <Base title="Today" tools={false}>
   <Fragment slot="hero">
     {now.length > 0 && (
-      <aside class="now-strip" aria-label="Coming fast">
+      <aside class="now-strip" aria-label="Happening now">
         <div class="wrap now-inner">
-          <span class="now-tag"><span class="live" aria-hidden="true"></span>Coming fast</span>
+          <span class="now-tag"><span class="live" aria-hidden="true"></span>Happening now</span>
           <ul>
             {now.map((it) => <li><a href={it.href}>{it.headline}</a> <span class="now-meta">{it.source} · {date(it.date)}</span></li>)}
           </ul>
@@ -98,25 +98,25 @@ const wardCards = wards.map((w) => ({
 
     <section class="front" aria-label="The site at a glance">
       <a class="front-door" href="/map/">
-        <span class="eyebrow">Map</span>
+        <span class="eyebrow">Places</span>
         <span class="num">{checked} <small>of {facilities.length}</small></span>
-        <span class="say">public places checked on site so far. The rest are listed from official records, not yet visited.</span>
+        <span class="say">public places visited by our team so far. {checked < facilities.length / 2 ? 'We are just starting; the' : 'The'} rest come from official lists.</span>
         <EvidenceLabel kind={checked ? 'verified' : 'unverified'} />
-        <b class="more">Open the map →</b>
+        <b class="more">See the places →</b>
       </a>
       <a class="front-door" href="/money/">
         <span class="eyebrow">Money · {fy}</span>
         <span class="num">{bn(last.spent)}</span>
-        <span class="say">spent by the county out of a {bn(last.budget)} budget ({pct(last.spent, last.budget)}%).</span>
+        <span class="say">spent by the county, out of a {bn(last.budget)} budget. That is KSh {pct(last.spent, last.budget)} of every 100.</span>
         <EvidenceLabel kind="official" />
         <b class="more">Follow the money →</b>
       </a>
       <a class="front-door" href="/money/contracts/">
         <span class="eyebrow">Contracts · {fy}</span>
         <span class="num">{fyContracts.toLocaleString('en-GB')}</span>
-        <span class="say">county and national contracts and allocations dated {fy} in our tracker.</span>
+        <span class="say">contracts and allocations for Nyamira dated {fy}, county and national. See who got each one.</span>
         <EvidenceLabel kind="official" />
-        <b class="more">See who got paid →</b>
+        <b class="more">See the contracts →</b>
       </a>
     </section>
     <p class="small muted">Sources: the Nyamira Daily place list and visits; the Controller of Budget and the county's own reports, FY{fy}; the national procurement portal and other official records (see each page).</p>
@@ -146,7 +146,7 @@ const wardCards = wards.map((w) => ({
 
     {latest.length > 0 && (
       <section class="stack" aria-labelledby="latest">
-        <div class="row-head"><h2 id="latest">Latest</h2><a href="/watch/">All stories →</a></div>
+        <div class="row-head"><h2 id="latest">Latest from the data</h2><a href="/watch/">All stories →</a></div>
         <ul class="latest">
           {latest.map((x) => (
             <li><a href={x.href}><span class="eyebrow">{x.kind}</span><span class="t">{x.title}</span>{x.note && <span class="d">{x.note}</span>}<span class="d">{date(x.when.toISOString())}</span></a></li>

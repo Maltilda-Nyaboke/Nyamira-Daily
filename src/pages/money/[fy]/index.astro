@@ -37,7 +37,7 @@ const staff = y.out.find((p) => p.key === 'staff');
 const dev = y.out.find((p) => p.key === 'development');
 import KeyDates from '../../../components/folded/KeyDates.astro';
 ---
-<MoneyShell title={`Nyamira's budget ${FY}`} lead={`What the county planned to spend in ${FY}, on what, and where the money comes from.`} crumbs={[{ href: `/money/${FY_PATH}/`, label: `Budget ${FY}` }]}>
+<MoneyShell title={`Nyamira's budget ${FY}`} lead={`What the county planned to spend in ${FY}, on what, and who pays for it.`} crumbs={[{ href: `/money/${FY_PATH}/`, label: `Budget ${FY}` }]}>
   <section class="figure">
     <span class="eyebrow">Budget · {FY} · printed estimates</span>
     <span class="num is-lead">{ksh(y.total.value)}</span>

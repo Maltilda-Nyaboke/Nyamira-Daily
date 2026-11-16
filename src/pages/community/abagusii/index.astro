@@ -8,7 +8,7 @@ import { archiveItems } from '../../../lib/archive.js';
 const history = (await archiveItems()).filter((e) => e.data.kind === 'history');
 ---
 <Base title="The Abagusii" description="Who the Abagusii are: history and culture, from named sources.">
-  <PageHead title="The Abagusii" lead="The history and culture of the Abagusii of Nyamira and Kisii, told from named sources and by elders who agreed to be recorded." />
+  <PageHead title="The Abagusii" lead="Who we are and where we came from, told by our elders and from named sources." />
   <div class="stack-lg" style="margin-top:16px; max-width:760px">
     {history.length > 0 ? (
       <ul class="rows">{history.map((e) => <li><a class="row-link" href={`/community/archive/#${e.id}`}><span><span class="t">{e.data.title}</span><span class="d">{e.data.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul>
