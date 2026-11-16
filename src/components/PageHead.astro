@@ -1,24 +1,26 @@
 ---
+// Page head (decision #121): a plain title area. The title, one line on what the page answers, any detail the
+// page passes as `eyebrow` (only when it says more than the section's name), and the Kiswahili switch.
+// No dark band, corner icon or green bar. The section switcher above it says where you are, so the breadcrumb
+// shows only on pages three or more levels deep (a department, a place).
 interface Crumb { href: string; label: string }
 interface Props { eyebrow?: string; title: string; lead?: string; crumbs?: Crumb[]; tools?: boolean; tone?: string; icon?: string }
-import { toneFor, sectionFor } from '../nav.js';
-import { sectionIcon } from '../lib/icons.js';
-import Icon from './Icon.astro';
-// Every page head is a coloured band in its section's Highlands colour; pass tone="none" for a plain one.
-const { eyebrow, title, lead, crumbs = [], tools = true } = Astro.props;
-const tone = Astro.props.tone ?? toneFor(Astro.url.pathname);
-const icon = Astro.props.icon ?? sectionIcon[sectionFor(Astro.url.pathname)?.label] ?? null;
-const banded = tone && tone !== 'none';
+import { sectionFor } from '../nav.js';
+const { eyebrow, title, lead, crumbs = [] } = Astro.props;
+const section = sectionFor(Astro.url.pathname);
+const norm = (t?: string) => (t ?? '').trim().toLowerCase();
+// An eyebrow that only repeats the section ("Money", "Map") adds nothing beside the switcher
+const detail = eyebrow && norm(eyebrow) !== norm(section?.label) && norm(eyebrow) !== norm(title) ? eyebrow : null;
+const showCrumbs = crumbs.length >= 3;
 ---
-{crumbs.length > 0 && (
+{showCrumbs && (
   <nav class="breadcrumb" aria-label="Breadcrumb">
     {crumbs.map((c, i) => (<><a href={c.href}>{c.label}</a>{i < crumbs.length - 1 ? ' / ' : ''}</>))}
   </nav>
 )}
-<header class={`stack page-head${banded ? ` band sec-${tone}` : ''}${banded && icon ? ' has-mark' : ''}`} style="padding: 24px 0 8px">
-  {banded && icon && <Icon name={icon} size={132} class="ph-mark" />}
-  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+<header class="stack page-head">
   <h1>{title}</h1>
   {lead && <p class="lead">{lead}</p>}
+  {detail && <p class="ph-detail">{detail}</p>}
   <button class="sw-switch" type="button" data-sw-switch aria-pressed="false" hidden>Soma kwa Kiswahili</button>
 </header>

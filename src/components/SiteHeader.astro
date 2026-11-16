@@ -1,16 +1,14 @@
 ---
-// The site header (decision #60): one glass bar with the logo, the eight sections and the tools.
-// Desktop: the sections in a row, no bullets; each opens a mega menu of cards in its colour.
-// Phones and tablets: a hamburger opens a sheet with every section and its pages.
-// Without JavaScript the desktop sections are plain links and the hamburger still opens (it is a <details>).
-import Icon from './Icon.astro';
-import { sections, sectionFor, stateFor, anchorFor, sectionTone } from '../nav.js';
+// The site header (decisions #60, #121): one bar with the logo, the four sections and search.
+// Desktop: the sections are plain links; each section's own pages are in the switcher and side list (SectionNav.astro).
+// Phones and tablets: a hamburger opens a sheet with every section and its pages in the same groups as the switcher.
+// Everything works without JavaScript (the sheet is a <details>).
+import { sections, sectionFor, stateFor, groupsOf } from '../nav.js';
 import { planned } from '../config.js';
 interface Props { path: string }
 const { path } = Astro.props;
 const section = sectionFor(path);
 const state = (s: (typeof sections)[number]) => (s === section ? (s.href === path ? 'page' : 'true') : undefined);
-const tone = (s: (typeof sections)[number]) => sectionTone[s.label] ?? 'mist';
 const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>';
 ---
 <header class="site-header">
@@ -28,14 +26,7 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
     <nav class="desk-nav" aria-label="Main sections">
       <ul>
         {sections.map((s) => (
-          <li class={`sec-${tone(s)}`}>
-            {s.pages.length ? (<>
-              <a class="desk-link" href={s.href} aria-current={state(s)}>{s.label}</a>
-              <button class="desk-item" type="button" aria-expanded="false" aria-controls={`mega-${anchorFor(s.label)}`} aria-current={state(s)}>
-                {s.label}<Fragment set:html={chev} />
-              </button>
-            </>) : <a class="desk-link solo" href={s.href} aria-current={state(s)}>{s.label}</a>}
-          </li>
+          <li><a class="desk-link" href={s.href} aria-current={state(s)}>{s.label}</a></li>
         ))}
       </ul>
     </nav>
@@ -59,26 +50,23 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
               <input id="sheet-q" name="q" type="search" autocomplete="off" placeholder="Search wards, schools, budgets…" />
             </form>
             {sections.map((s) => (
-              <details class={`menu sheet-sec sec-${tone(s)}`} open={state(s) ? true : undefined}>
+              <details class="menu sheet-sec" open={state(s) ? true : undefined}>
                 <summary aria-current={state(s)}>
-                  <Icon name={s.icon} size={24} badge />
-                  <span class="ss-text"><b>{s.label}</b><small>{s.desc}</small></span>
+                  <span class="ss-title">{s.label}</span>
                   <Fragment set:html={chev} />
                 </summary>
                 <div class="ss-body">
                   <a class="ss-go" href={s.href} aria-current={s.href === path ? 'page' : undefined}>{s.overview} <span aria-hidden="true">→</span></a>
-                  <ul class="ss-pages">
-                    {s.pages.map((p) => (
-                      <li>
-                        <a href={p.href} aria-current={stateFor(p, path)}><Icon name={p.icon ?? 'source'} size={20} /><span>{p.label}{planned.has(p.href) && <span class="tag-planned">Planned</span>}</span></a>
-                        {p.pages && (
-                          <div class="chips">
-                            {p.pages.map((c) => <a href={c.href} aria-current={stateFor(c, path)}>{c.label}</a>)}
-                          </div>
-                        )}
-                      </li>
+                  <div class="ss-groups">
+                    {groupsOf(s).map((g) => (
+                      <div class="sw-group">
+                        {g.label && <span class="sw-label">{g.label}</span>}
+                        <ul>
+                          {g.pages.filter((p) => !planned.has(p.href)).map((p) => <li><a href={p.href} aria-current={stateFor(p, path)}>{p.label}</a></li>)}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </details>
             ))}
@@ -88,34 +76,4 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
     </div>
   </div>
 
-  <!-- Desktop mega menus: one per section, opened by its button in the bar -->
-  <div class="megas">
-    {sections.map((s) => (
-      <div class={`mega sec-${tone(s)}`} id={`mega-${anchorFor(s.label)}`} hidden>
-        <div class="wrap mega-inner">
-          <div class="mega-intro">
-            <Icon name={s.icon} size={30} badge />
-            <p class="mega-title">{s.label}</p>
-            <p class="mega-desc">{s.desc}</p>
-            <a class="mega-go" href={s.href} aria-current={s.href === path ? 'page' : undefined}>{s.overview} <span aria-hidden="true">→</span></a>
-          </div>
-          <ul class="mega-cards">
-            {s.pages.map((p) => (
-              <li class={stateFor(p, path) ? 'mcard is-here' : 'mcard'}>
-                <a class="mcard-main" href={p.href} aria-current={stateFor(p, path)}>
-                  <Icon name={p.icon ?? 'source'} size={22} badge />
-                  <span class="mcard-text"><b>{p.label}{planned.has(p.href) && <span class="tag-planned">Planned</span>}</b><small>{p.desc}</small></span>
-                </a>
-                {p.pages && (
-                  <div class="chips">
-                    {p.pages.map((c) => <a href={c.href} aria-current={stateFor(c, path)}>{c.label}</a>)}
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    ))}
-  </div>
 </header>

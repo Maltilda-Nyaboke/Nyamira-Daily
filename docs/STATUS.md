@@ -10,6 +10,12 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 
 ## Changes on 16 Nov 2026
 
+- **UX round 1** on branch `feat/ux-round-1` (from `f71ef54`), not pushed. Decision #121, from a design review and an interview with the owner.
+  - Header: plain links, no pop-up menus; the phone menu sheet lists pages in the switcher's groups. Page heads: no dark band; breadcrumbs only three or more levels deep. Side list aligned with the logo; 44 px tap targets in the lists and for lone table links on phones.
+  - Home page as a summary: "Coming fast" from `src/data/living/now.json` (empty for now, so hidden), the map with a lead story (none yet, so the card invites the reader to point at a ward), three numbers (0 of 247 places checked; money spent; contracts dated 2025/26), latest explainers and numbers, Watch when videos exist.
+  - Checked: the build, `npm test` (332 pass, 2 new for `now.json`); 12 page types at 390, 768, 1280 and 1500 px: no sideways scroll, no script errors; the page title now starts at 147 px on phones (245 before) and 85 px on wide screens.
+  - Waiting for the owner: social account links for the footer (`src/config.js`); the first "Coming fast" item and lead story.
+
 - **Navigation option B and the footer** on branch `feat/nav-switcher` (from `9a99de8`), not pushed. Decisions #119 and #120.
   - The secondary tab bar is replaced by a section switcher and, from 1,180 px, a side list of the section's pages in groups (`src/components/SectionNav.astro`, groups in `src/nav.js`). The Map section keeps full width (switcher only). Administration leaves the main menu; its two pages sit under About, in a Reference group.
   - Footer: social icons (none set yet in `src/config.js`) and "© year Nyamira Daily" only.

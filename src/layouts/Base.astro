@@ -65,7 +65,7 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
   (function () { var r = document.documentElement; r.classList.add('sw-js'); try { if (localStorage.getItem('nd-sw') === '1') r.classList.add('sw-on'); } catch (e) {} })();
   </script>
 </head>
-<body id="top">
+<body id="top" class={rail ? 'has-rail' : undefined}>
   <a class="skip" href="#main">Skip to content</a>
   <SiteHeader path={path} />
   <main id="main" class={`sec-${toneFor(path)}`}>
@@ -126,36 +126,11 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
     });
     switches.forEach(function (d) { d.addEventListener('toggle', function () { document.documentElement.classList.toggle('switch-open', d.open); }); });
 
-    // Desktop mega menus: a section button opens its panel under the bar; clicking it again, clicking
-    // elsewhere or pressing Escape closes it. Only one is open at a time.
-    var items = all('.desk-item');
-    function megaOf(b) { return document.getElementById(b.getAttribute('aria-controls')); }
-    function closeMegas(except) {
-      items.forEach(function (b) {
-        if (b === except) return;
-        b.setAttribute('aria-expanded', 'false');
-        megaOf(b).hidden = true;
-      });
-    }
-    items.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var open = b.getAttribute('aria-expanded') === 'true';
-        closeMegas(b);
-        b.setAttribute('aria-expanded', open ? 'false' : 'true');
-        megaOf(b).hidden = open;
-      });
-    });
-    document.addEventListener('click', function (e) {
-      if (e.target.closest('.mega a') || (!e.target.closest('.desk-item') && !e.target.closest('.mega'))) closeMegas();
-    });
-
     // Phones: the menu sheet holds the page still behind it while it is open
     var sheet = document.querySelector('details.sheet');
     if (sheet) sheet.addEventListener('toggle', function () { document.documentElement.classList.toggle('sheet-open', sheet.open); });
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
-      var open = items.filter(function (b) { return b.getAttribute('aria-expanded') === 'true'; })[0];
-      if (open) { closeMegas(); open.focus(); }
       if (sheet && sheet.open) { sheet.open = false; sheet.querySelector('summary').focus(); }
       switches.forEach(function (d) { if (d.open) { d.open = false; d.querySelector('summary').focus(); } });
     });

@@ -1,0 +1,5 @@
+{
+  "note": "Coming fast (decision #121). Edited by hand and reviewed before publishing. items: {headline, href, source, date, until} (ISO dates); an item shows from its date until its end date. lead: the home page's lead story, pinned to a ward on the map: {ward, title, text, href, source}, or null.",
+  "items": [],
+  "lead": null
+}

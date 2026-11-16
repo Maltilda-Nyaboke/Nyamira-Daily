@@ -1,59 +1,99 @@
 ---
-// Home (decision #110): the map first, then one money band, then the places, then the topics as a short list.
-// No podcast, news or alerts. The number of the week sits beside the year's money, since both are money figures.
+// Home (decision #121): a summary of the whole site, like a newspaper's front page.
+// 1. Coming fast: hand-edited, dated items (src/data/living/now.json), hidden when there are none.
+// 2. The county map with the lead story pinned to its ward (or, with no lead, an invitation to explore).
+// 3. Three numbers, one door each: places checked on site, money spent, contracts.
+// 4. Latest: the newest explainers, numbers of the week and videos. 5. Watch, when there are videos.
 import Base from '../layouts/Base.astro';
 import HeroMap from '../components/HeroMap.astro';
 import EvidenceLabel from '../components/EvidenceLabel.astro';
-import SplitBar from '../components/viz/SplitBar.astro';
-import NumberCard from '../components/NumberCard.astro';
 import { getNumbers } from '../lib/numbers.js';
-import wards from '../data/wards.js';
-import { topics, topicPath } from '../data/topics.js';
-import Icon from '../components/Icon.astro';
-import { topicIcon } from '../lib/icons.js';
+import { entries } from '../lib/content.js';
+import { allVideos, videoPath } from '../lib/videos.js';
+import { places, currentState } from '../lib/places.js';
+import { contracts } from '../lib/contracts.js';
+import { liveItems } from '../lib/now.js';
+import { date } from '../lib/fmt.js';
 import money from '../lib/county-money.js';
 
-const [numberNow] = await getNumbers();
-const facilities = wards.reduce((n, w) => n + w.facilities.length, 0);
-const health = wards.reduce((n, w) => n + (w.counts.Health ?? 0), 0);
+const now = liveItems();
+const facilities = places.filter((p) => p.kind === 'facility');
+const checked = facilities.filter((p) => currentState(p).lastChecked).length;
 const last = money.years[money.years.length - 1];
 const bn = (m) => 'KSh ' + parseFloat((m / 1000).toFixed(2)) + 'B';
+const pct = (a, b) => Math.round((a * 100) / b);
+const fy = last.fy;
+const fyContracts = contracts.filter((c) => c.fy === fy).length;
+
+const numbers = await getNumbers();
+const explainers = await entries('explainers');
+const latest = [
+  ...explainers.map((e) => ({ kind: 'Explainer', title: e.data.title, note: e.data.summary, href: `/explainers/${e.id}/`, when: e.data.updated })),
+  ...numbers.map((n) => ({ kind: 'Number of the week', title: `${n.data.figure} ${n.data.sentence}`, note: n.data.sources[0]?.name, href: `/number-of-the-week/#${n.id}`, when: n.data.week })),
+  ...allVideos.map((v) => ({ kind: 'Video', title: v.title, note: v.summary, href: videoPath(v.id), when: new Date(v.published_on) })),
+].sort((a, b) => b.when - a.when).slice(0, 4);
+const videos = allVideos.slice(0, 3);
 ---
-<Base title="Home" tools={false}>
-  <HeroMap slot="hero" />
+<Base title="Today" tools={false}>
+  <Fragment slot="hero">
+    {now.length > 0 && (
+      <aside class="now-strip" aria-label="Coming fast">
+        <div class="wrap now-inner">
+          <span class="now-tag"><span class="live" aria-hidden="true"></span>Coming fast</span>
+          <ul>
+            {now.map((it) => <li><a href={it.href}>{it.headline}</a> <span class="now-meta">{it.source} · {date(it.date)}</span></li>)}
+          </ul>
+        </div>
+      </aside>
+    )}
+    <HeroMap />
+  </Fragment>
 
-  <div class="stack-lg" style="padding-top:40px">
-    <section class="cols-2 glance" aria-labelledby="money-now">
-      <div class="figure">
-        <span class="eyebrow" id="money-now">Money · {last.fy}</span>
-        <span class="num is-lead">{bn(last.spent)}</span>
-        <p class="say">spent by the county, out of a <strong>{bn(last.budget)}</strong> budget. <strong class="hot">{bn(last.budget - last.spent)}</strong> was not spent.</p>
-        <SplitBar title={`Development money: roads, buildings, water, ${last.fy}`} parts={[{ value: last.devAbs, label: 'used', tone: 'good' }, { value: 100 - last.devAbs, label: 'not used', tone: 'gap' }]} />
-        <p class="source"><EvidenceLabel kind="official" /> Source: Controller of Budget, FY{last.fy}</p>
-        <a href="/money/"><strong>The county's money, department by department</strong></a>
-      </div>
-      {numberNow && <div class="panel sec-harvest"><NumberCard e={numberNow} full={false} /></div>}
+  <div class="stack-lg home" style="padding-top:40px">
+    <section class="front" aria-label="The site at a glance">
+      <a class="front-door" href="/map/">
+        <span class="eyebrow">Map</span>
+        <span class="num">{checked} <small>of {facilities.length}</small></span>
+        <span class="say">public places checked on site so far. The rest are listed from official records, not yet visited.</span>
+        <EvidenceLabel kind={checked ? 'verified' : 'unverified'} />
+        <b class="go">Open the map →</b>
+      </a>
+      <a class="front-door" href="/money/">
+        <span class="eyebrow">Money · {fy}</span>
+        <span class="num">{bn(last.spent)}</span>
+        <span class="say">spent by the county out of a {bn(last.budget)} budget ({pct(last.spent, last.budget)}%).</span>
+        <EvidenceLabel kind="official" />
+        <b class="go">Follow the money →</b>
+      </a>
+      <a class="front-door" href="/money/contracts/">
+        <span class="eyebrow">Contracts · {fy}</span>
+        <span class="num">{fyContracts.toLocaleString('en-GB')}</span>
+        <span class="say">county and national contracts and allocations dated {fy} in our tracker.</span>
+        <EvidenceLabel kind="official" />
+        <b class="go">See who got paid →</b>
+      </a>
     </section>
+    <p class="small muted">Sources: the Nyamira Daily place list and visits; the Controller of Budget and the county's own reports, FY{fy}; the national procurement portal and other official records (see each page).</p>
 
-    <section class="stack" aria-labelledby="places">
-      <h2 id="places">The places</h2>
-      <div class="tiles">
-        <a class="tile" href="/map/"><Icon name="market" size={22} badge /><b>{facilities}</b><span>public places and services listed</span><EvidenceLabel kind="unverified" /></a>
-        <a class="tile" href="/map/health/#facilities"><Icon name="health" size={22} badge /><b>{health}</b><span>health facilities in the 2017 national list</span><EvidenceLabel kind="official" /></a>
-        <a class="tile" href="/report/"><Icon name="check" size={22} badge /><b>Seen one?</b><span>Tell us what condition a place is in</span></a>
-      </div>
-      <p class="small muted">Sources: the Nyamira Daily list, mostly not yet checked on site; Kenya Master Health Facility List, 2017 export.</p>
-    </section>
+    {latest.length > 0 && (
+      <section class="stack" aria-labelledby="latest">
+        <div class="row-head"><h2 id="latest">Latest</h2><a href="/watch/">Everything on Watch →</a></div>
+        <ul class="latest">
+          {latest.map((x) => (
+            <li><a href={x.href}><span class="eyebrow">{x.kind}</span><span class="t">{x.title}</span>{x.note && <span class="d">{x.note}</span>}<span class="d">{date(x.when.toISOString())}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    <section class="stack" aria-labelledby="explore">
-      <h2 id="explore">Explore</h2>
-      <ul class="rows">
-        {topics.map((t) => (
-          <li><a class="row-link has-ico" href={topicPath[t.slug]}><Icon name={topicIcon[t.slug] ?? 'chart'} size={22} badge /><span style="flex:1"><span class="t">{t.title}</span><span class="d">{t.question}</span></span><span class="go" aria-hidden="true">→</span></a></li>
-        ))}
-        <li><a class="row-link has-ico" href="/money/contracts/"><Icon name="source" size={22} badge /><span style="flex:1"><span class="t">Contracts</span><span class="d">Every contract we can find: who, how much, when.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-      </ul>
-    </section>
+    {videos.length > 0 && (
+      <section class="stack" aria-labelledby="watch">
+        <div class="row-head"><h2 id="watch">Watch</h2><a href="/watch/">All videos →</a></div>
+        <ul class="latest">
+          {videos.map((v) => <li><a href={videoPath(v.id)}><span class="eyebrow">Video</span><span class="t">{v.title}</span>{v.summary && <span class="d">{v.summary}</span>}</a></li>)}
+        </ul>
+      </section>
+    )}
 
     <section class="stack">
       <div class="row-head"><span></span><button class="sw-switch" type="button" data-sw-switch aria-pressed="false" hidden>Soma kwa Kiswahili</button></div>
