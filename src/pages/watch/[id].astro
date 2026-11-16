@@ -1,0 +1,53 @@
+---
+// One page per video (decision #117): the video (loaded only when tapped), what it covers, the places it visited
+// with their state now, what was recorded on the day, and the pages with its figures.
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import VideoPlayer from '../../components/VideoPlayer.astro';
+import EvidenceLabel from '../../components/EvidenceLabel.astro';
+import { allVideos } from '../../lib/videos.js';
+import { placeById, placePath, currentState, statusLabel, conditionLabel } from '../../lib/places.js';
+import events from '../../data/living/events.json';
+import { date } from '../../lib/fmt.js';
+
+export function getStaticPaths() {
+  return allVideos.map((v) => ({ params: { id: v.id }, props: { v } }));
+}
+const { v } = Astro.props;
+const places = v.places.map((id) => placeById.get(id)).filter(Boolean);
+const recorded = events.filter((e) => e.reviewed_by && e.video === v.youtube_id);
+const show = (s, labels) => (s ? s.text ?? labels[s.value] : 'Not yet checked');
+---
+<Base title={v.title} description={v.summary}>
+  <PageHead eyebrow={`Watch · ${date(v.published_on)}`} title={v.title} lead={v.summary} crumbs={[{ href: '/watch/', label: 'Watch' }, { href: `/watch/${v.id}/`, label: v.title }]} />
+  <div class="stack-lg" style="margin-top:16px">
+    <VideoPlayer youtubeId={v.youtube_id} title={v.title} />
+
+    {places.length > 0 && (
+      <section class="stack" aria-labelledby="places">
+        <h2 id="places">The places in this video, now</h2>
+        <ul class="rows">
+          {places.map((p) => { const s = currentState(p); return (
+            <li><a class="row-link" href={placePath(p.id)}><span><span class="t">{p.name}</span><span class="d">{p.type} · Status: {show(s.status, statusLabel)} · Condition: {show(s.condition, conditionLabel)}{s.lastChecked ? ` · last checked ${date(s.lastChecked)}` : ''}</span></span><span class="go" aria-hidden="true">→</span></a></li>
+          ); })}
+        </ul>
+      </section>
+    )}
+
+    {recorded.length > 0 && (
+      <section class="stack" aria-labelledby="recorded">
+        <h2 id="recorded">What we recorded on the day</h2>
+        <ul class="small">
+          {recorded.map((e) => <li>{placeById.get(e.place)?.name}: {e.field.startsWith('service:') ? e.field.slice(8).split('-').join(' ') : e.field} {e.value}, {date(e.observed_on)} <EvidenceLabel kind={e.evidence} /></li>)}
+        </ul>
+      </section>
+    )}
+
+    {v.links?.length > 0 && (
+      <section class="stack" aria-labelledby="figures">
+        <h2 id="figures">The figures behind this video</h2>
+        <ul class="rows">{v.links.map((l) => <li><a class="row-link" href={l.href}><span><span class="t">{l.label}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul>
+      </section>
+    )}
+  </div>
+</Base>

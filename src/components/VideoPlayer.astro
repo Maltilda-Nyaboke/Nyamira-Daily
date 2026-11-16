@@ -1,0 +1,32 @@
+---
+// A video that loads only when tapped (decisions #63, #117): a button that loads YouTube's privacy-enhanced player,
+// so the page itself stays light on data. Without JavaScript it is a plain link to YouTube.
+interface Props { youtubeId: string; title: string }
+const { youtubeId, title } = Astro.props;
+---
+<div class="video-lite" data-video={youtubeId} data-title={title}>
+  <a class="btn" href={`https://www.youtube.com/watch?v=${youtubeId}`} rel="noopener" data-video-play>Play the video</a>
+  <span class="small muted">Plays from YouTube. Video uses a lot of mobile data.</span>
+</div>
+<script is:inline>
+  document.querySelectorAll('[data-video-play]').forEach(function (link) {
+    if (link.dataset.ready) return;
+    link.dataset.ready = '1';
+    link.addEventListener('click', function (e) {
+      var box = link.closest('[data-video]');
+      var id = box && box.getAttribute('data-video');
+      if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+      e.preventDefault();
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1';
+      frame.title = box.getAttribute('data-title') || 'Video';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.loading = 'lazy';
+      frame.style.width = '100%';
+      frame.style.aspectRatio = '16 / 9';
+      frame.style.border = '0';
+      box.replaceChildren(frame);
+    });
+  });
+</script>

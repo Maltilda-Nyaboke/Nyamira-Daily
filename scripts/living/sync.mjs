@@ -75,7 +75,11 @@ export function fromSheetVideos(csv) {
     if (!/^[A-Za-z0-9_-]{11}$/.test(r.youtube_id)) throw new Error(`video ${r.video_id}: youtube_id must be 11 characters`);
     const places = words(r.places).map((p) => p.toLowerCase());
     for (const p of places) if (!placeById.has(p)) throw new Error(`video ${r.video_id}: unknown place ${p}`);
-    return { id: r.video_id, title: r.title, youtube_id: r.youtube_id, published_on: r.published_on, places, summary: r.summary };
+    // links: "/money/2025-26/ Budget 2025/26; /place/nym-f0006/ Chepngombe Health Centre" (a site address, a space, its label)
+    const links = (r.links ?? '').split(';').map((x) => x.trim()).filter(Boolean).map((x) => { const sp = x.indexOf(' '); const href = sp < 0 ? x : x.slice(0, sp); return { href, label: sp < 0 ? x : x.slice(sp + 1).trim() }; });
+    for (const l of links) if (!/^\/[a-z0-9/_#?=&.-]*$/i.test(l.href)) throw new Error(`video ${r.video_id}: link must be a site address starting with /: ${l.href}`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(r.published_on)) throw new Error(`video ${r.video_id}: published_on must be YYYY-MM-DD`);
+    return { id: r.video_id, title: r.title, youtube_id: r.youtube_id, published_on: r.published_on, places, links, summary: r.summary };
   });
 }
 

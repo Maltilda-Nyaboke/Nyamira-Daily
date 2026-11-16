@@ -4,6 +4,7 @@
 import EvidenceLabel from './EvidenceLabel.astro';
 import { currentState, historyOf, responsibleFor, statusLabel, conditionLabel, wardName, placePath } from '../lib/places.js';
 import { date } from '../lib/fmt.js';
+import { videosForPlace, videoByYoutube, videoPath } from '../lib/videos.js';
 
 const { place } = Astro.props;
 const state = currentState(place);
@@ -14,6 +15,9 @@ const show = (e, labels) => (e ? e.text ?? labels[e.value] : 'Not yet checked');
 const wardList = place.wards.map((w) => wardName(w)).join(' and ');
 // The latest reading of each service (history is newest first)
 const services = state.services.filter((e, i, all) => all.findIndex((x) => x.field === e.field) === i);
+const videos = videosForPlace(place.id);
+// An event's video is its YouTube ID; link to our page for that video when we have one
+const videoHref = (yt) => (videoByYoutube.get(yt) ? videoPath(videoByYoutube.get(yt).id) : `https://www.youtube.com/watch?v=${yt}`);
 ---
 <section class="card stack place-summary" aria-labelledby="place-now">
   <h2 id="place-now" class="vh">This place now</h2>
@@ -44,13 +48,20 @@ const services = state.services.filter((e, i, all) => all.findIndex((x) => x.fie
     </ul>
   </div>
 
+  {videos.length > 0 && (
+    <div class="stack" style="gap:6px">
+      <h3>Videos made here</h3>
+      <ul class="small">{videos.map((v) => <li><a href={videoPath(v.id)}>{v.title}</a>, {date(v.published_on)}</li>)}</ul>
+    </div>
+  )}
+
   {history.length > 0 && (
     <details>
       <summary>Every visit and report ({history.length})</summary>
       <ol class="timeline">
         {history.map((e) => (
           <li><span class="tl-date">{date(e.observed_on)}</span>
-            <span>{e.field === 'status' ? `Status: ${statusLabel[e.value]}` : e.field === 'condition' ? `Condition: ${conditionLabel[e.value]}` : `${e.field.slice(8)}: ${e.value}`} · {methodLabel[e.method]} <EvidenceLabel kind={e.evidence} />{e.video && <> · <a href={`/watch/#${e.video}`}>The video</a></>}</span>
+            <span>{e.field === 'status' ? `Status: ${statusLabel[e.value]}` : e.field === 'condition' ? `Condition: ${conditionLabel[e.value]}` : `${e.field.slice(8)}: ${e.value}`} · {methodLabel[e.method]} <EvidenceLabel kind={e.evidence} />{e.video && <> · <a href={videoHref(e.video)}>The video</a></>}</span>
           </li>
         ))}
       </ol>

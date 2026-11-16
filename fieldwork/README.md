@@ -30,7 +30,7 @@ One sheet with four tabs. The CSV files in `fieldwork/sheets/` are the templates
 | Tab | Template | One row is |
 |---|---|---|
 | `events` | `sheets/events.csv` | One change to one place, from a document or a phone call: `place_id`, `field` (`status`, `condition` or `service:<name>`), `value`, `observed_on`, `method`, `source`, `evidence`, `reviewed_by`, `video_id` |
-| `videos` | `sheets/videos.csv` | One published video: our ID, title, YouTube ID, date, the places it covers (space-separated place IDs) |
+| `videos` | `sheets/videos.csv` | One published video: our ID (it becomes `/watch/<id>/`), title, YouTube ID, date, the places it covers (space-separated place IDs), `links` to the site pages with its figures (`/money/2025-26/ Budget 2025/26; /map/health/ Health`: an address, a space, its label, separated by semicolons), a summary |
 | `seats` | `sheets/seats.csv` | A change of seat holder, with its source (for the Administration page) |
 | `budget-stages` | `sheets/budget-stages.csv` | A budget step reached: year, stage, date, document, source |
 

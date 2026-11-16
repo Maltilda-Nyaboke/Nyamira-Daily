@@ -14,6 +14,10 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R6, Watch, built** on the same branch, not pushed. Decision #117.
+  - `/watch/<id>/` per video, the hub lists videos, place pages list their videos; a `links` column in the sheet's videos tab; seven unused collections removed.
+  - Checked with a test video and event (then reset to empty): the video page, the place page and the hub show them; the build (866 pages); `npm test` (332 pass); `npm run check:county:pages`; every pre-refocus URL resolves or redirects.
+  - Next: R7, Kenya Budget Explained to its own repository (needs the owner: a new GitHub repository). Still open from earlier phases: the alerts collection and its map code, the CSS of removed features, `/administration/duties/`, and the older sections of PROJECT_BRIEF, ROADMAP and DATA.
 - **Phase R5, money, built** on the same branch, not pushed. Decision #116.
   - `/money/contracts/` replaces the 1,962 tracker pages (search, totals by group, CSV; county and national apart); `/money/economy/`; the Assembly's money laws on `/money/calendar/`. 866 pages in all; 2,865 redirects.
   - Checked: the build, `npm test` (331 pass), `npm run check:county:pages`, every pre-refocus URL resolves or redirects, no broken internal link; in a browser, an old contract address opens its search result and typing a search finds results; the economy page at 390px with no sideways scroll.

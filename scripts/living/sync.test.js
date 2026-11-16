@@ -53,3 +53,10 @@ test('the site\'s own reviewed reports become resident reports', () => {
     [{ id: 'RC-1', roadId: 'NYM-R0001', grade: 'poor', observedOn: '2026-11-02', evidence: 'unverified' }]);
   assert.deepEqual(ev.map((e) => `${e.place} ${e.field}=${e.value}`), ['nym-f0006 service:maternity-care=no', 'nym-r0001 condition=poor']);
 });
+
+test('a video keeps its links as address and label, and refuses a link off the site', () => {
+  const head = 'video_id,title,youtube_id,published_on,places,links,summary,reviewed_by';
+  const [v] = fromSheetVideos(`${head}\nv-1,T,AbCdEfGhIjK,2026-11-25,nym-f0006,/place/nym-f0006/ Chepngombe Health Centre; /money/ Money,S,KM`);
+  assert.deepEqual(v.links, [{ href: '/place/nym-f0006/', label: 'Chepngombe Health Centre' }, { href: '/money/', label: 'Money' }]);
+  assert.throws(() => fromSheetVideos(`${head}\nv-2,T,AbCdEfGhIjK,2026-11-25,,https://evil.example/ x,S,KM`), /site address/);
+});

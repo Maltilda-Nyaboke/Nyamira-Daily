@@ -1,2 +1,2 @@
-video_id,title,youtube_id,published_on,places,summary,reviewed_by
-v-0001,Example: a visit to Chepngombe Health Centre,XXXXXXXXXXX,2026-11-25,nym-f0006,What we found on 20 Nov 2026,editor-initials
+video_id,title,youtube_id,published_on,places,links,summary,reviewed_by
+v-0001,Example: a visit to Chepngombe Health Centre,XXXXXXXXXXX,2026-11-25,nym-f0006,/place/nym-f0006/ Chepngombe Health Centre; /map/health/ Health in Nyamira,What we found on 20 Nov 2026,editor-initials
