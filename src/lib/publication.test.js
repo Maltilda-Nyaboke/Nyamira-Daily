@@ -11,8 +11,8 @@ test('drafts stay out of public outputs unless local draft preview is explicitly
 
 test('scheduled entries stay out until their publication instant', () => {
   const entry = { draft: false, publishAt: new Date('2026-10-25T13:00:00Z') };
-  assert.equal(isPublicEntry(entry, 'alerts', now), false);
-  assert.equal(isPublicEntry(entry, 'alerts', new Date('2026-10-25T13:00:00Z')), true);
+  assert.equal(isPublicEntry(entry, 'explainers', now), false);
+  assert.equal(isPublicEntry(entry, 'explainers', new Date('2026-10-25T13:00:00Z')), true);
 });
 
 test('a future number-of-the-week date is not published early', () => {

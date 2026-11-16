@@ -6,15 +6,13 @@ import SiteFooter from '../components/SiteFooter.astro';
 import SectionTabs from '../components/SectionTabs.astro';
 
 import PageTools from '../components/PageTools.astro';
-import AlertBanner from '../components/AlertBanner.astro';
-interface Props { title: string; description?: string; tools?: boolean; image?: string; imageAlt?: string; alertWard?: string; showDisruptions?: boolean; noindex?: boolean }
+interface Props { title: string; description?: string; tools?: boolean; image?: string; imageAlt?: string; noindex?: boolean }
 const {
   title,
   description = 'Nyamira Daily: facts about Nyamira County, its money, services, laws and leaders, in plain language.',
   tools = true,
   image,
   imageAlt = 'Nyamira Daily',
-  alertWard,
   showDisruptions = false,
   noindex = false,
 } = Astro.props;
@@ -68,7 +66,6 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
   <a class="skip" href="#main">Skip to content</a>
   <SiteHeader path={path} />
   <SectionTabs path={path} />
-  <AlertBanner ward={alertWard} disruptions={showDisruptions} />
 
   <main id="main" class={`sec-${toneFor(path)}`}>
     <slot name="hero" />

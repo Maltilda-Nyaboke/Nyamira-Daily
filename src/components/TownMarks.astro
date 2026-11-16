@@ -1,10 +1,10 @@
 ---
 // Towns and centres on the county maps (decision #62): the reviewed OpenStreetMap places in
-// src/data/towns.json. Ink and white only; on maps red means an emergency alert and nothing else (#25).
+// src/data/towns.json. Charcoal and white only (decision #111).
 // `labels`: 'all' names every place (centre names show once the county map is zoomed in); 'towns' names only
 // the towns. `only`: 'towns' leaves the centres out altogether (the home hero, where dots mean questions).
 import towns from '../data/towns.json';
-import { project } from '../lib/alerts.js';
+import { project } from '../lib/map-projection.js';
 interface Props { labels?: 'all' | 'towns'; only?: 'towns'; scale?: number }
 const { labels = 'all', only, scale = 1 } = Astro.props;
 const marks = towns.places.filter((p) => !only || p.kind === 'town').map((p) => {

@@ -53,7 +53,9 @@ export const sections = [
     { href: '/number-of-the-week/', label: 'Number of the week', icon: 'chart', desc: 'One figure, explained' },
   ] },
   { href: '/administration/', label: 'Administration', icon: 'people', overview: 'Who holds each seat',
-    desc: 'Who holds each county seat now, with sources. For information only.', pages: [] },
+    desc: 'Who holds each county seat now, with sources, and what the county must do.', pages: [
+    { href: '/administration/duties/', label: 'What the county must do', icon: 'source', desc: "The county's functions, from the Constitution" },
+  ] },
   { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily',
     desc: 'Who we are, how we check facts, how corrections work and how to reach us.', pages: [
     { href: '/who-runs-us/', label: 'Who runs us', icon: 'people', desc: 'Our publisher and independence' },

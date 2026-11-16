@@ -39,7 +39,6 @@ export const hasContact = Boolean(contact.whatsapp || contact.email);
 export const reportFormUrl = '';
 export const reportResponseRole = '';
 export const canReport = Boolean((contact.whatsapp || reportFormUrl) && reportResponseRole);
-export const alertMonitoring = { role: 'Site owner', reviewCadence: 'daily' };
 // Adopt a project: the sign-up form for volunteers and school clubs
 export const adoptSignupUrl = '';
 

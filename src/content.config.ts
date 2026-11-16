@@ -3,8 +3,6 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
-import { alertTypes } from './lib/alerts.js';
-import { alertMonitoring } from './config.js';
 
 const source = z.object({ name: z.string(), url: z.string().optional().default(''), page: z.string().optional(), date: z.coerce.date().optional() });
 const evidence = z.enum(['verified', 'audit', 'official', 'unverified']);
@@ -24,28 +22,6 @@ const explainers = defineCollection({ loader: md('explainers'), schema: z.object
   swSummary: z.string().optional(), readingLevel: z.enum(['easy', 'standard']).default('easy'), ...publication,
 }) });
 // 1.8 Alerts and incidents (docs/EDITORIAL_RULES.md section 11)
-const allTypes = [...alertTypes.emergency, ...alertTypes.disruption, ...alertTypes.notice] as [string, ...string[]];
-const alerts = defineCollection({ loader: md('alerts'), schema: z.object({
-  id: z.string(), type: z.enum(allTypes), level: z.enum(['emergency', 'disruption', 'notice']).optional(),
-  title: z.string(), summary: z.string(), wards: z.array(z.string()).default([]), place: z.string().optional(),
-  lat: z.number().optional(), lon: z.number().optional(),
-  startedAt: z.coerce.date(), updatedAt: z.coerce.date(), checkedAt: z.coerce.date().optional(), status: z.enum(['active', 'monitoring', 'resolved']),
-  resolvedAt: z.coerce.date().optional().nullable(), evidenceLabel: z.enum(['verified', 'official', 'unverified']),
-  sources: z.array(source).min(1), advice: z.string().optional(), contacts: z.array(z.string()).default([]),
-  swSummary: z.string().optional(), corrected: z.string().optional(), ...publication,
-}).superRefine((alert, context) => {
-  if (!alert.draft && !alert.checkedAt) {
-    context.addIssue({ code: z.ZodIssueCode.custom, path: ['checkedAt'], message: 'Published alerts must record when the information was checked.' });
-  }
-  if (alert.checkedAt && alert.checkedAt > alert.updatedAt) {
-    context.addIssue({ code: z.ZodIssueCode.custom, path: ['checkedAt'], message: 'The check time cannot be later than the alert update time.' });
-  }
-  if (!alert.draft && alert.status !== 'resolved' && (!alertMonitoring.role || !alertMonitoring.reviewCadence)) {
-    context.addIssue({ code: z.ZodIssueCode.custom, path: ['status'], message: 'Publishing an active or monitoring alert requires a responsible role and review cadence in src/config.js.' });
-  }
-}) });
-
-// 2.3 Adopt a project: monthly photo logs by volunteers and school clubs
 const projectlogs = defineCollection({ loader: md('projectlogs'), schema: z.object({
   projectId: z.string(), date: z.coerce.date(), photo: photo.optional(), note: z.string(),
   observer: z.string().default('Volunteer'), consent: z.boolean(), ...publication,
@@ -58,4 +34,4 @@ const pageLink = z.object({ label: z.string(), href: z.string().startsWith('/') 
 // Video loads only when the reader taps it; audio uses the browser's player and loads nothing until played.
 // Community: the cultural knowledge archive (decision #65, section 12). Recorded only with the knowledge
 // holder's consent; only what they agreed to make public is published. Medicine is heritage, never advice.
-export const collections = {numbers, explainers, alerts, projectlogs };
+export const collections = {numbers, explainers, projectlogs };

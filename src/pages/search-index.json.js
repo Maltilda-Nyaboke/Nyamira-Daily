@@ -20,7 +20,7 @@ export async function GET() {
     ['Fees you pay', '/money/fees/', 'finance act business permit market cess parking boda boda matatu slaughter building approval land rates liquor'],
     ['Contracts', '/money/contracts/', 'tenders contractors project tracker'], ['The Nyamira economy', '/money/economy/', 'economy tea bonus ng-cdf national contracts market prices income'],
     ['Watch', '/watch/', 'videos explainers'], ['Explainers', '/explainers/'], ['Number of the week', '/number-of-the-week/'],
-    ['Administration: who holds each seat', '/administration/', 'governor deputy speaker mca senator mp woman representative'],
+    ['Administration: who holds each seat', '/administration/', 'governor deputy speaker mca senator mp woman representative'], ['What the county must do', '/administration/duties/', 'fourth schedule functions constitution devolution responsible'],
     ['About', '/about/'], ['Who runs us', '/who-runs-us/'], ['How we work', '/how-we-work/', 'evidence labels corrections'],
     ['Right of reply', '/right-of-reply/'], ['Glossary', '/about/glossary/'], ['Terms and reuse', '/terms/'], ['Privacy', '/privacy/'],
   ];

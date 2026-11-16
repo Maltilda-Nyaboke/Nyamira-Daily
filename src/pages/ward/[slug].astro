@@ -21,10 +21,7 @@ import CommunityReports from '../../components/CommunityReports.astro';
 import AuditFinding from '../../components/data/AuditFinding.astro';
 import { forWard as auditFor } from '../../lib/audit.js';
 const auditHere = auditFor(Astro.params.slug);
-import { getAlerts } from '../../lib/alerts-data.js';
-import { levelLabel } from '../../lib/alerts.js';
 import { amountLabel } from '../../lib/project-amounts.js';
-const wardAlerts = (await getAlerts()).filter((a) => a.status === 'active' && (a.wards.includes(Astro.params.slug) || a.wards.length === 0));
 import { ksh, num } from '../../lib/fmt.js';
 
 export function getStaticPaths() {
@@ -68,13 +65,12 @@ const budgets = wards.map((x) => {
 const wardContracts = contractsFor(w.slug);
 const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
 ---
-<Base title={`${w.name} Ward`} alertWard={w.slug} image={`/brand/share/ward-${w.slug}.png`} imageAlt={`${w.name} Ward, ${w.subCounty} Constituency: ward projects budgeted in 2025/26, from the County Programme Based Budget`}>
+<Base title={`${w.name} Ward`} image={`/brand/share/ward-${w.slug}.png`} imageAlt={`${w.name} Ward, ${w.subCounty} Constituency: ward projects budgeted in 2025/26, from the County Programme Based Budget`}>
   <PageHead eyebrow={`${w.subCounty} Constituency`} title={`${w.name} Ward`} crumbs={[{ href: '/ward/', label: 'Wards' }, { href: `/ward/${w.slug}/`, label: w.name }]} />
 
   <div class="stack-lg" style="margin-top:8px">
     <div class="ward-top">
       <div class="stack">
-        {wardAlerts.length > 0 && <p class="callout gap"><span><strong>Active alerts:</strong> {wardAlerts.map((a, i) => <>{i > 0 && ', '}<a href={`/alerts/${a.id.toLowerCase()}/`}>{levelLabel[a.level]}: {a.title}</a></>)}</span></p>}
         <div class="tiles ward-figs">
           <a class="tile" href="#services"><b>{w.facilities.length}</b><span>services listed</span><span class="label unverified">Mostly unverified</span></a>
           <a class="tile" href="#projects"><b>{b2526 != null ? amountLabel(b2526) : 'Not found'}</b><span>ward projects budgeted, 2025/26</span><span class="label official">Official claim</span></a>
@@ -229,7 +225,6 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
     <section class="receipt" aria-label={`${w.name} ward summary`}>
       <span class="eyebrow">Ward receipt · {w.subCounty}</span>
       <h3>{w.name} Ward</h3>
-      {wardAlerts.length > 0 && <div class="row"><span>Active alerts</span><span>{wardAlerts.map((a, i) => <>{i > 0 && ', '}<a href={`/alerts/${a.id.toLowerCase()}/`}>{levelLabel[a.level]}: {a.title}</a></>)}</span></div>}
       <div class="row"><span>MCA</span><span>{mca ? mcaLine : 'Not confirmed'}</span></div>
       {mp && <div class="row"><span>MP ({w.subCounty})</span><span>{mp.name}</span></div>}
       <div class="row"><span>Services listed</span><span>{w.facilities.length}</span></div>

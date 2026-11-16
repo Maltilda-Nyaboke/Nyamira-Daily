@@ -11,15 +11,11 @@ import nb from '../data/neighbours.json';
 import wards from '../data/wards.js';
 import leaders from '../data/leaders.json';
 import Icon from './Icon.astro';
-import AlertMarks from './AlertMarks.astro';
-import AlertKey from './AlertKey.astro';
 import TownMarks from './TownMarks.astro';
 import { subCounties } from '../nav.js';
 import { categoryIcon } from '../lib/icons.js';
 import { budget2526 } from '../lib/projects.js';
 import { ksh } from '../lib/fmt.js';
-interface Props { alerts?: any[] }
-const { alerts = [] } = Astro.props;
 
 const subIdx = Object.fromEntries(subCounties.map((s, i) => [s, i + 1]));
 const cats = Object.keys(categoryIcon).filter((c) => wards.some((w) => w.counts[c]));
@@ -30,20 +26,18 @@ const moneyMax = Math.max(...Object.values(money).filter((v) => v != null));
 const bounds = (max) => [1, 2, 3, 4, 5].map((k) => Math.ceil((k / 5) * max));
 const fb = bounds(facMax), mb = bounds(moneyMax);
 const short = (v) => (v >= 1e6 ? `${parseFloat((v / 1e6).toFixed(1))}M` : v >= 1e3 ? `${Math.round(v / 1e3)}K` : String(v));
-const alertCount = Object.fromEntries(wards.map((w) => [w.slug, alerts.filter((a) => (a.wards ?? []).includes(w.slug)).length]));
 const info = Object.fromEntries(wards.map((w) => {
   const m = leaders.mcas?.[w.slug];
   return [w.slug, {
     name: w.name, sub: w.subCounty, mca: m ? m.name + (m.party ? ` (${m.party})` : '') : null,
     fac: { all: w.facilities.length, ...w.counts },
     money: money[w.slug] == null ? null : ksh(money[w.slug]),
-    alerts: alertCount[w.slug],
     vb: geo.wards[w.slug].vb,
   }];
 }));
 const data = JSON.stringify({ info, cats }).split('<').join('\\u003c');
 const views = [
-  ['wards', 'map', 'Wards'], ['facilities', 'health', 'Facilities'], ['money', 'money', 'Ward money'], ['alerts', 'alert', 'Alerts'],
+  ['wards', 'map', 'Wards'], ['facilities', 'health', 'Facilities'], ['money', 'money', 'Ward money'],
 ];
 const VB = '-60 -40 720 1030';
 ---
@@ -59,7 +53,7 @@ const VB = '-60 -40 720 1030';
         {Object.entries(geo.wards).map(([s, g]) => (
           <a href={`/ward/${s}/`} data-w={s}>
             <title>{info[s].name}</title>
-            <path class={`at-w sc${subIdx[info[s].sub]}`} d={g.d} data-f={step(info[s].fac.all, facMax)} data-m={step(money[s], moneyMax)} data-a={alertCount[s] ? 1 : 0} />
+            <path class={`at-w sc${subIdx[info[s].sub]}`} d={g.d} data-f={step(info[s].fac.all, facMax)} data-m={step(money[s], moneyMax)} />
           </a>
         ))}
       </g>
@@ -73,7 +67,6 @@ const VB = '-60 -40 720 1030';
           </g>
         ))}
       </g>
-      <g class="at-alerts"><AlertMarks alerts={alerts} r={16} /></g>
     </svg>
 
     <div class="at-views" role="group" aria-label="Map view" hidden>
@@ -92,7 +85,6 @@ const VB = '-60 -40 720 1030';
         <div><dt>MCA</dt><dd data-c="mca"></dd></div>
         <div><dt>Facilities listed</dt><dd data-c="fac"></dd></div>
         <div><dt>Ward projects, 2025/26</dt><dd data-c="money"></dd></div>
-        <div><dt>Current alerts</dt><dd data-c="alerts"></dd></div>
       </dl>
       <a class="pill-btn" data-c="open" href="/ward/">Open ward page <span aria-hidden="true">→</span></a>
     </div>
@@ -125,10 +117,6 @@ const VB = '-60 -40 720 1030';
       </div>
       <p class="source small"><span class="label official">Official claim</span> Source: County Programme Based Budget 2025/26 (Table 18).</p>
     </div>
-    <div class="at-key v-alerts">
-      <p class="small"><strong>Civic alerts.</strong> Confirmed emergencies, disruptions and notices, placed where they happen. Red means an emergency and nothing else.</p>
-      <div class="pm-key small">{alerts.length ? <AlertKey /> : <span class="key"><Icon name="check" size={18} />No current alerts.</span>}</div>
-    </div>
     <p class="source small">Ward boundaries: geoBoundaries (CC BY 4.0). Neighbouring county lines are approximate.</p>
   </div>
   <script is:inline type="application/json" data-at set:html={data}></script>
@@ -146,7 +134,7 @@ const VB = '-60 -40 720 1030';
   root.classList.add('js');
 
   // Views
-  var VIEWS = ['wards', 'facilities', 'money', 'alerts'];
+  var VIEWS = ['wards', 'facilities', 'money'];
   function setView(v, push) {
     if (VIEWS.indexOf(v) < 0) v = 'wards';
     root.dataset.view = v;
@@ -251,7 +239,6 @@ const VB = '-60 -40 720 1030';
     f('mca').textContent = w.mca || 'Not confirmed';
     f('fac').textContent = String(w.fac.all);
     f('money').textContent = w.money || 'Not found in the budget';
-    f('alerts').textContent = w.alerts ? String(w.alerts) : 'None';
     f('open').href = '/ward/' + s + '/';
     card.hidden = false;
     var b = w.vb.split(' ').map(Number);

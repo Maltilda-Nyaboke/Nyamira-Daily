@@ -14,6 +14,10 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Cleanup pass** on the same branch, not pushed. Decision #118.
+  - Alerts removed everywhere; 163 unused CSS rules removed (page heights unchanged); `/administration/duties/` built and the Constitution redirects pointed at it; four unused files deleted; PROJECT_BRIEF, ROADMAP and DATA rewritten.
+  - Checked: the build (867 pages), `npm test` (330 pass; the alert tests went with the alert code), `npm run check:county:pages`, every pre-refocus URL resolves or redirects, no broken internal link; six page types at 390 and 1280px with no sideways scroll or script errors.
+  - Next: R7, Kenya Budget Explained to its own repository (needs the owner: the repository name and whether it is private or public).
 - **Phase R6, Watch, built** on the same branch, not pushed. Decision #117.
   - `/watch/<id>/` per video, the hub lists videos, place pages list their videos; a `links` column in the sheet's videos tab; seven unused collections removed.
   - Checked with a test video and event (then reset to empty): the video page, the place page and the hub show them; the build (866 pages); `npm test` (332 pass); `npm run check:county:pages`; every pre-refocus URL resolves or redirects.
