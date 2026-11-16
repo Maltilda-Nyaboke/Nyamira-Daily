@@ -14,6 +14,10 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R5, money, built** on the same branch, not pushed. Decision #116.
+  - `/money/contracts/` replaces the 1,962 tracker pages (search, totals by group, CSV; county and national apart); `/money/economy/`; the Assembly's money laws on `/money/calendar/`. 866 pages in all; 2,865 redirects.
+  - Checked: the build, `npm test` (331 pass), `npm run check:county:pages`, every pre-refocus URL resolves or redirects, no broken internal link; in a browser, an old contract address opens its search result and typing a search finds results; the economy page at 390px with no sideways scroll.
+  - Next: R6, Watch (the videos collection), then R7, moving Kenya Budget Explained to its own repository.
 - **Phase R4, living data, built** on the same branch, not pushed. Decision #115.
   - Three Kobo forms (`fieldwork/kobo/*.xlsx`, built from CSV sources by `npm run fieldwork:forms`), a four-tab sheet layout (`fieldwork/sheets/`), the sync (`npm run living:sync`), `/review/changes/`, and `fieldwork/README.md` for the team.
   - Checked: the forms open as valid XLSX with survey, choices and settings sheets (not yet uploaded to KoboToolbox, which is the real test); an end-to-end run from test exports produced valid events that showed on a place page and on the changes page (then reset to empty); the build; `npm test` (331 pass, 6 new for the sync); `npm run check:county:pages`.

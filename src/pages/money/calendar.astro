@@ -1,6 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import A from '../../data/assembly.json';
+// What the County Assembly passed or is debating on money (decision #116): bills and Acts on budgets, taxes, fees and funds
+const isMoney = (n) => /appropriation|finance|budget|revenue|fund|financing|supplementary|rates|cess/i.test(n);
+const moneyBills = A.bills.filter((b) => isMoney(b.name));
+const moneyActs = A.acts.filter((a) => isMoney(a.name)).sort((a, b) => b.year - a.year);
 // Deadlines set by the Public Finance Management Act, 2012 (confirm each against the Act before launch).
 const steps = [
   { when: 'By 1 September', what: 'Annual Development Plan', note: 'What the county plans to do next year, submitted to the Assembly.' },
@@ -19,4 +24,10 @@ const steps = [
     </table>
   </div>
   <p class="small muted" style="margin-top:12px">Source: Public Finance Management Act, 2012. The financial year runs from 1 July to 30 June.</p>
+  <section class="stack" style="margin-top:32px" aria-labelledby="assembly">
+    <h2 id="assembly">What the County Assembly decided on money</h2>
+    <p class="small muted">Bills and county laws on budgets, taxes, fees and funds, from the Assembly's records and Kenya Law. Checked {A.checked}.</p>
+    {moneyBills.length > 0 && <><h3>Bills</h3><ul class="rows">{moneyBills.map((b) => <li><a class="row-link" href={b.url} rel="noopener"><span><span class="t">{b.name}</span><span class="d">{b.stage} · {b.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul></>}
+    <details><summary>County laws on money ({moneyActs.length})</summary><ul class="small">{moneyActs.map((a) => <li><a href={a.url} rel="noopener">{a.name}</a>: {a.summary}</li>)}</ul></details>
+  </section>
 </Base>

@@ -51,7 +51,7 @@ const bn = (m) => 'KSh ' + parseFloat((m / 1000).toFixed(2)) + 'B';
         {topics.map((t) => (
           <li><a class="row-link has-ico" href={topicPath[t.slug]}><Icon name={topicIcon[t.slug] ?? 'chart'} size={22} badge /><span style="flex:1"><span class="t">{t.title}</span><span class="d">{t.question}</span></span><span class="go" aria-hidden="true">→</span></a></li>
         ))}
-        <li><a class="row-link has-ico" href="/tracker/"><Icon name="source" size={22} badge /><span style="flex:1"><span class="t">Contracts</span><span class="d">Every contract we can find: who, how much, when.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link has-ico" href="/money/contracts/"><Icon name="source" size={22} badge /><span style="flex:1"><span class="t">Contracts</span><span class="d">Every contract we can find: who, how much, when.</span></span><span class="go" aria-hidden="true">→</span></a></li>
       </ul>
     </section>
 

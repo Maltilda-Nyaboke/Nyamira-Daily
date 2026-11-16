@@ -42,7 +42,8 @@ export const sections = [
     desc: 'The county budget, what was spent, where the money comes from, and the local economy.', pages: [
     ...moneyPages,
     { href: '/money/farming/', label: topic('farming').title, icon: 'farming', desc: 'Tea bonuses and farm spending' },
-    { href: '/tracker/', label: 'Contracts', icon: 'source', desc: 'Every contract: who, how much, when' },
+    { href: '/money/economy/', label: 'The economy', icon: 'chart', desc: 'Money coming into Nyamira, and how it moves' },
+    { href: '/money/contracts/', label: 'Contracts', icon: 'source', desc: 'Every contract: who, how much, when' },
     { href: '/money/calendar/', label: 'Budget calendar', icon: 'calendar', desc: 'When money decisions are made' },
     { href: '/money/fees/', label: 'Fees you pay', icon: 'money', desc: 'County fees and charges' },
   ] },

@@ -1,5 +1,5 @@
 ---
-// One line in the project tracker (decision #71). Filter data lives in data-* attributes for the list script.
+// One line in a list of contracts (decisions #71, #116). Filter data lives in data-* attributes for the list script.
 import { ksh, date } from '../lib/fmt.js';
 import { periodState, constituencyName } from '../lib/contracts.js';
 import wards from '../data/wards.json';
@@ -11,7 +11,7 @@ const st = periodState(c);
 const q = [c.title, c.contractor, c.tenderNo, c.road, c.location, ...wardNames].filter(Boolean).join(' ').toLowerCase();
 ---
 <li class="ct-row" data-fy={c.fy ?? ''} data-ward={c.wards.join(' ')} data-const={c.constituency ?? ''} data-q={q}>
-  <a class="ct-title" href={`/tracker/c/${c.id.toLowerCase()}/`}>{c.title}</a>
+  <a class="ct-title" href={`/money/contracts/?q=${c.id}`}>{c.title}</a>
   <span class="ct-who">{c.contractor ? c.contractor : c.kind === 'allocation' ? c.agency : c.contractorWithheld ? 'Contractor not shown (private person)' : 'Contractor not named in the source'}</span>
   <span class="ct-amt"><span class="ct-al">{c.amountLabel}</span> <b>{c.amount != null ? ksh(c.amount) : 'Not printed'}</b></span>
   <span class="ct-meta">

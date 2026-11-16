@@ -18,7 +18,7 @@ export async function GET() {
     ['Report a place', '/report/', 'report water point borehole dispensary streetlight road bridge market broken'], ['Clinic check', '/report/clinic/', 'health centre dispensary medicines waiting'],
     ['Budget calendar', '/money/calendar/', 'cidp adp budget estimates dates hearing'],
     ['Fees you pay', '/money/fees/', 'finance act business permit market cess parking boda boda matatu slaughter building approval land rates liquor'],
-    ['Contracts', '/tracker/', 'tenders contractors project tracker'],
+    ['Contracts', '/money/contracts/', 'tenders contractors project tracker'], ['The Nyamira economy', '/money/economy/', 'economy tea bonus ng-cdf national contracts market prices income'],
     ['Watch', '/watch/', 'videos explainers'], ['Explainers', '/explainers/'], ['Number of the week', '/number-of-the-week/'],
     ['Administration: who holds each seat', '/administration/', 'governor deputy speaker mca senator mp woman representative'],
     ['About', '/about/'], ['Who runs us', '/who-runs-us/'], ['How we work', '/how-we-work/', 'evidence labels corrections'],

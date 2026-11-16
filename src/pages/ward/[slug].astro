@@ -221,9 +221,9 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
         <p>{w.places.map((p) => p.name).join(' · ')}</p>
       </section>
     )}
-    <Toggle id="contracts" title={`Contracts in ${w.name}`} meta={`${wardContracts.length} in the project tracker`}>
+    <Toggle id="contracts" title={`Contracts in ${w.name}`} meta={`${wardContracts.length} on record`}>
       {wardContracts.length ? <ul class="ct-list">{wardContracts.map((c) => <ContractRow c={c} />)}</ul> : <p class="muted">No contract in the tracker names this ward yet. Many contracts give only a road or a constituency.</p>}
-      <p class="small"><a href={`/tracker/county/?ward=${w.slug}`}>County contracts</a> · <a href={`/tracker/ng-cdf/${constSlug}/`}>NG-CDF in {w.subCounty}</a> · <a href={`/tracker/roads/?const=${constSlug}`}>National roads in {w.subCounty}</a></p>
+      <p class="small"><a href={`/money/contracts/?ward=${w.slug}`}>Every contract that names {w.name}</a> · <a href={`/money/contracts/?group=ng-cdf&q=${encodeURIComponent(w.subCounty)}`}>NG-CDF in {w.subCounty}</a></p>
     </Toggle>
     <Toggle id="receipt" title={`${w.name} Ward receipt`} meta="Everything on one card, to share, print or embed">
     <section class="receipt" aria-label={`${w.name} ward summary`}>

@@ -54,7 +54,7 @@ const title = first.name.length > 110 ? first.name.slice(0, 108) + '…' : first
         <h2>The contract</h2>
         <p class="small muted">From the national procurement portal, matched to this project by ward, name and amount. Contractor, sum and dates are as the portal prints them.</p>
         <ul class="ct-list">{linked.map((c) => <ContractRow c={c} />)}</ul>
-        <a href="/tracker/county/">All county contracts in the project tracker</a>
+        <a href="/money/contracts/?group=county">All county contracts</a>
       </section>
     )}
 
