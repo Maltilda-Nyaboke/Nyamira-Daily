@@ -1,0 +1,52 @@
+---
+// About Nyamira County (decision #122): facts and figures, places to know, and how the county is governed.
+// Every figure is from src/data (with its source); nothing is typed in here.
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EvidenceLabel from '../../../components/EvidenceLabel.astro';
+import census from '../../../data/census.json';
+import towns from '../../../data/towns.json';
+import wards from '../../../data/wards.json';
+import { county } from '../../../county.js';
+const c = census.county;
+const n = (x) => x.toLocaleString('en-GB');
+const wardName = Object.fromEntries(wards.map((w) => [w.slug, w.name]));
+const townList = towns.places.filter((p) => p.kind === 'town');
+const centres = towns.places.filter((p) => p.kind === 'centre').sort((a, b) => a.name.localeCompare(b.name));
+---
+<Base title="About Nyamira County" description="Nyamira County in figures: population, households, area, wards, towns, and how the county is governed.">
+  <PageHead title="About Nyamira County" lead={`${county.countyName} has ${wards.length} wards in ${county.constituencies.length} constituencies. Here are the basic facts, with their sources.`} />
+  <div class="stack-lg" style="margin-top:16px">
+    <section class="stack" aria-labelledby="facts">
+      <h2 id="facts">Facts and figures</h2>
+      <div class="tiles">
+        <div class="tile"><b>{n(c.population)}</b><span>people (2019 census)</span></div>
+        <div class="tile"><b>{n(c.households)}</b><span>households, about {c.avgHouseholdSize} people each</span></div>
+        <div class="tile"><b>{n(c.areaKm2)} km²</b><span>land area</span></div>
+        <div class="tile"><b>{n(c.density)}</b><span>people per square kilometre</span></div>
+        <div class="tile"><b>{n(c.rural.population)}</b><span>live in rural areas; {n(c.urban.population)} in urban areas</span></div>
+        <div class="tile"><b>{wards.length}</b><span>wards, in {county.constituencies.join(', ')}</span></div>
+      </div>
+      <p class="source"><EvidenceLabel kind="official" /> Source: <a href={c.url} rel="noopener">Kenya National Bureau of Statistics, 2019 Population and Housing Census</a>, {c.page}.</p>
+      <p><a href="/ward/">See all {wards.length} wards</a> · <a href="/money/economy/">The Nyamira economy</a> · <a href="/money/farming/">Farming</a></p>
+    </section>
+
+    <section class="stack" aria-labelledby="places">
+      <h2 id="places">Places to know</h2>
+      <p><strong>Towns:</strong> {townList.map((t, i) => <>{i > 0 && ', '}<a href={`/ward/${t.ward}/`}>{t.name}</a> ({wardName[t.ward]} ward)</>)}.</p>
+      <p><strong>Centres and markets:</strong> {centres.map((t, i) => <>{i > 0 && ', '}<a href={`/ward/${t.ward}/`}>{t.name}</a></>)}.</p>
+      <p class="source"><EvidenceLabel kind="unverified" /> Source: {towns.source}. Not yet checked on the ground.</p>
+      <p><a href="/map/">Open the county map</a></p>
+    </section>
+
+    <section class="stack" aria-labelledby="gov">
+      <h2 id="gov">How it is governed</h2>
+      <ul class="rows">
+        <li><a class="row-link" href="/administration/duties/"><span><span class="t">What the county must do</span><span class="d">The county's functions under the Constitution, and what stays with the national government.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link" href="/administration/"><span><span class="t">Who holds each seat</span><span class="d">The Governor, the Deputy Governor, the Speaker and the 20 MCAs, with sources.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link" href="/money/calendar/"><span><span class="t">How the budget is made</span><span class="d">The steps and dates, from the fiscal strategy to the audit.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link" href="/about/glossary/"><span><span class="t">Glossary</span><span class="d">Budget and government terms, explained.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+  </div>
+</Base>

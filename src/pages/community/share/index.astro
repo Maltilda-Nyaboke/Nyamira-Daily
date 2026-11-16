@@ -1,0 +1,23 @@
+---
+// Share or volunteer (decision #122): offer a story or record, volunteer to record, or send a tip or concern.
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import ContactForm from '../../../components/ContactForm.astro';
+import CommunityRules from '../../../components/CommunityRules.astro';
+---
+<Base title="Share or volunteer" description="Offer a story, a song or a record, volunteer to record elders, or send a concern.">
+  <PageHead title="Share or volunteer" lead="Offer a story, a song, a proverb, a photograph or an elder we should record. Or volunteer to record with us." />
+  <div class="stack-lg" style="margin-top:16px; max-width:760px">
+    <section class="stack">
+      <h2>Three ways to take part</h2>
+      <ul>
+        <li><strong>Share a story or a record.</strong> Tell us what you have and who holds it. We will get in touch before anything is recorded.</li>
+        <li><strong>Volunteer to record.</strong> We train you in recording and consent. See <a href="/about/careers/">careers and volunteering</a>.</li>
+        <li><strong>Send a tip or a concern</strong> about this work, including anything we have got wrong.</li>
+      </ul>
+      <p class="small muted">Please do not send a recording of another person without their agreement.</p>
+    </section>
+    <ContactForm topics={['story', 'volunteer', 'tip', 'concern']} preset="story" />
+    <CommunityRules />
+  </div>
+</Base>

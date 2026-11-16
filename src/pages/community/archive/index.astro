@@ -1,0 +1,32 @@
+---
+// The culture archive (decision #122): recordings, stories and knowledge, each with its consent and review.
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import CommunityRules from '../../../components/CommunityRules.astro';
+import { archiveItems } from '../../../lib/archive.js';
+import { date } from '../../../lib/fmt.js';
+const items = await archiveItems();
+const kindLabel = { story: 'Story', song: 'Song', proverb: 'Proverb', custom: 'Custom', craft: 'Craft', food: 'Food', history: 'History', name: 'Names', other: 'Other' };
+---
+<Base title="Culture archive" description="Stories, songs, proverbs and knowledge of the Abagusii, recorded with consent.">
+  <PageHead title="Culture archive" lead="Stories, songs, proverbs, customs and knowledge, recorded with the consent of the people who hold them." />
+  <div class="stack-lg" style="margin-top:16px; max-width:760px">
+    {items.length > 0 ? (
+      <ul class="latest">
+        {items.map((e) => (
+          <li id={e.id}><div style="padding:16px 0; display:flex; flex-direction:column; gap:4px">
+            <span class="eyebrow">{kindLabel[e.data.kind]}</span>
+            <span class="t">{e.data.title}</span>
+            <span class="d">{e.data.summary}</span>
+            {e.data.audio && <audio controls preload="none" src={e.data.audio}></audio>}
+            <span class="d">Recorded {date(e.data.recordedOn.toISOString())}{e.data.place && `, ${e.data.place}`} · {e.data.credit} · Reviewed by {e.data.reviewedBy}</span>
+          </div></li>
+        ))}
+      </ul>
+    ) : (
+      <p class="callout"><span><strong>The archive is not open yet.</strong> The first recordings are being made and reviewed. Each one will show who shared it, when and where, and who reviewed it.</span></p>
+    )}
+    <p><a href="/community/share/">Share a story, a song or a record</a></p>
+    <CommunityRules />
+  </div>
+</Base>

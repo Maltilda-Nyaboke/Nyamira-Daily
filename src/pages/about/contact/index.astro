@@ -1,0 +1,20 @@
+---
+// Contact us (decision #122): one form with topics; tips can be sent without a name.
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import ContactForm from '../../../components/ContactForm.astro';
+---
+<Base title="Contact us" description="Send Nyamira Daily a message, a news tip, a concern or a correction.">
+  <PageHead title="Contact us" lead="Send a message, a news tip, a concern or a correction. We read every message and reply as soon as we can." />
+  <div class="stack" style="margin-top:16px; max-width:720px">
+    <ContactForm />
+    <h2>Which route to use</h2>
+    <ul>
+      <li><strong>A news tip or a concern.</strong> Tell us what you saw, where and when. You can leave your name out.</li>
+      <li><strong>A correction.</strong> Tell us the page and what is wrong, with a source if you have one. Accepted corrections are listed in our <a href="/how-we-work/#corrections">corrections log</a>.</li>
+      <li><strong>Right of reply.</strong> If we have named you or your organisation, you can respond. See <a href="/right-of-reply/">right of reply</a>.</li>
+      <li><strong>A place you have seen.</strong> Use <a href="/report/">Report a place</a>, so it goes straight to that place's record.</li>
+    </ul>
+    <p class="small muted">A message is a lead for us to check, not a published fact. See <a href="/privacy/">privacy</a> for what we keep.</p>
+  </div>
+</Base>

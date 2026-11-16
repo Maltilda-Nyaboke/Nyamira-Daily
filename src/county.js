@@ -29,11 +29,15 @@ export const publisher = {
   legalName: 'Underdogs Rising Group Limited',
   shortName: 'Underdogs Rising',
   kind: 'a Kenyan media and technology company',
+  // Legal details for /about/publisher/ (decision #122). Leave empty until confirmed against the certificate;
+  // the page shows each line only when it is set.
+  registrationNumber: '',
+  registeredAddress: '',
   founder: 'Keith Morangwa Nyahach',
   founderRole: 'founder of Nyamira Daily and Managing Director of Underdogs Rising Group Limited',
 };
 
-// The commitment to spin Nyamira Daily out into its own non-profit (decision #73). Published on /who-runs-us/.
+// The commitment to spin Nyamira Daily out into its own non-profit (decision #73). Kept for the record; no longer published on a page (decision #122).
 // Fill in `targetDate` and `criteria` once agreed; until then the page says they are being set.
 export const spinOut = {
   form: 'a non-profit company limited by guarantee, which will then apply to be registered as a public benefit organisation (PBO)',

@@ -10,6 +10,11 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 
 ## Changes on 16 Nov 2026
 
+- **Overhaul 2** on branch `feat/overhaul-2` (from `b061cba`), not pushed. Decision #122; plan `docs/overhaul/PLAN.md`; strategy `docs/strategy/GM_PLAN.md`; the next round is planned in `docs/overhaul/PLAN-3.md`.
+  - New: Community section (5 pages, the `archive` collection with consent checks), About rebuilt (hub, About Nyamira County, Contact, Careers, Partners, Publisher), the contact worker and migration 0004, six footer social icons.
+  - Checked: the build (876 pages), `npm test` (336 pass, 4 new), 12 new or changed pages at 390 and 1280 px: no sideways scroll, no script errors; `/who-runs-us/` redirects.
+  - Waiting for the owner: the Cloudflare account (D1, Turnstile keys, `CONTACT_*` variables) to switch the form on; the inbox to forward to; social links; the company registration number and address; the review panel; pay terms for roles.
+
 - **UX round 1** on branch `feat/ux-round-1` (from `f71ef54`), not pushed. Decision #121, from a design review and an interview with the owner.
   - Header: plain links, no pop-up menus; the phone menu sheet lists pages in the switcher's groups. Page heads: no dark band; breadcrumbs only three or more levels deep. Side list aligned with the logo; 44 px tap targets in the lists and for lone table links on phones.
   - Home page as a summary: "Coming fast" from `src/data/living/now.json` (empty for now, so hidden), the map with a lead story (none yet, so the card invites the reader to point at a ward), three numbers (0 of 247 places checked; money spent; contracts dated 2025/26), latest explainers and numbers, Watch when videos exist.

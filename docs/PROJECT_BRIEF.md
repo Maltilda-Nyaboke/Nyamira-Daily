@@ -56,7 +56,7 @@ Nyamira Daily is built and published by Underdogs Rising Group Limited, which su
 
 ## Languages
 
-English is the written backbone. Key pages carry a short Kiswahili summary ("Muhtasari kwa Kiswahili"). Videos use the speaker's language with subtitles. Digitising Ekegusii (including training language models) is a separate initiative, kept off this site for now.
+English is the written backbone. Key pages carry a short Kiswahili summary ("Muhtasari kwa Kiswahili"). Videos use the speaker's language with subtitles. Digitising Ekegusii and recording Gusii culture now live in the Community section (decision #122), under its consent and review rules; they may move to their own home if they grow.
 
 ## How to work on it
 

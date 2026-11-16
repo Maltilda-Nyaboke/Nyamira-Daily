@@ -1,0 +1,67 @@
+---
+// The contact form (decision #122), used on Contact, Careers, Partners and Community. One form, many topics.
+// It shows only when the worker is switched on (PUBLIC_CONTACT_INTAKE_ENABLED) and the anti-spam key is set;
+// otherwise it shows the WhatsApp and email buttons if set, or says the channel is being set up.
+// The inbox address is never printed here: messages go to the worker (functions/api/contact.js).
+import { contact, hasContact } from '../config.js';
+import wards from '../data/wards.json';
+interface Props { topics?: string[]; preset?: string; id?: string }
+const all = { general: 'A general message', tip: 'A news tip', concern: 'A concern', correction: 'A correction', reply: 'Right of reply', partnership: 'A partnership', careers: 'Careers or volunteering', story: 'A story, song or record to share', volunteer: 'Volunteering to record' };
+const { topics = ['general', 'tip', 'concern', 'correction', 'reply', 'partnership', 'careers'], preset = topics[0], id = 'contact-form' } = Astro.props;
+const enabled = import.meta.env.PUBLIC_CONTACT_INTAKE_ENABLED === 'true';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+const live = enabled && siteKey;
+---
+{live ? (
+  <form id={id} class="builder contact-form" action="/api/contact" method="post">
+    <label>What is it about?
+      <select class="field" name="topic" required>
+        {topics.map((t) => <option value={t} selected={t === preset}>{all[t]}</option>)}
+      </select>
+    </label>
+    <label>Your message
+      <textarea name="message" minlength="10" maxlength="3000" rows="6" required></textarea>
+      <span class="hint">Do not include other people's private details.</span>
+    </label>
+    <label>Your name (optional)
+      <input class="field" name="name" type="text" maxlength="120" autocomplete="name" />
+    </label>
+    <label>Phone or email, if you want a reply (optional)
+      <input class="field" name="contact" type="text" maxlength="200" />
+      <span class="hint">Leave empty to send a tip without your details.</span>
+    </label>
+    <label>Your ward (optional)
+      <select class="field" name="ward"><option value="">Choose a ward</option>{wards.map((w) => <option value={w.slug}>{w.name}</option>)}</select>
+    </label>
+    <label class="check"><input type="checkbox" name="consent" value="yes" required /> <span>I agree that Nyamira Daily may keep this message to read and answer it, as the <a href="/privacy/">privacy page</a> explains.</span></label>
+    <label hidden aria-hidden="true">Leave this field empty <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+    <div class="cf-turnstile" data-sitekey={siteKey}></div>
+    <button class="btn" type="submit">Send message</button>
+    <p class="muted" role="status" aria-live="polite" data-status></p>
+  </form>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script is:inline>
+  document.querySelectorAll('form.contact-form').forEach(function (form) {
+    var status = form.querySelector('[data-status]'), button = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); status.textContent = 'Sending…'; button.disabled = true;
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (x) {
+          if (!x.ok) { status.textContent = x.j.error || 'The message could not be sent.'; return; }
+          form.reset(); if (window.turnstile && window.turnstile.reset) window.turnstile.reset();
+          status.textContent = 'Sent. We read every message and reply as soon as we can. Reference: ' + x.j.reference;
+        })
+        .catch(function () { status.textContent = 'We could not confirm the message was sent. Please try again later.'; })
+        .then(function () { button.disabled = false; });
+    });
+  });
+  </script>
+) : hasContact ? (
+  <p class="page-tools">
+    {contact.whatsapp && <a class="btn" href={`https://wa.me/${contact.whatsapp}`} rel="noopener">Message us on WhatsApp</a>}
+    {contact.email && <a class="btn quiet" href={`mailto:${contact.email}`}>Email us</a>}
+  </p>
+) : (
+  <p class="callout"><span><strong>Our contact form is being set up.</strong> It will open here soon. Please do not send information anywhere else expecting us to receive it.</span></p>
+)}

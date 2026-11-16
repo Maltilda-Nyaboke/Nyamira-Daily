@@ -1,0 +1,21 @@
+---
+// Publisher (decision #122): the legal minimum about who publishes the site, and one short paragraph on why.
+// Replaces /who-runs-us/. Never call Nyamira Daily a non-profit, NGO, charity or PBO (decision #73).
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { county, publisher } from '../../../county.js';
+---
+<Base title="Publisher" description={`Who publishes ${county.siteName}.`}>
+  <PageHead title="Publisher" lead={`${county.siteName} is published by ${publisher.legalName}.`} />
+  <div class="stack" style="margin-top:16px; max-width:720px">
+    <dl class="dl-rows">
+      <div><dt>Publisher</dt><dd>{publisher.legalName}, {publisher.kind}</dd></div>
+      {publisher.registrationNumber && <div><dt>Company registration</dt><dd>{publisher.registrationNumber}</dd></div>}
+      {publisher.registeredAddress && <div><dt>Registered address</dt><dd>{publisher.registeredAddress}</dd></div>}
+      <div><dt>Contact</dt><dd><a href="/about/contact/">Contact us</a></dd></div>
+    </dl>
+    <p>We started {county.siteName} so that anyone in {county.countyName} can check a fact for themselves: what is in their ward, what condition it is in, and where the county's money goes. Every figure has a source.</p>
+    <p>{county.siteName} is non-partisan. It is not affiliated with the {county.government}, the {county.assembly} or any political party, and it takes no money or paid work from political parties, candidates or campaigns.</p>
+    <p class="small muted">Also see: <a href="/terms/">terms and reuse</a>, <a href="/privacy/">privacy</a>, <a href="/how-we-work/#corrections">corrections</a> and <a href="/right-of-reply/">right of reply</a>.</p>
+  </div>
+</Base>

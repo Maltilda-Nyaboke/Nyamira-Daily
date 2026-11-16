@@ -1,21 +1,25 @@
 ---
-// Site footer (decision #120): only our social accounts and "© year Nyamira Daily". Everything that used to sit
-// here (the publisher line, the trust pages, licences) lives under About; map credits sit on the maps themselves.
-// Social icons show only for accounts set in src/config.js `social`.
+// Site footer (decisions #120, #122): our social accounts and "© year Nyamira Daily".
+// Every account's icon shows. One whose link is set in src/config.js `social` is a link; one without a link is a
+// plain picture (hidden from screen readers and the keyboard), so nobody is sent to a page that does not exist.
 import Icon from './Icon.astro';
-import { socialLinks } from '../config.js';
+import { social } from '../config.js';
 import { county } from '../county.js';
 const names = { whatsapp: 'WhatsApp Channel', youtube: 'YouTube', facebook: 'Facebook', x: 'X', instagram: 'Instagram', tiktok: 'TikTok' };
+const order = ['youtube', 'tiktok', 'instagram', 'whatsapp', 'x', 'facebook'];
+const icons = order.filter((k) => k in social).map((k) => ({ k, url: /^https:\/\//.test(social[k]) ? social[k] : null }));
 ---
 <footer class="site-footer">
   <div class="wrap ft-min">
-    {socialLinks.length > 0 && (
-      <ul class="ft-social" aria-label={`${county.siteName} on social media`}>
-        {socialLinks.map(([k, url]) => (
-          <li><a href={url} rel="noopener me" aria-label={`${county.siteName} on ${names[k] ?? k}`}><Icon name={k} size={22} /></a></li>
-        ))}
-      </ul>
-    )}
+    <ul class="ft-social" aria-label={`${county.siteName} on social media`}>
+      {icons.map(({ k, url }) => (
+        <li aria-hidden={url ? undefined : 'true'}>
+          {url
+            ? <a href={url} rel="noopener me" aria-label={`${county.siteName} on ${names[k]}`}><Icon name={k} size={22} /></a>
+            : <span class="ft-ico"><Icon name={k} size={22} /></span>}
+        </li>
+      ))}
+    </ul>
     <p class="ft-copy">© {new Date().getFullYear()} {county.siteName}</p>
   </div>
 </footer>
