@@ -129,6 +129,14 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
     // Phones: the menu sheet holds the page still behind it while it is open
     var sheet = document.querySelector('details.sheet');
     if (sheet) sheet.addEventListener('toggle', function () { document.documentElement.classList.toggle('sheet-open', sheet.open); });
+    // One section open at a time, and the one just opened is brought to the top of the sheet,
+    // so tapping "Community" never leaves another section's pages filling the screen.
+    var secs = all('details.sheet-sec');
+    secs.forEach(function (d) { d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      secs.forEach(function (o) { if (o !== d) o.open = false; });
+      if (sheet && sheet.open && d.scrollIntoView) d.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }); });
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
       if (sheet && sheet.open) { sheet.open = false; sheet.querySelector('summary').focus(); }

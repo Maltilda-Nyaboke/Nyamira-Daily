@@ -52,7 +52,7 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
             </form>
             <a class="sheet-home" href="/" aria-current={path === '/' ? 'page' : undefined}><span class="ss-title">Home</span></a>
             {sections.map((s) => (
-              <details class="menu sheet-sec" open={state(s) ? true : undefined}>
+              <details class="menu sheet-sec" name="sheet-sec" open={state(s) ? true : undefined}>
                 <summary aria-current={state(s)}>
                   <span class="ss-title">{s.label}</span>
                   <Fragment set:html={chev} />
