@@ -1,9 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
-import EvidenceLabel from '../../components/EvidenceLabel.astro';
-import FacilityObservationForm from '../../components/FacilityObservationForm.astro';
-import PhotoSlot from '../../components/PhotoSlot.astro';
+import PageHead from '../PageHead.astro';
+import EvidenceLabel from '../EvidenceLabel.astro';
+import FacilityObservationForm from '../FacilityObservationForm.astro';
+import PhotoSlot from '../PhotoSlot.astro';
 import { categoryIcon } from '../../lib/icons.js';
 import wards, { facilities } from '../../data/wards.js';
 import observationRecords from '../../data/facility-observations.json';
@@ -11,14 +11,11 @@ import { latestFacilityCapabilities, observationsForFacility, validateFacilityOb
 
 const reviewedObservations = validateFacilityObservations(observationRecords, facilities);
 
-export function getStaticPaths() {
-  return facilities.map((facility) => ({
-    params: { id: facility.id.toLowerCase() },
-    props: { facility },
-  }));
-}
-
-const { facility } = Astro.props;
+import PlaceSummary from '../PlaceSummary.astro';
+import { placeById } from '../../lib/places.js';
+// A facility's page (decision #110): rendered by src/pages/place/[id].astro for its place id.
+const place = placeById.get(Astro.props.id);
+const facility = place.facility;
 const ward = wards.find((item) => item.slug === facility.ward);
 if (!ward) throw new Error(`Facility ${facility.id} has no matching ward record.`);
 const serviceAnchor = `svc-${facility.category.toLowerCase().split(' ').join('-')}`;
@@ -41,6 +38,7 @@ const facilityHistory = observationsForFacility(reviewedObservations, facility.i
       { href: wardServiceUrl, label: 'Listed services' },
     ]}
   />
+  <PlaceSummary place={place} />
 
   <div class="stack-lg" style="margin-top:8px">
     <section class="card stack" aria-labelledby="facility-record-heading">

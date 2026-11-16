@@ -4,7 +4,7 @@
 // Labels are kept short for the lists; each section's index page keeps the longer titles and descriptions.
 // Add a new page to its section's `pages` here so readers can reach it from the menu.
 import { topics } from './data/topics.js';
-import wards from './data/wards.json';
+import wards from './data/wards.json' with { type: 'json' };
 import { planned } from './config.js';
 
 import { county } from './county.js';
@@ -29,7 +29,7 @@ const topic = (slug) => topics.find((t) => t.slug === slug);
 export const sections = [
   { href: '/map/', label: 'Map', icon: 'map', overview: 'The county map',
     desc: 'Every ward and every place we list: what is there, and what condition it is in.', pages: [
-    { href: '/ward/', label: 'Wards', icon: 'ward', desc: 'All 20 wards', also: ['/facility/', '/projects/'], pages: subCounties.map((s) => ({
+    { href: '/ward/', label: 'Wards', icon: 'ward', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
       href: `/ward/#${anchorFor(s)}`, label: s,
       pages: wards.filter((w) => w.subCounty === s).map((w) => ({ href: `/ward/${w.slug}/`, label: w.name })),
     })) },

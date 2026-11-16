@@ -1,0 +1,21 @@
+---
+// One page per place (decision #110, phase R3): every facility, road and county project, at /place/<id>/.
+// Retired road ids (roads merged after review, decision #57) send readers to the road they became.
+import { places } from '../../lib/places.js';
+import { retiredRoads } from '../../lib/roads.js';
+import FacilityPlace from '../../components/place/FacilityPlace.astro';
+import ProjectPlace from '../../components/place/ProjectPlace.astro';
+import RoadPlace from '../../components/place/RoadPlace.astro';
+
+export function getStaticPaths() {
+  return [
+    ...places.map((p) => ({ params: { id: p.id }, props: { id: p.id, kind: p.kind } })),
+    ...Object.entries(retiredRoads).map(([old, current]) => ({ params: { id: old.toLowerCase() }, props: { redirectTo: current.toLowerCase() } })),
+  ];
+}
+const { id, kind, redirectTo } = Astro.props;
+if (redirectTo) return Astro.redirect(`/place/${redirectTo}/`);
+---
+{kind === 'facility' && <FacilityPlace id={id} />}
+{kind === 'project' && <ProjectPlace id={id} />}
+{kind === 'road' && <RoadPlace id={id} />}

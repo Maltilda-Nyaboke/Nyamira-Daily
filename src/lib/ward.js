@@ -1,8 +1,8 @@
 // One ward's receipt as plain data: used by the printable sheet, the API (/api/ward/…) and the embed.
 import wards from '../data/wards.js';
-import leaders from '../data/leaders.json';
+import leaders from '../data/leaders.json' with { type: 'json' };
 import money from './county-money.js';
-import census from '../data/census.json';
+import census from '../data/census.json' with { type: 'json' };
 import { budget2526, total, questions, lines2526 } from './projects.js';
 
 export const updated = '2026-10-22';

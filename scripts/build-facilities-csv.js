@@ -50,7 +50,7 @@ export function renderFacilitiesV2Csv(records = facilities, wards = wardRecords)
     return [
       facility.id,
       facility.name,
-      `/facility/${facility.id.toLowerCase()}/`,
+      `/place/${facility.id.toLowerCase()}/`,
       facility.category,
       facility.subtype,
       ward.name,

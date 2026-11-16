@@ -68,7 +68,7 @@ import PageHead from '../../components/PageHead.astro';
     article.append(text('h2', `${item.status.toUpperCase()} · ${facilityName} (${item.facility_id})`));
     if (item.facility) {
       const profile = document.createElement('a');
-      profile.href = `/facility/${item.facility_id.toLowerCase()}/`;
+      profile.href = `/place/${item.facility_id.toLowerCase()}/`;
       profile.textContent = `Open profile · ${item.facility.category}`;
       article.append(profile);
     }

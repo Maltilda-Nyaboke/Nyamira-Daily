@@ -15,6 +15,6 @@ test('facility v2 CSV links stable profiles and omits candidate coordinates', ()
   assert.equal(csv, fs.readFileSync(csvPath, 'utf8'));
   const [header, firstRecord] = csv.split('\r\n');
   assert.equal(header, 'id,name,profile_url,category,subtype,ward,sub_county,owner,level,source,source_ref,evidence,evidence_note');
-  assert.match(firstRecord, /^[^,]+,[^,]+,\/facility\/[^,]+\/,/);
+  assert.match(firstRecord, /^[^,]+,[^,]+,\/place\/[^,]+\/,/); // facilities are places (decision #110)
   assert.doesNotMatch(header, /(?:^|,)(?:lat|lon|coordinates)(?:,|$)/);
 });

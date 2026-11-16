@@ -1,5 +1,5 @@
 // NG-CDF (national money, run per constituency) — src/data/ngcdf.json. Never mixed with county figures.
-import D from '../data/ngcdf.json';
+import D from '../data/ngcdf.json' with { type: 'json' };
 export const cdf = D;
 export const cdfSources = Object.fromEntries(D.sources.map((s) => [s.id, s]));
 // "education - primary schools" → "Education: primary schools"

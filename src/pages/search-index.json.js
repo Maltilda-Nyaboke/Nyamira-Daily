@@ -2,12 +2,12 @@
 // roads, county projects, money pages, fees, seat holders and published explainers.
 import wards from '../data/wards.js';
 import { roads, roadPath, subtypeLabel, wardName } from '../lib/roads.js';
-import leaders from '../data/leaders.json';
+import leaders from '../data/leaders.json' with { type: 'json' };
 import { topics, topicPath } from '../data/topics.js';
 import { departments, departmentPath, programmePath, yearPath, FY } from '../lib/county-budget.js';
 import { planned } from '../config.js';
-import F from '../data/fees.json';
-import W from '../data/wardspend.json';
+import F from '../data/fees.json' with { type: 'json' };
+import W from '../data/wardspend.json' with { type: 'json' };
 import { entries } from '../lib/content.js';
 
 export async function GET() {
@@ -39,7 +39,7 @@ export async function GET() {
   }
   for (const w of wards) {
     add(`${w.name} Ward`, `/ward/${w.slug}/`, `${w.subCounty} ${w.places.map((p) => p.name).join(' ')}`, 'Ward');
-    for (const f of w.facilities) add(f.name, `/facility/${f.id.toLowerCase()}/`, `${f.id} ${f.category} ${f.subtype} ${w.name} ${w.subCounty}`, `Facility · ${f.category}`);
+    for (const f of w.facilities) add(f.name, `/place/${f.id.toLowerCase()}/`, `${f.id} ${f.category} ${f.subtype} ${w.name} ${w.subCounty}`, `Facility · ${f.category}`);
   }
   add('Roads', '/road/', 'roads bridges culverts road works money questions to ask', 'Map');
   for (const r of roads) {
@@ -50,7 +50,7 @@ export async function GET() {
   for (const l of [...leaders.county, ...leaders.national]) add(l.name, '/administration/', l.office, l.office);
   for (const [slug, m] of Object.entries(leaders.mcas)) add(m.name, `/administration/#ward-${slug}`, 'mca', `MCA, ${wards.find((w) => w.slug === slug)?.name}`);
   for (const f of F.fees) add(f.item, '/money/fees/', `${f.group} fee ${f.amountText}`, 'Fee');
-  for (const p of W.projects) if (p.ward) add(p.name, `/projects/${p.projectId.toLowerCase()}/`, `${p.department} project ${p.fy}`, `Project in ${wards.find((w) => w.slug === p.ward)?.name}`);
+  for (const p of W.projects) if (p.ward) add(p.name, `/place/${p.projectId.toLowerCase()}/`, `${p.department} project ${p.fy}`, `Project in ${wards.find((w) => w.slug === p.ward)?.name}`);
   for (const e of await entries('explainers')) add(e.data.title, `/explainers/${e.id}/`, e.data.summary ?? '', 'Explainer');
   for (const e of await entries('numbers')) add(`${e.data.figure} ${e.data.sentence}`, `/number-of-the-week/#${e.id}`, e.data.explanation, 'Number of the week');
   return new Response(JSON.stringify(items));

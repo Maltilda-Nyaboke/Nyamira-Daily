@@ -1,6 +1,6 @@
 // Auditor-General opinions and findings (src/data/audit.json). Reported as the auditor wrote them,
 // with the "Audit finding" label; never as proof of wrongdoing (docs/EDITORIAL_RULES.md).
-import A from '../data/audit.json';
+import A from '../data/audit.json' with { type: 'json' };
 export const audit = A;
 export const sources = Object.fromEntries(A.sources.map((s) => [s.id, s]));
 export const years = ['2013/14', '2014/15', '2015/16', '2016/17', '2017/18', '2018/19', '2019/20', '2020/21', '2021/22', '2022/23', '2023/24', '2024/25'];

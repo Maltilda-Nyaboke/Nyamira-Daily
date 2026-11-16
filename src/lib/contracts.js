@@ -1,5 +1,5 @@
 // Project tracker helpers (decision #71). Data: src/data/contracts.json, built by scripts/build-contracts.py.
-import data from '../data/contracts.json';
+import data from '../data/contracts.json' with { type: 'json' };
 
 export const contracts = data.contracts;
 export const sources = data.sources;

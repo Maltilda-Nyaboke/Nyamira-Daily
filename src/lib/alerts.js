@@ -1,7 +1,7 @@
 // Alerts and incidents (spec item 1.8; rules in docs/EDITORIAL_RULES.md section 11).
 // Levels: emergency (red triangle), disruption (amber square), notice (blue circle).
 // Shapes as well as colours, so levels are told apart without colour and in black-and-white print.
-import geo from '../data/geo.json';
+import geo from '../data/geo.json' with { type: 'json' };
 
 export const alertTypes = {
   emergency: ['fire', 'flood', 'landslide', 'building collapse', 'disease outbreak', 'major accident', 'storm or hail damage'],

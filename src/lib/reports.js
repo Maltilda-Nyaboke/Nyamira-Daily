@@ -1,6 +1,6 @@
 // Community reports (Phase 2): only reports our team has checked (checkedOn set) are shown,
 // only the latest per place, and anything reported more than 90 days ago is flagged "may be out of date".
-import R from '../data/reports.json';
+import R from '../data/reports.json' with { type: 'json' };
 import { summariseClinicChecks } from './report-summary.js';
 export const categories = {
   water: 'Water point', health: 'Dispensary or health centre', streetlight: 'Streetlight',

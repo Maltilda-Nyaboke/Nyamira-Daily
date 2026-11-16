@@ -1,0 +1,56 @@
+---
+// The first screen of every place page (decision #110, phase R3): what it is, its status and condition, when it
+// was last checked, who is responsible, and what a resident can do. Below that, every reviewed event in order.
+import EvidenceLabel from './EvidenceLabel.astro';
+import { currentState, historyOf, responsibleFor, statusLabel, conditionLabel, wardName, placePath } from '../lib/places.js';
+import { date } from '../lib/fmt.js';
+
+const { place } = Astro.props;
+const state = currentState(place);
+const who = responsibleFor(place);
+const history = historyOf(place.id);
+const methodLabel = { visit: 'Seen on a visit', 'resident-report': 'Reported by a resident', document: 'From a document' };
+const show = (e, labels) => (e ? e.text ?? labels[e.value] : 'Not yet checked');
+const wardList = place.wards.map((w) => wardName(w)).join(' and ');
+---
+<section class="card stack place-summary" aria-labelledby="place-now">
+  <h2 id="place-now" class="vh">This place now</h2>
+  <dl class="dl-rows">
+    <div><dt>What it is</dt><dd>{place.type}{place.subtype ? ` · ${place.subtype}` : ''}</dd></div>
+    <div><dt>Where</dt><dd>{wardList ? `${wardList} ${place.wards.length > 1 ? 'wards' : 'Ward'}` : 'Ward not stated in the documents'}</dd></div>
+    {place.owner && <div><dt>Owner</dt><dd>{place.owner}</dd></div>}
+    <div><dt>Status</dt><dd>{show(state.status, statusLabel)}
+      {state.status && <span class="small muted"> · {methodLabel[state.status.method]}{state.status.fy ? `, FY${state.status.fy}` : ''}{state.status.observed_on ? `, ${date(state.status.observed_on)}` : ''} <EvidenceLabel kind={state.status.evidence} /></span>}</dd></div>
+    <div><dt>Condition</dt><dd>{show(state.condition, conditionLabel)}
+      {state.condition && <span class="small muted"> · {methodLabel[state.condition.method]}, {date(state.condition.observed_on)} <EvidenceLabel kind={state.condition.evidence} /></span>}</dd></div>
+    <div><dt>Last checked on site</dt><dd>{state.lastChecked ? date(state.lastChecked) : 'Not yet'}</dd></div>
+    {place.partOf && <div><dt>Part of</dt><dd><a href={placePath(place.partOf.id)}>{place.partOf.name}</a></dd></div>}
+  </dl>
+  {state.status?.method === 'document' && <p class="small muted">Status as given in {state.status.source}. Nobody from Nyamira Daily has checked it on site yet.</p>}
+
+  <div class="stack" style="gap:6px">
+    <h3>Who is responsible</h3>
+    <p>{who.who ? <><strong>{who.who}.</strong> {who.why}</> : who.why}</p>
+  </div>
+  <div class="stack" style="gap:6px">
+    <h3>What you can do</h3>
+    <ul class="small">
+      <li><a href="/report/">Tell us what condition it is in</a>, with the date you saw it.</li>
+      <li>Ask about its money at a county budget hearing: see the <a href="/money/calendar/">budget calendar</a>.</li>
+      {place.type === 'Market' && <li>Market fees are set by the county's Finance Act: see <a href="/money/fees/">fees you pay</a>.</li>}
+    </ul>
+  </div>
+
+  {history.length > 0 && (
+    <details>
+      <summary>Every visit and report ({history.length})</summary>
+      <ol class="timeline">
+        {history.map((e) => (
+          <li><span class="tl-date">{date(e.observed_on)}</span>
+            <span>{e.field === 'status' ? `Status: ${statusLabel[e.value]}` : e.field === 'condition' ? `Condition: ${conditionLabel[e.value]}` : `${e.field.slice(8)}: ${e.value}`} · {methodLabel[e.method]} <EvidenceLabel kind={e.evidence} />{e.video && <> · <a href={`/watch/#${e.video}`}>The video</a></>}</span>
+          </li>
+        ))}
+      </ol>
+    </details>
+  )}
+</section>

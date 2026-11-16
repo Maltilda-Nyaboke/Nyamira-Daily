@@ -1570,3 +1570,6 @@ main details.tk-year > summary { font-family: var(--title-font); font-weight: 40
 .money-cards a:hover, .money-cards a:focus-visible { border-color: var(--ink); }
 .money-cards b { font-size: 17px; } .money-cards span { color: var(--muted); font-size: var(--fs-s); }
 .two-figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+
+/* Place pages (decision #110, phase R3): the summary card under the page head */
+.place-summary { margin-top: 16px; }

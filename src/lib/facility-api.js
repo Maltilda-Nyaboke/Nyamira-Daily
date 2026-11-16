@@ -10,7 +10,7 @@ export function facilityApiRecords(facilities, wards, site, observations = []) {
     const capabilities = latestFacilityCapabilities(reviewedObservations, facility.id);
     return {
       id: facility.id,
-      profileUrl: new URL(`/facility/${facility.id.toLowerCase()}/`, site).toString(),
+      profileUrl: new URL(`/place/${facility.id.toLowerCase()}/`, site).toString(),
       name: facility.name,
       category: facility.category,
       subtype: facility.subtype,

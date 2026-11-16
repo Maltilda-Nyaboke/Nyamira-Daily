@@ -1,4 +1,4 @@
-import data from '../data/wardspend.json';
+import data from '../data/wardspend.json' with { type: 'json' };
 import { amountLabel, amountStatus, sumAmounts } from './project-amounts.js';
 import { pct, statusCountsFor } from './project-status.js';
 export const sources = Object.fromEntries(data.sources.map((s) => [s.id, s]));

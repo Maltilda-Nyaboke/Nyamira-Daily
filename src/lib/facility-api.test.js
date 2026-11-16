@@ -13,7 +13,7 @@ test('facility API records link stable profiles and preserve explicit unknowns',
   const records = facilityApiRecords(facilities, wards, new URL('https://nyamiradaily.org/'));
   assert.equal(records.length, facilities.length);
   for (const record of records) {
-    assert.equal(record.profileUrl, `https://nyamiradaily.org/facility/${record.id.toLowerCase()}/`);
+    assert.equal(record.profileUrl, `https://nyamiradaily.org/place/${record.id.toLowerCase()}/`);
     assert.equal(record.sourceDate, null);
     assert.equal(record.observationDate, null);
     assert.equal(record.capabilities, null);

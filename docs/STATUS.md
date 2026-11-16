@@ -14,6 +14,11 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R3, places, built** on the same branch, not pushed. Decision #114.
+  - 686 place pages at `/place/<id>/` with a shared summary (status, condition, last checked, who is responsible, what you can do, history); 686 old addresses redirect; living events file `src/data/living/events.json` (empty) with build-time checks.
+  - Checked: the build, `npm test` (325 pass, 4 new for places), `npm run check:county:pages`, a facility, a project and a road page at 390px with no sideways scroll or script errors.
+  - Not done: ward pages link to places but do not yet count them by status (nothing is checked yet, so every count would be "not yet checked"); the alert plumbing and the CSS of removed features are still to clear out.
+  - Next: R4, the living data: KoboToolbox forms, Google Sheets, the sync script, merging the two older observation files into the living events, the changes list.
 - **Phase R2b built** on the same branch, not pushed. Decision #113.
   - New addresses `/map/`, `/money/` and the rest; 217 redirects in `redirects.json`, every target checked; compact home page; 27 unused files deleted; About states the new purpose.
   - Checked: the build, `npm test` (321 pass: the tests of the three deleted modules went with them), `npm run check:county:pages`, every pre-R2 URL resolves or redirects, no internal link points at a missing page; home page at 390 and 1280 with no sideways scroll.

@@ -1,5 +1,5 @@
 import wards, { facilities } from '../../data/wards.js';
-import observationRecords from '../../data/facility-observations.json';
+import observationRecords from '../../data/facility-observations.json' with { type: 'json' };
 import { facilityApiRecords } from '../../lib/facility-api.js';
 import { json } from '../../lib/api.js';
 

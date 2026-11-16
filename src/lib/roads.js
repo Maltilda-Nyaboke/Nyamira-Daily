@@ -1,16 +1,16 @@
 // Roads in the facility network (decision #57): the generated registry (scripts/build-roads.js)
 // joined to its county records, audit findings and documents. Questions: road-questions.js.
-import data from '../data/roads.json';
-import wards from '../data/wards.json';
+import data from '../data/roads.json' with { type: 'json' };
+import wards from '../data/wards.json' with { type: 'json' };
 import { byProject, fyOrder, kindLabel, shortTitle, sources } from './projects.js';
 import { audit, sources as auditSources } from './audit.js';
 import { contractorOf, roadQuestions, statusText } from './road-questions.js';
-import conditionRecords from '../data/road-conditions.json';
+import conditionRecords from '../data/road-conditions.json' with { type: 'json' };
 import { conditionsForRoad, latestRoadCondition, validateRoadConditions } from './road-conditions.js';
 
 export const roads = data.roads;
 export const retiredRoads = data.retired;
-export const roadPath = (id) => `/road/${id.toLowerCase()}/`;
+export const roadPath = (id) => `/place/${id.toLowerCase()}/`; // roads are places (decision #110)
 export const roadsForWard = (slug) => roads.filter((road) => road.wards.includes(slug));
 export const wardName = (slug) => wards.find((w) => w.slug === slug)?.name ?? slug;
 export const subtypeLabel = {

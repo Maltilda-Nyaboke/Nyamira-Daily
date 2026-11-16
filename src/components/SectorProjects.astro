@@ -15,7 +15,7 @@ const byWard = wards.map((w) => ({ w, list: ids.filter(([, l]) => l[0].ward === 
   {byWard.map((g) => (
     <div class="stack" style="gap:4px">
       <h4><a href={`/ward/${g.w.slug}/#projects`}>{g.w.name}</a></h4>
-      <ul class="small">{g.list.map((p) => <li><a href={`/projects/${p.id.toLowerCase()}/`}>{p.name}</a> · FY{p.latest.fy} · {amountLabel(p.latest.amount)}</li>)}</ul>
+      <ul class="small">{g.list.map((p) => <li><a href={`/place/${p.id.toLowerCase()}/`}>{p.name}</a> · FY{p.latest.fy} · {amountLabel(p.latest.amount)}</li>)}</ul>
     </div>
   ))}
 </div>

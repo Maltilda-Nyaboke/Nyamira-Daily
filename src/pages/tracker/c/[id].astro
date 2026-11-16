@@ -63,7 +63,7 @@ const rows = [
                 <span class="pm">{statusShort(p.status) && <span class="st">{statusShort(p.status)}</span>}<span><a href={pSources[p.sourceId].url} rel="noopener">{shortTitle(pSources[p.sourceId].title)}</a> {p.page}</span></span>
               </li>
             ))}</ul>
-            <a href={`/projects/${b.pid.toLowerCase()}/`}>Project page {b.pid}: every record and the photo log</a>
+            <a href={`/place/${b.pid.toLowerCase()}/`}>Project page {b.pid}: every record and the photo log</a>
           </div>
         ))}
       </section>

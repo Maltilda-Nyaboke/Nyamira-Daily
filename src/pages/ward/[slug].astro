@@ -113,7 +113,7 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
               <tbody>
                 {byCat[c].map((f) => (
                   <tr>
-                    <td><a href={`/facility/${f.id.toLowerCase()}/`}>{f.name}</a></td>
+                    <td><a href={`/place/${f.id.toLowerCase()}/`}>{f.name}</a></td>
                     <td data-label="Type">{f.subtype}{f.level ? ` · ${f.level}` : ''}{f.owner ? ` · ${f.owner}` : ''}</td>
                     <td data-label="Evidence"><EvidenceLabel kind={f.evidence} /></td>
                     <td class="small muted" data-label="Source">{f.source}</td>
@@ -197,7 +197,7 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
             const rest = p.status && p.status.includes('|') ? p.status.split('|').slice(1).join('|').trim() : '';
             return (
               <li>
-                <span class="pn"><a href={`/projects/${p.projectId.toLowerCase()}/`}>{p.name}</a>{p.location && p.location !== `${w.name} Ward` ? ` (${p.location})` : ''}</span>
+                <span class="pn"><a href={`/place/${p.projectId.toLowerCase()}/`}>{p.name}</a>{p.location && p.location !== `${w.name} Ward` ? ` (${p.location})` : ''}</span>
                 <span class="pa">{amountLabel(p.amount)}</span>
                 <span class="pm">
                   <span>{kindLabel[p.kind] ?? p.kind}</span>

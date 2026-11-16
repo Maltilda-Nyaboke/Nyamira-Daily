@@ -1,5 +1,5 @@
 // Site-wide switches. Fill these in before launch.
-import impact from './data/impact.json';
+import impact from './data/impact.json' with { type: 'json' };
 export const contact = {
   whatsapp: '',  // e.g. '2547XXXXXXXX' — turns on "Tell us" and "Get updates"
   email: '',

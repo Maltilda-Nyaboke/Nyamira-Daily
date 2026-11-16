@@ -1,23 +1,19 @@
 ---
 import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
-import EvidenceLabel from '../../components/EvidenceLabel.astro';
+import PageHead from '../PageHead.astro';
+import EvidenceLabel from '../EvidenceLabel.astro';
 import { docOf, roads, retiredRoads, roadDetail, roadPath, subtypeLabel, wardName } from '../../lib/roads.js';
 import { amountLabel } from '../../lib/project-amounts.js';
 import { contractorOf, statusText } from '../../lib/road-questions.js';
 import { kindLabel } from '../../lib/projects.js';
 import { checkStatusLabel, gradeLabel } from '../../lib/road-conditions.js';
-import RoadConditionForm from '../../components/RoadConditionForm.astro';
+import RoadConditionForm from '../RoadConditionForm.astro';
 
-export function getStaticPaths() {
-  return [
-    ...roads.map((road) => ({ params: { id: road.id.toLowerCase() }, props: { road } })),
-    ...Object.entries(retiredRoads).map(([old, current]) => ({ params: { id: old.toLowerCase() }, props: { redirectTo: current } })),
-  ];
-}
-
-const { road, redirectTo } = Astro.props;
-if (redirectTo) return Astro.redirect(roadPath(redirectTo));
+import PlaceSummary from '../PlaceSummary.astro';
+import { placeById } from '../../lib/places.js';
+// A road's page (decision #110): rendered by src/pages/place/[id].astro for its place id.
+const place = placeById.get(Astro.props.id);
+const road = place.road;
 const detail = roadDetail(road);
 const where = road.wards.length ? road.wards.map(wardName).join(' and ') + (road.wards.length > 1 ? ' wards' : ' Ward') : 'Ward not stated in the documents';
 const length = road.lengthKm != null ? ` · ${road.lengthKm} km, as stated in the county's document` : '';
@@ -33,6 +29,7 @@ const fromAudit = road.projectIds.length === 0;
     lead={`${where}${length}`}
     crumbs={[{ href: '/road/', label: 'Roads' }, ...road.wards.map((slug) => ({ href: `/ward/${slug}/#svc-roads`, label: `${wardName(slug)} Ward` }))]}
   />
+  <PlaceSummary place={place} />
 
   <div class="stack-lg" style="margin-top:8px">
     <section class="card stack" aria-labelledby="road-latest">
