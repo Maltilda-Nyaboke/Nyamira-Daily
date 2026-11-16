@@ -8,5 +8,5 @@ const { list, title = 'Sources', updated } = Astro.props;
   <ul class="small">
     {list.map((s) => <li>{s.url ? <a href={s.url} rel="noopener">{s.name}</a> : s.name}{s.page && `, ${s.page}`}{s.date && ` (${s.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })})`}</li>)}
   </ul>
-  {updated && <p class="updated">Last updated {updated}. Spotted an error? See <a href="/how-we-work/#corrections">corrections</a>.</p>}
+  {updated && <p class="updated">Last updated {updated}. Spotted an error? See <a href="/about/rules/#corrections">corrections</a>.</p>}
 </section>

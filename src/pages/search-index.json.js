@@ -16,13 +16,13 @@ export async function GET() {
   const pages = [
     ['Home', '/'], ['Map of Nyamira', '/map/', 'map wards facilities'], ['Wards', '/ward/'],
     ['Report a place', '/report/', 'report water point borehole dispensary streetlight road bridge market broken'], ['Clinic check', '/report/clinic/', 'health centre dispensary medicines waiting'],
-    ['Budget calendar', '/money/calendar/', 'cidp adp budget estimates dates hearing'],
-    ['Fees you pay', '/money/fees/', 'finance act business permit market cess parking boda boda matatu slaughter building approval land rates liquor'],
+    ['Budget calendar', '/money/2025-26/#key-dates', 'cidp adp budget estimates dates hearing'],
+    ['Fees you pay', '/money/revenue/#fees', 'finance act business permit market cess parking boda boda matatu slaughter building approval land rates liquor'],
     ['Contracts', '/money/contracts/', 'tenders contractors project tracker'], ['The Nyamira economy', '/money/economy/', 'economy tea bonus ng-cdf national contracts market prices income'],
     ['Watch', '/watch/', 'videos explainers'], ['Explainers', '/explainers/'], ['Number of the week', '/number-of-the-week/'],
     ['Administration: who holds each seat', '/administration/', 'governor deputy speaker mca senator mp woman representative'], ['What the county must do', '/administration/duties/', 'fourth schedule functions constitution devolution responsible'],
-    ['About', '/about/'], ['Contact us', '/about/contact/', 'tips concerns'], ['Careers and volunteering', '/about/careers/', 'jobs correspondents'], ['Partner with us', '/about/partners/', 'data licence research sponsorship'], ['About Nyamira County', '/about/nyamira/', 'population facts'], ['Community', '/community/', 'Abagusii Gusii culture Ekegusii language archive'], ['How we work', '/how-we-work/', 'evidence labels corrections'],
-    ['Right of reply', '/right-of-reply/'], ['Glossary', '/about/glossary/'], ['Terms and reuse', '/terms/'], ['Privacy', '/privacy/'],
+    ['About', '/about/'], ['Contact us', '/about/contact/', 'tips concerns'], ['Careers and volunteering', '/about/careers/', 'jobs correspondents'], ['Partner with us', '/about/partners/', 'data licence research sponsorship'], ['About Nyamira County', '/about/nyamira/', 'population facts'], ['Community', '/community/', 'Abagusii Gusii culture Ekegusii language archive'], ['How we work', '/about/rules/', 'evidence labels corrections'],
+    ['Right of reply', '/about/rules/#right-of-reply'], ['Glossary', '/about/glossary/'], ['Terms and reuse', '/about/rules/#terms'], ['Privacy', '/about/rules/#privacy'],
   ];
   for (const [t, u, k] of pages) if (!planned.has(u)) add(t, u, k);
   for (const t of topics) if (!planned.has(topicPath[t.slug])) add(t.title, topicPath[t.slug], t.question);
@@ -41,7 +41,7 @@ export async function GET() {
     add(`${w.name} Ward`, `/ward/${w.slug}/`, `${w.subCounty} ${w.places.map((p) => p.name).join(' ')}`, 'Ward');
     for (const f of w.facilities) add(f.name, `/place/${f.id.toLowerCase()}/`, `${f.id} ${f.category} ${f.subtype} ${w.name} ${w.subCounty}`, `Facility · ${f.category}`);
   }
-  add('Roads', '/road/', 'roads bridges culverts road works money questions to ask', 'Places');
+  add('Roads', '/map/#roads', 'roads bridges culverts road works money questions to ask', 'Places');
   for (const r of roads) {
     const where = r.wards.map(wardName).join(', ');
     add(r.name, roadPath(r.id), `${r.id} road ${subtypeLabel[r.subtype]} ${where}`, where ? `Road · ${where}` : 'Road');
@@ -49,7 +49,7 @@ export async function GET() {
   // Seat holders link to the Administration page only: no profiles (decision #110)
   for (const l of [...leaders.county, ...leaders.national]) add(l.name, '/administration/', l.office, l.office);
   for (const [slug, m] of Object.entries(leaders.mcas)) add(m.name, `/administration/#ward-${slug}`, 'mca', `MCA, ${wards.find((w) => w.slug === slug)?.name}`);
-  for (const f of F.fees) add(f.item, '/money/fees/', `${f.group} fee ${f.amountText}`, 'Fee');
+  for (const f of F.fees) add(f.item, '/money/revenue/#fees', `${f.group} fee ${f.amountText}`, 'Fee');
   for (const p of W.projects) if (p.ward) add(p.name, `/place/${p.projectId.toLowerCase()}/`, `${p.department} project ${p.fy}`, `Project in ${wards.find((w) => w.slug === p.ward)?.name}`);
   for (const e of await entries('explainers')) add(e.data.title, `/explainers/${e.id}/`, e.data.summary ?? '', 'Explainer');
   for (const e of await entries('numbers')) add(`${e.data.figure} ${e.data.sentence}`, `/number-of-the-week/#${e.id}`, e.data.explanation, 'Number of the week');

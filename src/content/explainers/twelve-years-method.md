@@ -30,4 +30,4 @@ We used one source for every year: the Controller of Budget's annual County Gove
 
 ## Check it yourself
 
-Download the CSV, add up the "total_spent_ksh_m" column, and compare each row with the page reference given. If you find a difference, tell us through our [corrections](/how-we-work/#corrections) process.
+Download the CSV, add up the "total_spent_ksh_m" column, and compare each row with the page reference given. If you find a difference, tell us through our [corrections](/about/rules/#corrections) process.

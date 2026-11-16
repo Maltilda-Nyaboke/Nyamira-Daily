@@ -22,7 +22,7 @@ const path = Astro.url.pathname;
 const isHome = path === '/';
 // Pages in a section that allows it get the side list of the section's pages on wide screens (decision #119).
 const navSection = isHome ? null : sectionFor(path);
-const rail = Boolean(navSection && navSection.rail !== false);
+const rail = Boolean(navSection && navSection.rail !== false && navSection.pages.length > 0);
 const pageTitle = title === 'Today' ? 'Nyamira Daily' : `${title} · Nyamira Daily`;
 
 // Sharing (WhatsApp, Facebook, X): pages without their own image use the default card.

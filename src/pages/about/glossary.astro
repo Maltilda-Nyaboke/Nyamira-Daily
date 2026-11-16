@@ -16,7 +16,7 @@ const terms = [
 ];
 ---
 <Base title="Glossary">
-  <PageHead eyebrow="About" title="Glossary" lead="Plain meanings of words you will meet on this site." crumbs={[{ href: '/about/', label: 'About' }, { href: '/about/glossary/', label: 'Glossary' }]} />
+  <PageHead eyebrow="The county" title="Glossary" lead="Plain meanings of words you will meet on this site." crumbs={[{ href: '/map/', label: 'Places' }, { href: '/about/glossary/', label: 'Glossary' }]} />
   <dl class="stack" style="margin-top:16px">
     {terms.map(([t, d]) => (<div class="card"><dt><strong>{t}</strong></dt><dd style="margin:0">{d}</dd></div>))}
   </dl>

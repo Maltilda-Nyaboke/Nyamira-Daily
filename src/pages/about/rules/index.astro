@@ -1,0 +1,27 @@
+---
+// Rules and legal (decision #127): how we work, right of reply, terms and privacy on one page.
+// The old addresses redirect here, each to its own section.
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import HowWeWork from '../../../components/folded/HowWeWork.astro';
+import RightOfReply from '../../../components/folded/RightOfReply.astro';
+import Terms from '../../../components/folded/Terms.astro';
+import Privacy from '../../../components/folded/Privacy.astro';
+---
+<Base title="Rules and legal" description="How Nyamira Daily checks facts and corrects mistakes, your right of reply, our terms and your privacy.">
+  <PageHead title="Rules and legal" lead="How we check facts and correct mistakes, how anyone we name can reply, the terms for reusing our work, and what we do with your data." />
+  <nav class="page-tools" aria-label="On this page" style="margin-top:12px">
+    <a class="btn quiet" href="#how-we-work">How we work</a>
+    <a class="btn quiet" href="#evidence">Evidence labels</a>
+    <a class="btn quiet" href="#corrections">Corrections</a>
+    <a class="btn quiet" href="#right-of-reply">Right of reply</a>
+    <a class="btn quiet" href="#terms">Terms</a>
+    <a class="btn quiet" href="#privacy">Privacy</a>
+  </nav>
+  <div class="stack-lg rules" style="margin-top:24px">
+    <section class="stack"><HowWeWork /></section>
+    <section class="stack"><RightOfReply /></section>
+    <section class="stack"><Terms /></section>
+    <section class="stack"><Privacy /></section>
+  </div>
+</Base>

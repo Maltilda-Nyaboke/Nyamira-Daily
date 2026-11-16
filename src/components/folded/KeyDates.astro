@@ -1,6 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
 import A from '../../data/assembly.json';
 // What the County Assembly passed or is debating on money (decision #116): bills and Acts on budgets, taxes, fees and funds
 const isMoney = (n) => /appropriation|finance|budget|revenue|fund|financing|supplementary|rates|cess/i.test(n);
@@ -15,8 +13,8 @@ const steps = [
   { when: 'By 30 June', what: 'Budget approved', note: 'The Assembly passes the budget before the financial year starts on 1 July.' },
 ];
 ---
-<Base title="The budget calendar">
-  <PageHead eyebrow="Money" title="The county budget calendar" lead="The county's budget follows the same legal timetable every year. Each step is a chance for residents to have a say." crumbs={[{ href: '/money/', label: 'Money' }, { href: '/money/calendar/', label: 'Budget calendar' }]} />
+<h2 id="key-dates">The county budget calendar</h2>
+<p class="lead">The county's budget follows the same legal timetable every year. Each step is a chance for residents to have a say.</p>
   <div class="table-box" style="margin-top:16px">
     <table>
       <thead><tr><th>When</th><th>Document</th><th>What it is</th></tr></thead>
@@ -25,9 +23,8 @@ const steps = [
   </div>
   <p class="small muted" style="margin-top:12px">Source: Public Finance Management Act, 2012. The financial year runs from 1 July to 30 June.</p>
   <section class="stack" style="margin-top:32px" aria-labelledby="assembly">
-    <h2 id="assembly">What the County Assembly decided on money</h2>
+    <h3 id="assembly">What the County Assembly decided on money</h3>
     <p class="small muted">Bills and county laws on budgets, taxes, fees and funds, from the Assembly's records and Kenya Law. Checked {A.checked}.</p>
-    {moneyBills.length > 0 && <><h3>Bills</h3><ul class="rows">{moneyBills.map((b) => <li><a class="row-link" href={b.url} rel="noopener"><span><span class="t">{b.name}</span><span class="d">{b.stage} · {b.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul></>}
+    {moneyBills.length > 0 && <><h4>Bills</h4><ul class="rows">{moneyBills.map((b) => <li><a class="row-link" href={b.url} rel="noopener"><span><span class="t">{b.name}</span><span class="d">{b.stage} · {b.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul></>}
     <details><summary>County laws on money ({moneyActs.length})</summary><ul class="small">{moneyActs.map((a) => <li><a href={a.url} rel="noopener">{a.name}</a>: {a.summary}</li>)}</ul></details>
   </section>
-</Base>

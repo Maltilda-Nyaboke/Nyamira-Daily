@@ -1,18 +1,16 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
-import EvidenceLabel from '../components/EvidenceLabel.astro';
-import CorrectionLog from '../components/CorrectionLog.astro';
+import EvidenceLabel from '../../components/EvidenceLabel.astro';
+import CorrectionLog from '../../components/CorrectionLog.astro';
 const correctionIntakeEnabled = import.meta.env.PUBLIC_CORRECTION_INTAKE_ENABLED === 'true';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 const correctionRetentionDays = Number(import.meta.env.PUBLIC_CORRECTION_RETENTION_DAYS);
 const hasCorrectionRetention = Number.isSafeInteger(correctionRetentionDays) && correctionRetentionDays >= 1 && correctionRetentionDays <= 3650;
 ---
-<Base title="How we work">
-  <PageHead title="How we work" lead="Our rules for facts, fairness and corrections." tools={false} />
+<h2 id="how-we-work">How we work</h2>
+<p class="lead">Our rules for facts, fairness and corrections.</p>
   <div class="stack" style="margin-top:16px">
     <section id="evidence" class="card stack">
-      <h2>Evidence labels</h2>
+      <h3>Evidence labels</h3>
       <p><EvidenceLabel kind="verified" /> We checked it on site or against official records.</p>
       <p><EvidenceLabel kind="audit" /> It comes from an Auditor-General report.</p>
       <p><EvidenceLabel kind="official" /> The government stated it; we have not yet checked it.</p>
@@ -21,7 +19,7 @@ const hasCorrectionRetention = Number.isSafeInteger(correctionRetentionDays) && 
       <p class="small muted">The current labels do not yet include those claim-level details for every figure. Missing reviewer, method or check-date information is not inferred.</p>
     </section>
     <section class="card stack">
-      <h2>Our rules</h2>
+      <h3>Our rules</h3>
       <ol style="padding-left:20px; margin:0" class="stack">
         <li>Every number has a source a reader can check.</li>
         <li>Allegations are never presented as proven. Clearances and acquittals are reported as prominently as the allegation.</li>
@@ -32,7 +30,7 @@ const hasCorrectionRetention = Number.isSafeInteger(correctionRetentionDays) && 
       </ol>
     </section>
     <section id="corrections" class="card stack">
-      <h2>Corrections</h2>
+      <h3>Corrections</h3>
       <p>Accepted corrections are recorded here with what changed, why, when, and a source. A report is a lead for review, not a verified fact. It will not change the public record by itself.</p>
       {correctionIntakeEnabled && turnstileSiteKey && hasCorrectionRetention ? (
         <form id="correction-form" class="builder" action="/api/corrections" method="post">
@@ -65,7 +63,6 @@ const hasCorrectionRetention = Number.isSafeInteger(correctionRetentionDays) && 
       <CorrectionLog />
     </section>
   </div>
-</Base>
 
 {correctionIntakeEnabled && turnstileSiteKey && hasCorrectionRetention && (
   <>

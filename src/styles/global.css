@@ -1387,3 +1387,10 @@ main details.tk-year > summary { font-family: var(--title-font); font-weight: 40
 /* Home in the menu sheet (decision #124) */
 .sheet-home { display: flex; align-items: center; min-height: 60px; padding: 0 4px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
 .sheet-home[aria-current] .ss-title { color: var(--nd-green-deep); }
+
+/* List filter: a search box and type buttons above a list (decision #127) */
+.list-filter { display: grid; gap: 10px; max-width: 560px; }
+.chip-btn { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+.chip-btn[aria-pressed="true"] { background: var(--nd-charcoal); border-color: var(--nd-charcoal); color: var(--nd-white); font-weight: 700; }
+.rules > section + section { padding-top: 32px; border-top: 1px solid var(--line); }
+.rules h2 { scroll-margin-top: calc(var(--hdr-h) + 16px); }

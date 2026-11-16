@@ -1,41 +1,63 @@
 ---
-// Watch (decisions #110, #117): our videos first (from the sheet's videos tab), then the explainers and the number of
-// the week, each with the figures and sources behind it. Only what is published: no promises of future content.
+// Stories (decision #127): videos, explainers and the number of the week in one list, with a search box and
+// type filters. Everything shows without JavaScript; the filters only hide rows. Only what is published.
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import { entries } from '../../lib/content.js';
 import { getNumbers, weekOf } from '../../lib/numbers.js';
 import { allVideos, videoPath } from '../../lib/videos.js';
 import { date } from '../../lib/fmt.js';
-const explainers = (await entries('explainers')).sort((a, b) => b.data.updated - a.data.updated);
+const explainers = await entries('explainers');
 const numbers = await getNumbers();
+const items = [
+  ...allVideos.map((v) => ({ type: 'video', kind: 'Video', title: v.title, note: v.summary, href: videoPath(v.id), when: new Date(v.published_on) })),
+  ...explainers.map((e) => ({ type: 'explainer', kind: 'Explainer', title: e.data.title, note: e.data.summary, href: `/explainers/${e.id}/`, when: e.data.updated })),
+  ...numbers.map((n) => ({ type: 'number', kind: 'Number of the week', title: `${n.data.figure}: ${n.data.sentence}`, note: `Week of ${weekOf(n.data.week)}`, href: `/number-of-the-week/#${n.id}`, when: n.data.week })),
+].sort((a, b) => b.when - a.when);
+const types = [['video', 'Videos'], ['explainer', 'Explainers'], ['number', 'Numbers']].filter(([t]) => items.some((i) => i.type === t));
 ---
-<Base title="Watch" description="Nyamira Daily's videos, explainers and the number of the week, each with the figures and sources behind it.">
-  <PageHead eyebrow="Watch" title="Watch" lead="What we have published, each piece with the figures and sources behind it." crumbs={[{ href: '/watch/', label: 'Watch' }]} />
-
-  {allVideos.length > 0 && (
-    <section class="stack" style="margin-top:24px" aria-labelledby="videos">
-      <h2 id="videos">Videos</h2>
-      <ul class="rows">
-        {allVideos.map((v) => <li><a class="row-link" href={videoPath(v.id)}><span><span class="t">{v.title}</span><span class="d">{date(v.published_on)} · {v.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
-      </ul>
-    </section>
-  )}
-
-  <section class="stack" style="margin-top:24px" aria-labelledby="explainers">
-    <h2 id="explainers">Explainers</h2>
-    {explainers.length === 0 && <p class="muted">No explainers published yet.</p>}
-    <ul class="rows">
-      {explainers.map((e) => <li><a class="row-link" href={`/explainers/${e.id}/`}><span><span class="t">{e.data.title}</span><span class="d">{e.data.summary} · updated {date(e.data.updated.toISOString())}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
+<Base title="Stories" description="Nyamira Daily's videos, explainers and the number of the week, each with the figures and sources behind it.">
+  <PageHead title="Stories" lead="Videos and stories from the data. Each one shows the figures and sources behind it." />
+  <div class="stack" style="margin-top:16px">
+    <form class="list-filter" role="search" data-list-filter="stories" hidden>
+      <label class="vh" for="st-q">Search stories</label>
+      <input class="field" id="st-q" type="search" placeholder="Search stories" autocomplete="off" />
+      <div class="chips" role="group" aria-label="Show">
+        <button type="button" class="chip-btn" data-type="" aria-pressed="true">All</button>
+        {types.map(([t, l]) => <button type="button" class="chip-btn" data-type={t} aria-pressed="false">{l}</button>)}
+      </div>
+    </form>
+    {items.length === 0 && <p class="muted">Nothing published yet.</p>}
+    <ul class="latest" id="stories">
+      {items.map((x) => (
+        <li data-type={x.type} data-q={`${x.title} ${x.note ?? ''}`.toLowerCase()}><a href={x.href}><span class="eyebrow">{x.kind}</span><span class="t">{x.title}</span>{x.note && <span class="d">{x.note}</span>}<span class="d">{date(x.when.toISOString())}</span></a></li>
+      ))}
     </ul>
-  </section>
-
-  {numbers.length > 0 && (
-    <section class="stack" style="margin-top:32px" aria-labelledby="numbers">
-      <h2 id="numbers">Number of the week</h2>
-      <ul class="rows">
-        {numbers.map((n) => <li><a class="row-link" href="/number-of-the-week/"><span><span class="t">{n.data.figure}: {n.data.sentence}</span><span class="d">Week of {weekOf(n.data.week)}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
-      </ul>
-    </section>
-  )}
+    <p class="muted" data-none hidden>Nothing matches. Try another word.</p>
+  </div>
 </Base>
+<script is:inline>
+// One small list filter, shared by any list marked up the same way (decision #127)
+document.querySelectorAll('[data-list-filter]').forEach(function (form) {
+  var list = document.getElementById(form.getAttribute('data-list-filter')), none = form.parentNode.querySelector('[data-none]');
+  var q = form.querySelector('input[type="search"]'), type = '';
+  form.hidden = false;
+  function run() {
+    var words = q.value.trim().toLowerCase(), shown = 0;
+    Array.prototype.forEach.call(list.children, function (li) {
+      var ok = (!type || li.getAttribute('data-type') === type) && (!words || li.getAttribute('data-q').indexOf(words) !== -1);
+      li.hidden = !ok; if (ok) shown++;
+    });
+    if (none) none.hidden = shown > 0;
+  }
+  q.addEventListener('input', run);
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  Array.prototype.forEach.call(form.querySelectorAll('.chip-btn'), function (b) {
+    b.addEventListener('click', function () {
+      type = b.getAttribute('data-type');
+      Array.prototype.forEach.call(form.querySelectorAll('.chip-btn'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      run();
+    });
+  });
+});
+</script>

@@ -1,6 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
 import EvidenceLabel from '../../components/EvidenceLabel.astro';
 import { roads, roadDetail, roadPath, roadsForWard, subtypeLabel } from '../../lib/roads.js';
 import { amountLabel } from '../../lib/project-amounts.js';
@@ -17,8 +15,8 @@ const siteVisits = [...detailById.values()].filter((d) => d.questions.some((q) =
 const excluded = Object.keys(identities.notRoads).length;
 const reported = [...detailById.values()].filter((d) => d.condition).length;
 ---
-<Base title="Roads" description="Every road and road structure named in Nyamira County's road-works records and Auditor-General reports, with the money and the questions to ask.">
-  <PageHead title="Roads" lead="Roads and bridges named in the county's own records and in Auditor-General reports: the money, who paid, and what to ask." />
+<h2 id="roads">Roads</h2>
+<p class="lead">Roads and bridges named in the county's own records and in Auditor-General reports: the money, who paid, and what to ask.</p>
   <div class="stack-lg" style="margin-top:16px">
     <section class="card stack">
       <span class="figure"><span class="num">{roads.length}</span></span>
@@ -29,7 +27,7 @@ const reported = [...detailById.values()].filter((d) => d.condition).length;
 
     {groups.map((g) => (
       <section class="stack">
-        <h2>{g.href ? <a href={g.href}>{g.title}</a> : g.title}</h2>
+        <h3>{g.href ? <a href={g.href}>{g.title}</a> : g.title}</h3>
         <div class="table-box">
           <table class="cards">
             <thead><tr><th>Road</th><th>Latest record</th><th>Condition</th><th>Questions</th></tr></thead>
@@ -54,4 +52,3 @@ const reported = [...detailById.values()].filter((d) => d.condition).length;
       <p>{excluded} road-works records name no single road or bridge: for example murram supply for two wards, culverts, fuel and machinery, or "roads across the ward". They stay with each ward's county projects. Records from before FY2023/24 are not yet in our project data, apart from Auditor-General findings.</p>
     </details>
   </div>
-</Base>

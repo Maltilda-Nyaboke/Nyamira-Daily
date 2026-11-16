@@ -6,7 +6,7 @@ import PageHead from '../../components/PageHead.astro';
 import { county } from '../../county.js';
 const row = (href, t, d) => ({ href, t, d });
 const us = [
-  row('/about/contact/', 'Contact us', 'Send a message, a tip, a concern or a correction.'),
+  row('/about/contact/', 'Tell us', 'A place you have seen, a tip, a story or a correction.'),
   row('/about/careers/', 'Careers and volunteering', 'Become a ward correspondent or a culture volunteer.'),
   row('/about/partners/', 'Partner with us', 'Data, research and sponsorship for organisations.'),
 ];
@@ -19,6 +19,6 @@ const us = [
       {us.map((p) => <li><a class="row-link" href={p.href}><span><span class="t">{p.t}</span><span class="d">{p.d}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
     </ul>
     <p>Looking for the county itself? See <a href="/about/nyamira/">About Nyamira County</a>.</p>
-    <p class="small muted">Also: <a href="/how-we-work/#corrections">corrections</a> · <a href="/right-of-reply/">right of reply</a> · <a href="/how-we-work/#evidence">what our labels mean</a> · <a href="/terms/">terms</a> · <a href="/privacy/">privacy</a></p>
+    <p class="small muted">Our rules: <a href="/about/rules/">how we work, corrections, right of reply, terms and privacy</a>.</p>
   </div>
 </Base>

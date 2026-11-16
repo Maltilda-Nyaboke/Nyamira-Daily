@@ -1,20 +1,26 @@
 ---
-// Contact us (decision #122): one form with topics; tips can be sent without a name.
+// Tell us (decision #127): one page for everything a reader may want to send. A clear first choice leads to the
+// right form: a place goes to its record, a story to the Community team, everything else to the form below.
 import Base from '../../../layouts/Base.astro';
 import PageHead from '../../../components/PageHead.astro';
 import ContactForm from '../../../components/ContactForm.astro';
+const ways = [
+  ['/report/', 'A place you have seen', 'Is the dispensary open? Is the road passable? It goes straight to that place\'s record.'],
+  ['/report/clinic/', 'A clinic visit', 'Four quick questions after a visit: medicines, staff, hours and waiting time.'],
+  ['/community/share/', 'A story, a song or an elder to record', 'For the culture archive. We get in touch before anything is recorded.'],
+  ['#message', 'A tip, a concern or a correction', 'Use the form below. You can leave your name out.'],
+];
 ---
-<Base title="Contact us" description="Send Nyamira Daily a message, a news tip, a concern or a correction.">
-  <PageHead title="Contact us" lead="Send a message, a news tip, a concern or a correction. We read every message and reply as soon as we can." />
-  <div class="stack" style="margin-top:16px; max-width:720px">
-    <ContactForm />
-    <h2>Which route to use</h2>
-    <ul>
-      <li><strong>A news tip or a concern.</strong> Tell us what you saw, where and when. You can leave your name out.</li>
-      <li><strong>A correction.</strong> Tell us the page and what is wrong, with a source if you have one. Accepted corrections are listed in our <a href="/how-we-work/#corrections">corrections log</a>.</li>
-      <li><strong>Right of reply.</strong> If we have named you or your organisation, you can respond. See <a href="/right-of-reply/">right of reply</a>.</li>
-      <li><strong>A place you have seen.</strong> Use <a href="/report/">Report a place</a>, so it goes straight to that place's record.</li>
+<Base title="Tell us" description="Tell Nyamira Daily about a place, send a tip, a concern, a story or a correction.">
+  <PageHead title="Tell us" lead="What would you like to tell us? Pick one, and we will take you to the right form. We read every message and reply as soon as we can." />
+  <div class="stack-lg" style="margin-top:16px; max-width:760px">
+    <ul class="rows">
+      {ways.map(([href, t, d]) => <li><a class="row-link" href={href}><span><span class="t">{t}</span><span class="d">{d}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
     </ul>
-    <p class="small muted">A message is a lead for us to check, not a published fact. See <a href="/privacy/">privacy</a> for what we keep.</p>
+    <section class="stack" id="message">
+      <h2>Send a message</h2>
+      <ContactForm />
+      <p class="small muted">A message is a lead for us to check, not a published fact. If we have named you or your organisation, see your <a href="/about/rules/#right-of-reply">right of reply</a>. Accepted corrections are listed in our <a href="/about/rules/#corrections">corrections log</a>. What we keep: <a href="/about/rules/#privacy">privacy</a>.</p>
+    </section>
   </div>
 </Base>

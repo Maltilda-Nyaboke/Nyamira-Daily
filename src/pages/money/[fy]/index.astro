@@ -35,6 +35,7 @@ const tYears = { columns: ['Financial year', 'Recurrent (KSh)', 'Development (KS
 const cyNote = ['Each year is the budget as printed in that year\'s Programme Based Budget, before any changes the Assembly or supplementary budgets made.', ...cy.filter((r) => r.note).map((r) => `In ${r.fy}, ${r.note.charAt(0).toLowerCase()}${r.note.slice(1)}`)].join(' ');
 const staff = y.out.find((p) => p.key === 'staff');
 const dev = y.out.find((p) => p.key === 'development');
+import KeyDates from '../../../components/folded/KeyDates.astro';
 ---
 <MoneyShell title={`Nyamira's budget ${FY}`} lead={`What the county planned to spend in ${FY}, on what, and where the money comes from.`} crumbs={[{ href: `/money/${FY_PATH}/`, label: `Budget ${FY}` }]}>
   <section class="figure">
@@ -71,4 +72,5 @@ const dev = y.out.find((p) => p.key === 'development');
       <li>The budget has a few printed errors, such as one department total misprinted in Table 9. Where its tables disagree, we use the figure its other tables and its own arithmetic confirm.</li>
     </ul>
   </details>
+  <section class="stack" style="margin-top:40px"><KeyDates /></section>
 </MoneyShell>

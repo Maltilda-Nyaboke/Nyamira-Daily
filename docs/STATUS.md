@@ -5,10 +5,16 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 ## Where things stand
 
 - **The site:** a static Astro 7 site in eight sections (`src/nav.js`), with real data for money (12 years), ward pages, projects and the project tracker, services, census, leaders, the Assembly, county laws, fees, opportunities, constitution summaries, search and open data. Text content lives in `src/content/`; only one explainer and one number of the week are published so far, and two money explainers are drafted.
-- **Who runs it (decision #73):** built and published by Underdogs Rising Group Limited, editorially independent, with a commitment to spin out into a non-profit. Trust pages: `/who-runs-us/`, `/right-of-reply/`, `/privacy/`, `/terms/`.
+- **Who runs it:** the publisher is not named on the site for now (decision #125, replacing the public parts of #73). Rules and legal are one page, `/about/rules/`.
 - **NY Watch (decision #79):** the founder's data review podcast. No episodes published yet.
 
 ## Changes on 16 Nov 2026
+
+- **Overhaul 3, first steps, and the seven folds** on branch `feat/overhaul-3` (from `91aea3b`). Decisions #123 to #127; plan `docs/overhaul/PLAN-3.md`.
+  - Menu: Home, Places, Money, Community, Stories, About. The county's pages sit under Places; About is one page plus Tell us, Careers, Partner with us, and Rules and legal (`/about/rules/`).
+  - Folded into other pages (in `src/components/folded/`): roads, the budget calendar, fees, how we work, right of reply, terms, privacy. The explainers list is part of Stories. Old addresses redirect.
+  - The publisher is not named on the site (decision #125); it must be named in the privacy section before any form that collects personal data is switched on.
+  - Checked: the build, `npm test` (336 pass), every internal link and `#part` in the built site (none broken), nine folded pages at 390 and 1280 px (no sideways scroll, no script errors).
 
 - **Overhaul 2** on branch `feat/overhaul-2` (from `b061cba`), not pushed. Decision #122; plan `docs/overhaul/PLAN.md`; strategy `docs/strategy/GM_PLAN.md`; the next round is planned in `docs/overhaul/PLAN-3.md`.
   - New: Community section (5 pages, the `archive` collection with consent checks), About rebuilt (hub, About Nyamira County, Contact, Careers, Partners, Publisher), the contact worker and migration 0004, six footer social icons.

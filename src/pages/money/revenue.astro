@@ -39,6 +39,7 @@ const questions = [
   { text: `By 30 June 2026 the county had received KSh ${grA.value.toFixed(2)} million of the KSh ${grT.value.toFixed(2)} million in grants it budgeted for ${last.fy}. Which grants did not arrive, and what happens to the work they were meant to pay for?`, source: `the Controller of Budget's report for ${last.fy}, ${grA.page}` },
   { text: `The county collected KSh ${osrA.value.toFixed(2)} million of its KSh ${osrT.value.toFixed(2)} million own-revenue target in ${last.fy}. Which fees and charges fell short?`, source: `the Controller of Budget's report for ${last.fy}, ${osrA.page}` },
 ];
+import Fees from '../../components/folded/Fees.astro';
 ---
 <MoneyShell title="Where Nyamira's money comes from" lead="Most of the county's money is its share of the taxes raised nationally. The rest is fees and charges it collects, grants, and money left over from earlier years." crumbs={[{ href: '/money/revenue/', label: 'Where the money comes from' }]}>
   <div class="two-figures">
@@ -93,8 +94,9 @@ const questions = [
         </tbody>
       </table>
     </div>
-    <p class="source small"><EvidenceLabel kind="official" /> Controller of Budget annual county reports, each year's Nyamira section. Earlier, this site showed these in one column called "Equitable share reported"; see <a href="/how-we-work/#corrections">corrections</a>.</p>
+    <p class="source small"><EvidenceLabel kind="official" /> Controller of Budget annual county reports, each year's Nyamira section. Earlier, this site showed these in one column called "Equitable share reported"; see <a href="/about/rules/#corrections">corrections</a>.</p>
   </details>
 
   <p>Where this year's budget expected its money to come from: <a href="/money/2025-26/">Nyamira's budget 2025/26</a>.</p>
+  <section class="stack" style="margin-top:40px"><Fees /></section>
 </MoneyShell>

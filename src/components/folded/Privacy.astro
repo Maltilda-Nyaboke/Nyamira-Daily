@@ -1,21 +1,19 @@
 ---
 // Privacy (decision #73). Describes what the site actually does today; update it whenever a form, a tool or a
 // host changes. Needs the lawyer's review before launch (Data Protection Act 2019).
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
 import { county, publisher } from '../../county.js';
 import { contact, hasContact } from '../../config.js';
 const retention = Number(import.meta.env.PUBLIC_CORRECTION_RETENTION_DAYS);
 const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retention <= 3650;
 ---
-<Base title="Privacy" description={`What ${county.siteName} collects about you, and what we do with it.`}>
-  <PageHead eyebrow="About" title="Privacy" lead="Reading this site does not need an account, and we do not track you. Here is the little we do keep." crumbs={[{ href: '/about/', label: 'About' }, { href: '/privacy/', label: 'Privacy' }]} />
+<h2 id="privacy">Privacy</h2>
+<p class="lead">Reading this site does not need an account, and we do not track you. Here is the little we do keep.</p>
   <div class="stack" style="margin-top:16px; max-width:720px">
-    <h2>Who is responsible</h2>
+    <h3>Who is responsible</h3>
     <p>{county.siteName} is responsible for the personal data described here, under Kenya's Data Protection Act, 2019.</p>
     {/* Before any form that collects personal data is switched on, name the legal entity (the data controller) here: decision #125. */}
 
-    <h2>Just reading the site</h2>
+    <h3>Just reading the site</h3>
     <ul>
       <li>We use no advertising, no tracking cookies and no visitor analytics.</li>
       <li>Our host (Cloudflare) keeps short technical logs, such as your internet address, to deliver pages and block attacks.</li>
@@ -23,7 +21,7 @@ const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retent
       <li>Videos load from YouTube's privacy-enhanced player only when you tap play.</li>
     </ul>
 
-    <h2>When you send us something</h2>
+    <h3>When you send us something</h3>
     <p>Correction requests and reports about facilities or roads can only be sent once those forms are switched on. When they are:</p>
     <ul>
       <li>We keep what you write and the page it is about. You do not need to give your name, phone number or email.</li>
@@ -32,7 +30,7 @@ const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retent
       <li>Only named editors can read submissions, after signing in.</li>
     </ul>
 
-    <h2>People in our reporting</h2>
+    <h3>People in our reporting</h3>
     <ul>
       <li>We publish the names of public officials, public offices and companies when official records name them. We never publish the personal details of private individuals, such as ID numbers, phone numbers or home addresses.</li>
       <li>We never name people who give us tips, victims or patients.</li>
@@ -40,7 +38,7 @@ const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retent
       <li>Cultural knowledge and stories are recorded only with the consent of the person who shares them, and only what they agreed to make public is published.</li>
     </ul>
 
-    <h2>Your rights</h2>
+    <h3>Your rights</h3>
     <p>You can ask us what personal data we hold about you, ask us to correct it, or ask us to delete it. Some journalism is exempt from parts of the Data Protection Act where publication is in the public interest; if we rely on that, we will tell you why. You can also complain to the Office of the Data Protection Commissioner (odpc.go.ke).</p>
     {hasContact
       ? <p>To ask: {contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}{contact.email && contact.whatsapp && ' or '}{contact.whatsapp && <a href={`https://wa.me/${contact.whatsapp}`} rel="noopener">WhatsApp</a>}.</p>
@@ -53,4 +51,3 @@ const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retent
     </div>
     <!-- Kiswahili summary added 31 Oct 2026: needs native-speaker review. Legal wording: needs the lawyer's review. -->
   </div>
-</Base>

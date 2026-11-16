@@ -13,13 +13,6 @@ import { county } from './county.js';
 export const subCounties = county.constituencies;
 export const anchorFor = (name) => name.toLowerCase().split(' ').join('-');
 
-// The Money section's own pages (decision #105)
-const moneyPages = [
-  { href: '/money/2025-26/', label: 'Budget 2025/26', group: 'This year', also: ['/money/2025-26/departments/'] },
-  { href: '/money/track/', label: 'What was spent', group: 'This year' },
-  { href: '/money/revenue/', label: 'Where it comes from', group: 'This year' },
-  { href: '/money/history/', label: 'Since 2013', group: 'Over time' },
-];
 const topic = (slug) => topics.find((t) => t.slug === slug);
 
 // Each section: `overview` names its own page, `desc` introduces it in the menu, `icon` is from
@@ -29,47 +22,45 @@ const topic = (slug) => topics.find((t) => t.slug === slug);
 // `rail: false` keeps a section's pages full width (the switcher only): the Map pages need the whole width.
 // Map pages live under /map/ and /ward/, money pages under /money/ (phase R2b).
 export const sections = [
-  { href: '/map/', label: 'Places', icon: 'map', overview: 'The county map', rail: false, groups: ['Find a place', 'Help us'],
-    desc: 'Every ward and every place we list: what is there, and what condition it is in.', pages: [
+  { href: '/map/', label: 'Places', icon: 'map', overview: 'The county map', rail: false, groups: ['Find a place', 'By sector', 'The county'],
+    desc: 'Every ward and every public place: what is there, and how it is doing.', pages: [
     { href: '/ward/', label: 'Wards', icon: 'ward', group: 'Find a place', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
       href: `/ward/#${anchorFor(s)}`, label: s,
       pages: wards.filter((w) => w.subCounty === s).map((w) => ({ href: `/ward/${w.slug}/`, label: w.name })),
     })) },
-    { href: '/road/', label: 'Roads', icon: 'road', group: 'Find a place', desc: 'Road money and questions to ask' },
-    { href: '/map/health/', label: topic('health').title, icon: 'health', group: 'Find a place', desc: 'Clinics, mothers and children' },
-    { href: '/map/education/', label: topic('education').title, icon: 'education', group: 'Find a place', desc: 'Schools and learners' },
-    { href: '/report/', label: 'Report a place', icon: 'check', group: 'Help us', desc: 'Tell us what you saw' },
+    { href: '/map/#roads', label: 'Roads', icon: 'road', group: 'Find a place', desc: 'Road money and questions to ask' },
+    { href: '/map/health/', label: topic('health').title, icon: 'health', group: 'By sector', desc: 'Clinics, mothers and children' },
+    { href: '/map/education/', label: topic('education').title, icon: 'education', group: 'By sector', desc: 'Schools and learners' },
+    { href: '/money/farming/', label: topic('farming').title, icon: 'farming', group: 'By sector', desc: 'Tea bonuses and farm spending' },
+    { href: '/about/nyamira/', label: 'About Nyamira County', group: 'The county', icon: 'map', desc: 'Facts, figures and places to know' },
+    { href: '/administration/duties/', label: 'How it is governed', group: 'The county', icon: 'government', desc: 'What the county must do, and how' },
+    { href: '/administration/', label: 'Who holds each seat', group: 'The county', icon: 'people', desc: 'Each county seat and its holder, with sources' },
+    { href: '/about/glossary/', label: 'Glossary', group: 'The county', icon: 'learn', desc: 'Terms explained' },
   ] },
-  { href: '/money/', label: 'Money', icon: 'money', overview: "Nyamira's money", groups: ['This year', 'Over time', 'Follow it'],
-    desc: 'The county budget, what was spent, where the money comes from, and the local economy.', pages: [
-    ...moneyPages,
-    { href: '/money/contracts/', label: 'Contracts', icon: 'source', group: 'Follow it', desc: 'Every contract: who, how much, when' },
-    { href: '/money/economy/', label: 'The economy', icon: 'chart', group: 'Follow it', desc: 'Money coming into Nyamira, and how it moves' },
-    { href: '/money/farming/', label: topic('farming').title, icon: 'farming', group: 'Follow it', desc: 'Tea bonuses and farm spending' },
-    { href: '/money/calendar/', label: 'Budget calendar', icon: 'calendar', group: 'Over time', desc: 'When money decisions are made' },
-    { href: '/money/fees/', label: 'Fees you pay', icon: 'money', group: 'Follow it', desc: 'County fees and charges' },
+  { href: '/money/', label: 'Money', icon: 'money', overview: "Nyamira's money", groups: ['This year', 'Over the years', 'Follow the money'],
+    desc: "The county's budget and spending, the contracts it signed, and how money moves in Nyamira.", pages: [
+    { href: '/money/2025-26/', label: 'Budget 2025/26', group: 'This year', desc: 'The plan, with its key dates', also: ['/money/2025-26/departments/'] },
+    { href: '/money/track/', label: 'What was spent', group: 'This year' },
+    { href: '/money/revenue/', label: 'Where it comes from', group: 'This year', desc: 'Including the fees you pay' },
+    { href: '/money/history/', label: 'Since 2013', group: 'Over the years' },
+    { href: '/money/contracts/', label: 'Contracts', icon: 'source', group: 'Follow the money', desc: 'Every contract: who, how much, when' },
+    { href: '/money/economy/', label: 'The economy', icon: 'chart', group: 'Follow the money', desc: 'Money coming into Nyamira, and how it moves' },
   ] },
-  { href: '/community/', label: 'Community', icon: 'people', overview: 'Community', groups: ['Our heritage', 'Take part'],
-    desc: 'The Abagusii, their culture and language, recorded with consent and kept for the community.', pages: [
+  { href: '/community/', label: 'Community', icon: 'people', overview: 'Community', groups: ['Our heritage'],
+    desc: 'Our history, culture and language, recorded with consent and kept for the community.', pages: [
     { href: '/community/abagusii/', label: 'The Abagusii', group: 'Our heritage', icon: 'people', desc: 'History and culture, with sources' },
     { href: '/community/archive/', label: 'Culture archive', group: 'Our heritage', icon: 'stories', desc: 'Recordings, stories and knowledge' },
-    { href: '/community/language/', label: 'Ekegusii language', group: 'Our heritage', icon: 'learn', desc: 'An open Ekegusii text and speech dataset' },
-    { href: '/community/share/', label: 'Share or volunteer', group: 'Take part', icon: 'check', desc: 'Offer a story, record with us, send a concern' },
+    { href: '/community/language/', label: 'Ekegusii language', group: 'Our heritage', icon: 'learn', desc: 'An open Ekegusii text and speech dataset', also: ['/community/share/'] },
   ] },
-  { href: '/watch/', label: 'Watch', icon: 'camera', overview: 'Watch', groups: ['Also on Watch'],
-    desc: 'Our videos, each with the figures and sources behind it.', pages: [
-    { href: '/explainers/', label: 'Explainers', icon: 'stories', group: 'Also on Watch', desc: 'Short guides to big topics' },
-    { href: '/number-of-the-week/', label: 'Number of the week', icon: 'chart', group: 'Also on Watch', desc: 'One figure, explained' },
-  ] },
-  { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily', groups: ['Nyamira Daily', 'Nyamira County', 'Legal'],
-    desc: 'Nyamira Daily in one page, and Nyamira County in full.', pages: [
-    { href: '/about/contact/', label: 'Contact us', group: 'Nyamira Daily', icon: 'question', desc: 'Messages, tips, concerns and corrections', also: ['/right-of-reply/', '/how-we-work/', '/about/careers/', '/about/partners/', '/about/data/'] },
-    { href: '/about/nyamira/', label: 'About Nyamira County', group: 'Nyamira County', icon: 'map', desc: 'Facts, figures and places to know' },
-    { href: '/administration/duties/', label: 'How it is governed', group: 'Nyamira County', icon: 'government', desc: 'What the county must do, and how' },
-    { href: '/administration/', label: 'Who holds each seat', group: 'Nyamira County', icon: 'people', desc: 'Each county seat and its holder, with sources' },
-    { href: '/about/glossary/', label: 'Glossary', group: 'Nyamira County', icon: 'learn', desc: 'Terms explained' },
-    { href: '/terms/', label: 'Terms and reuse', group: 'Legal', icon: 'source', desc: 'Our data licence and its limits' },
-    { href: '/privacy/', label: 'Privacy', group: 'Legal', icon: 'check', desc: 'What we keep, and what we never do' },
+  // Stories (decision #127): videos, explainers and the number of the week in one list. It keeps the /watch/ address.
+  { href: '/watch/', label: 'Stories', icon: 'camera', overview: 'Stories', also: ['/explainers/', '/number-of-the-week/'],
+    desc: 'Videos and stories from the data, each with the figures behind it.', pages: [] },
+  { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily', groups: ['Nyamira Daily'],
+    desc: 'What Nyamira Daily is, and how to reach us.', pages: [
+    { href: '/about/contact/', label: 'Tell us', group: 'Nyamira Daily', icon: 'question', desc: 'A place, a tip, a story or a correction', also: ['/report/'] },
+    { href: '/about/careers/', label: 'Careers and volunteering', group: 'Nyamira Daily', icon: 'people', desc: 'Ward correspondents and culture volunteers' },
+    { href: '/about/partners/', label: 'Partner with us', group: 'Nyamira Daily', icon: 'data', desc: 'Data, research and sponsorship', also: ['/about/data/'] },
+    { href: '/about/rules/', label: 'Rules and legal', group: 'Nyamira Daily', icon: 'source', desc: 'How we work, right of reply, terms, privacy' },
   ] },
 ];
 
@@ -97,5 +88,8 @@ export function stateFor(item, path) {
 // The section a page belongs to: by its address, or because it is listed in the section
 // (Opportunities and Have your say sit under Today).
 export function sectionFor(path) {
-  return sections.find((s) => (s.href === '/' ? path === '/' : path.startsWith(s.href)) || s.pages.some((p) => stateFor(p, path)));
+  // A page listed in a section belongs to it, wherever its address sits (Farming under Places, decision #127);
+  // otherwise the section whose address it starts with.
+  return sections.find((s) => s.pages.some((p) => p.href === path || (p.also ?? []).some((h) => path.startsWith(h))))
+    ?? sections.find((s) => path.startsWith(s.href) || (s.also ?? []).some((h) => path.startsWith(h)) || s.pages.some((p) => stateFor(p, path)));
 }

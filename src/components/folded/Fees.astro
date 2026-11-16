@@ -1,12 +1,10 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
 import F from '../../data/fees.json';
 const groups = ['Business permits', 'Markets and cess', 'Parking', 'Buildings and land', 'Health', 'Other'];
 const pick = ['Small trader shop', 'Hawker', 'Posho mill', 'Boda', 'Matatu', 'Banana', 'Slaughter', 'Food handler'];
 ---
-<Base title="Fees you pay">
-  <PageHead eyebrow="Money" title="Fees you pay" lead="What the county may legally charge residents and traders, from the Nyamira County Finance Act, 2025." crumbs={[{ href: '/money/', label: 'Money' }, { href: '/money/fees/', label: 'Fees you pay' }]} />
+<h2 id="fees">Fees you pay</h2>
+<p class="lead">What the county may legally charge residents and traders, from the Nyamira County Finance Act, 2025.</p>
   <div class="stack-lg" style="margin-top:16px">
     <div class="panel stack">
       <p><strong>The law:</strong> <a href={F.act.url} rel="noopener">{F.act.name}</a>. Signed into law on 17 October 2025 and published in the Kenya Gazette on 22 December 2025. It applies from FY2025/26.</p>
@@ -35,7 +33,7 @@ const pick = ['Small trader shop', 'Hawker', 'Posho mill', 'Boda', 'Matatu', 'Ba
     })}
 
     <section class="stack">
-      <h2>Good to know</h2>
+      <h3>Good to know</h3>
       <ul>
         <li>Produce cess is charged per vehicle by load (KSh 500 up to 1 tonne, 1,000 for 1–3 tonnes, 2,000 above 3 tonnes), not per bag.</li>
         <li>Boda boda parking is now a seasonal ticket (KSh 900 for 3 months, 1,500 for 6 months, 2,400 a year), replacing the old KSh 300 a month.</li>
@@ -45,4 +43,3 @@ const pick = ['Small trader shop', 'Hawker', 'Posho mill', 'Boda', 'Matatu', 'Ba
     </section>
     <p class="updated">Checked 22 Oct 2026. We could not confirm whether a 2026 Finance Bill is before the Assembly.</p>
   </div>
-</Base>
