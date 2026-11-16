@@ -6,6 +6,7 @@
 import { topics } from './data/topics.js';
 import wards from './data/wards.json' with { type: 'json' };
 import { planned } from './config.js';
+import videos from './data/living/videos.json' with { type: 'json' };
 
 import { county } from './county.js';
 
@@ -22,7 +23,7 @@ const topic = (slug) => topics.find((t) => t.slug === slug);
 // `rail: false` keeps a section's pages full width (the switcher only): the Map pages need the whole width.
 // Map pages live under /map/ and /ward/, money pages under /money/ (phase R2b).
 export const sections = [
-  { href: '/map/', label: 'Places', icon: 'map', overview: 'The county map', rail: false, groups: ['Find a place', 'By sector', 'The county'],
+  { href: '/map/', label: 'Places', icon: 'map', overview: 'The county map', groups: ['Find a place', 'By sector', 'The county'],
     desc: 'Every ward and every public place: what is there, and how it is doing.', pages: [
     { href: '/ward/', label: 'Wards', icon: 'ward', group: 'Find a place', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
       href: `/ward/#${anchorFor(s)}`, label: s,
@@ -53,8 +54,13 @@ export const sections = [
     { href: '/community/language/', label: 'Ekegusii language', group: 'Our heritage', icon: 'learn', desc: 'An open Ekegusii text and speech dataset', also: ['/community/share/'] },
   ] },
   // Stories (decision #127): videos, explainers and the number of the week in one list. It keeps the /watch/ address.
-  { href: '/watch/', label: 'Stories', icon: 'camera', overview: 'Stories', also: ['/explainers/', '/number-of-the-week/'],
-    desc: 'Videos and stories from the data, each with the figures behind it.', pages: [] },
+  // Its side list filters the one list (the #video, #explainer and #number parts of /watch/); Videos shows once there is one.
+  { href: '/watch/', label: 'Stories', icon: 'camera', overview: 'All stories', groups: ['By kind'],
+    desc: 'Videos and stories from the data, each with the figures behind it.', pages: [
+    ...(videos.length ? [{ href: '/watch/#video', label: 'Videos', group: 'By kind', icon: 'camera', desc: 'Field visits and updates' }] : []),
+    { href: '/watch/#explainer', label: 'Explainers', group: 'By kind', icon: 'learn', desc: 'How things work, in plain words', also: ['/explainers/'] },
+    { href: '/watch/#number', label: 'Number of the week', group: 'By kind', icon: 'chart', desc: 'One figure, explained', also: ['/number-of-the-week/'] },
+  ] },
   { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily', groups: ['Nyamira Daily'],
     desc: 'What Nyamira Daily is, and how to reach us.', pages: [
     { href: '/about/contact/', label: 'Tell us', group: 'Nyamira Daily', icon: 'question', desc: 'A place, a tip, a story or a correction', also: ['/report/'] },

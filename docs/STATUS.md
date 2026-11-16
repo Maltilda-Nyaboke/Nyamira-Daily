@@ -10,6 +10,8 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 
 ## Changes on 16 Nov 2026
 
+- **Home page blocks and one side list** (decision #128), on `feat/home-blocks` from `2992ffc`. Home: your ward, the next budget date, where every KSh 100 goes, help us check, new here. The side list shows on every section page from 960 px, including Places and Stories. Checked: the build (868 pages), `npm test` (338 pass, 2 new), home and five section pages at 390, 1000 and 1280 px.
+
 - **Overhaul 3, first steps, and the seven folds** on branch `feat/overhaul-3` (from `91aea3b`). Decisions #123 to #127; plan `docs/overhaul/PLAN-3.md`.
   - Menu: Home, Places, Money, Community, Stories, About. The county's pages sit under Places; About is one page plus Tell us, Careers, Partner with us, and Rules and legal (`/about/rules/`).
   - Folded into other pages (in `src/components/folded/`): roads, the budget calendar, fees, how we work, right of reply, terms, privacy. The explainers list is part of Stories. Old addresses redirect.

@@ -1048,11 +1048,15 @@ details.sec-switch[open] { padding-bottom: 0; }
   .sw-panel::before { content: ""; grid-column: 1 / -1; justify-self: center; width: 44px; height: 5px; border-radius: 3px; background: var(--line); }
   html.switch-open { overflow: hidden; }
 }
-@media (min-width: 1180px) {
-  .wrap.with-rail { max-width: calc(var(--max) + 260px); display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; align-items: start; }
+/* The side list shows on every section page from 960px (owner, decision #128); below that the switcher carries the same groups. */
+@media (min-width: 960px) {
+  .wrap.with-rail { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 28px; align-items: start; }
   .with-rail .sec-switch.has-rail { display: none; }
-  .has-rail :is(.site-header, .site-footer) .wrap { max-width: calc(var(--max) + 260px); }
   .sec-rail { display: block; position: sticky; top: calc(var(--hdr-h) + 12px); padding: 28px 0 24px; max-height: calc(100vh - var(--hdr-h) - 24px); overflow-y: auto; }
+}
+@media (min-width: 1180px) {
+  .wrap.with-rail { max-width: calc(var(--max) + 260px); grid-template-columns: 220px minmax(0, 1fr); gap: 40px; }
+  .has-rail :is(.site-header, .site-footer) .wrap { max-width: calc(var(--max) + 260px); }
 }
 
 @media (min-width: 1180px) {
@@ -1365,8 +1369,8 @@ main details.tk-year > summary { font-family: var(--title-font); font-weight: 40
 .front-door .num { font-size: clamp(32px, 4.4vw, 44px); font-weight: 700; line-height: 1; }
 .front-door .num small { font-size: 18px; font-weight: 500; color: var(--muted); }
 .front-door .say { font-size: 16px; }
-.front-door .go { margin-top: auto; color: var(--nd-green-deep); }
-.front-door:hover .go { text-decoration: underline; text-underline-offset: 4px; }
+.front-door .more { margin-top: auto; color: var(--nd-green-deep); }
+.front-door:hover .more { text-decoration: underline; text-underline-offset: 4px; }
 .front-door .label { align-self: flex-start; }
 .latest { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 28px; border-top: 1px solid var(--line); }
 .latest li { max-width: none; border-bottom: 1px solid var(--line); }
@@ -1394,3 +1398,26 @@ main details.tk-year > summary { font-family: var(--title-font); font-weight: 40
 .chip-btn[aria-pressed="true"] { background: var(--nd-charcoal); border-color: var(--nd-charcoal); color: var(--nd-white); font-weight: 700; }
 .rules > section + section { padding-top: 32px; border-top: 1px solid var(--line); }
 .rules h2 { scroll-margin-top: calc(var(--hdr-h) + 16px); }
+
+/* Home page blocks (decision #128) */
+.home-ward h2, .home-help h2 { margin: 0; }
+.ward-facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px 20px; }
+.ward-facts li { max-width: none; font-size: 15px; color: var(--muted); }
+.ward-facts b { display: block; font-size: 28px; line-height: 1.1; color: var(--ink); }
+.home-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.home-two h2 { margin: 0; font-size: 24px; }
+.home-two .more { font-weight: 700; color: var(--nd-green-deep); text-decoration: none; }
+.home-two .more:hover { text-decoration: underline; text-underline-offset: 4px; }
+.next-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.next-steps li { max-width: none; }
+.next-steps .t { display: block; font-weight: 700; font-size: 18px; }
+.next-steps .d { display: block; font-size: 15px; color: var(--muted); }
+.next-steps.one .t { font-size: 22px; }
+.next-steps .days { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 999px; background: var(--nd-green-soft); font-weight: 700; font-size: 15px; }
+.hundred { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.hundred li { max-width: none; display: grid; grid-template-columns: minmax(0, 1fr) 72px; gap: 2px 12px; align-items: center; font-size: 15px; }
+.hundred .h-name { grid-column: 1 / -1; }
+.hundred .h-bar { height: 10px; border-radius: 5px; background: var(--ch-100); overflow: hidden; }
+.hundred .h-bar i { display: block; height: 100%; background: var(--nd-green); border-radius: 5px; }
+.hundred b { text-align: right; white-space: nowrap; }
+@media (max-width: 760px) { .home-two { grid-template-columns: 1fr; } }

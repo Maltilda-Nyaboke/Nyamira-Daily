@@ -50,6 +50,13 @@ document.querySelectorAll('[data-list-filter]').forEach(function (form) {
     });
     if (none) none.hidden = shown > 0;
   }
+  // A link such as /watch/#explainer (the Stories side list) picks that kind
+  function fromHash() {
+    var want = location.hash.slice(1), hit = null;
+    Array.prototype.forEach.call(form.querySelectorAll('.chip-btn'), function (b) { if (want && b.getAttribute('data-type') === want) hit = b; });
+    if (hit) hit.click();
+  }
+  window.addEventListener('hashchange', fromHash);
   q.addEventListener('input', run);
   form.addEventListener('submit', function (e) { e.preventDefault(); });
   Array.prototype.forEach.call(form.querySelectorAll('.chip-btn'), function (b) {
@@ -59,5 +66,6 @@ document.querySelectorAll('[data-list-filter]').forEach(function (form) {
       run();
     });
   });
+  fromHash();
 });
 </script>

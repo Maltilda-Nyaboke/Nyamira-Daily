@@ -4,6 +4,8 @@
 // 2. The county map with the lead story pinned to its ward (or, with no lead, an invitation to explore).
 // 3. Three numbers, one door each: places checked on site, money spent, contracts.
 // 4. Latest: the newest explainers, numbers of the week and videos. 5. Watch, when there are videos.
+// Added with decision #128: your ward (after the map), the next budget date and where KSh 100 goes
+// (after the numbers), help us check, and three ways in for a new reader.
 import Base from '../layouts/Base.astro';
 import HeroMap from '../components/HeroMap.astro';
 import EvidenceLabel from '../components/EvidenceLabel.astro';
@@ -15,6 +17,14 @@ import { contracts } from '../lib/contracts.js';
 import { liveItems } from '../lib/now.js';
 import { date } from '../lib/fmt.js';
 import money from '../lib/county-money.js';
+import wards from '../data/wards.js';
+import leaders from '../data/leaders.json';
+import sectors from '../data/budget-sectors.json';
+import steps from '../data/budget-steps.js';
+import { hundred } from '../lib/hundred.js';
+import { roads, roadDetail, roadsForWard } from '../lib/roads.js';
+import { forWard } from '../lib/contracts.js';
+import { subCounties } from '../nav.js';
 
 const now = liveItems();
 const facilities = places.filter((p) => p.kind === 'facility');
@@ -33,6 +43,14 @@ const latest = [
   ...allVideos.map((v) => ({ kind: 'Video', title: v.title, note: v.summary, href: videoPath(v.id), when: new Date(v.published_on) })),
 ].sort((a, b) => b.when - a.when).slice(0, 4);
 const videos = allVideos.slice(0, 3);
+
+const split = hundred(sectors.departments);
+const roadsToVisit = roads.filter((r) => roadDetail(r).questions.some((q) => q.siteVisit)).length;
+const unchecked = facilities.length - checked;
+const wardCards = wards.map((w) => ({
+  w, mca: leaders.mcas[w.slug], roads: roadsForWard(w.slug).length, contracts: forWard(w.slug).length,
+  health: w.counts.Health ?? 0, schools: w.counts.Education ?? 0,
+}));
 ---
 <Base title="Today" tools={false}>
   <Fragment slot="hero">
@@ -50,34 +68,85 @@ const videos = allVideos.slice(0, 3);
   </Fragment>
 
   <div class="stack-lg home" style="padding-top:40px">
+    <section class="home-ward panel" aria-labelledby="yourward">
+      <div class="stack" data-ward-only="">
+        <h2 id="yourward">Your ward</h2>
+        <p>Choose your ward to see who represents you and what is listed there. We will remember it on this phone or computer.</p>
+        <label class="ward-pill"><span>Your ward</span>
+          <select data-ward-pick aria-label="Your ward">
+            <option value="">Choose…</option>
+            {subCounties.map((s) => (<optgroup label={s}>{wards.filter((w) => w.subCounty === s).map((w) => <option value={w.slug}>{w.name}</option>)}</optgroup>))}
+          </select>
+        </label>
+      </div>
+      {wardCards.map(({ w, mca, roads: r, contracts: c, health, schools }) => (
+        <div class="stack" data-ward-only={w.slug} hidden>
+          <span class="eyebrow">Your ward · {w.subCounty}</span>
+          <h2>{w.name}</h2>
+          <p>Your Member of the County Assembly is <a href={`/administration/#ward-${w.slug}`}><strong>{mca ? mca.name : 'not confirmed'}</strong></a>{mca?.party ? ` (${mca.party})` : ''}.</p>
+          <ul class="ward-facts">
+            <li><b>{health}</b> health {health === 1 ? 'facility' : 'facilities'}</li>
+            <li><b>{schools}</b> {schools === 1 ? 'school' : 'schools'}</li>
+            <li><b>{r}</b> {r === 1 ? 'road' : 'roads'} in the records</li>
+            <li><b>{c}</b> {c === 1 ? 'contract' : 'contracts'}</li>
+          </ul>
+          <div class="chips"><a class="btn" href={`/ward/${w.slug}/`}>Open {w.name} ward</a><a class="btn quiet" href="/report/">Report a place</a></div>
+          <p class="small muted">Sources: the IEBC 2022 results and later by-elections; the Nyamira Daily place list; county and national records (see the ward page).</p>
+        </div>
+      ))}
+    </section>
+
     <section class="front" aria-label="The site at a glance">
       <a class="front-door" href="/map/">
         <span class="eyebrow">Map</span>
         <span class="num">{checked} <small>of {facilities.length}</small></span>
         <span class="say">public places checked on site so far. The rest are listed from official records, not yet visited.</span>
         <EvidenceLabel kind={checked ? 'verified' : 'unverified'} />
-        <b class="go">Open the map →</b>
+        <b class="more">Open the map →</b>
       </a>
       <a class="front-door" href="/money/">
         <span class="eyebrow">Money · {fy}</span>
         <span class="num">{bn(last.spent)}</span>
         <span class="say">spent by the county out of a {bn(last.budget)} budget ({pct(last.spent, last.budget)}%).</span>
         <EvidenceLabel kind="official" />
-        <b class="go">Follow the money →</b>
+        <b class="more">Follow the money →</b>
       </a>
       <a class="front-door" href="/money/contracts/">
         <span class="eyebrow">Contracts · {fy}</span>
         <span class="num">{fyContracts.toLocaleString('en-GB')}</span>
         <span class="say">county and national contracts and allocations dated {fy} in our tracker.</span>
         <EvidenceLabel kind="official" />
-        <b class="go">See who got paid →</b>
+        <b class="more">See who got paid →</b>
       </a>
     </section>
     <p class="small muted">Sources: the Nyamira Daily place list and visits; the Controller of Budget and the county's own reports, FY{fy}; the national procurement portal and other official records (see each page).</p>
 
+    <div class="home-two">
+      <section class="card stack" aria-labelledby="nextdate">
+        <span class="eyebrow">The budget calendar</span>
+        <h2 id="nextdate">The next date to watch</h2>
+        <ol class="next-steps" data-next-steps>
+          {steps.map((s) => <li data-m={s.m} data-d={s.d}><span class="t">{s.what}</span><span class="d">{s.when}. {s.note}</span><span class="days" data-days hidden></span></li>)}
+        </ol>
+        <p class="small muted">These dates are set by the Public Finance Management Act, 2012. Each step is a chance for residents to have a say.</p>
+        <a class="more" href={`/money/${fy.replace('/', '-')}/#key-dates`}>The full calendar →</a>
+      </section>
+
+      <section class="card stack" aria-labelledby="hundred">
+        <span class="eyebrow">Budget {sectors.fy}</span>
+        <h2 id="hundred">Where every KSh 100 goes</h2>
+        <ul class="hundred">
+          {split.map((r) => <li><span class="h-name">{r.name}</span><span class="h-bar" aria-hidden="true"><i style={`width:${(r.share * 100) / split[0].share}%`}></i></span><b>KSh {r.share}</b></li>)}
+        </ul>
+        <p class="small muted">Of every KSh 100, about KSh {Math.round(sectors.wageBill.sharePct)} pays wages. Departments are grouped by us; figures are the county's budget estimates, not money spent.</p>
+        <p class="source"><EvidenceLabel kind="official" /> <a href={sectors.source.url} rel="noopener">{sectors.source.title}</a></p>
+        <a class="more" href={`/money/${fy.replace('/', '-')}/`}>Open the budget →</a>
+      </section>
+    </div>
+
     {latest.length > 0 && (
       <section class="stack" aria-labelledby="latest">
-        <div class="row-head"><h2 id="latest">Latest</h2><a href="/watch/">Everything on Watch →</a></div>
+        <div class="row-head"><h2 id="latest">Latest</h2><a href="/watch/">All stories →</a></div>
         <ul class="latest">
           {latest.map((x) => (
             <li><a href={x.href}><span class="eyebrow">{x.kind}</span><span class="t">{x.title}</span>{x.note && <span class="d">{x.note}</span>}<span class="d">{date(x.when.toISOString())}</span></a></li>
@@ -95,6 +164,25 @@ const videos = allVideos.slice(0, 3);
       </section>
     )}
 
+    <section class="home-help panel stack" aria-labelledby="help">
+      <h2 id="help">Help us check</h2>
+      <p>Most of what we list comes from official records. Only a visit shows what is really there. If you live near one of these, tell us what you see.</p>
+      <ul class="ward-facts">
+        <li><b>{unchecked}</b> of {facilities.length} public places not yet checked on site</li>
+        <li><b>{roadsToVisit}</b> of {roads.length} roads with a question that needs a visit</li>
+      </ul>
+      <div class="chips"><a class="btn" href="/report/">Report a place</a><a class="btn quiet" href="/map/#roads">See the roads</a><a class="btn quiet" href="/about/careers/">Become a ward correspondent</a></div>
+    </section>
+
+    <section class="stack" aria-labelledby="start">
+      <h2 id="start">New here? Start with these</h2>
+      <ul class="rows">
+        <li><a class="row-link" href="/administration/duties/"><span><span class="t">How the county is governed</span><span class="d">What the county must do, and what belongs to the national government.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link" href="/explainers/development-budget/"><span><span class="t">How to read the budget</span><span class="d">What "development budget used" means, and why it matters.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a class="row-link" href="/about/rules/#evidence"><span><span class="t">What our labels mean</span><span class="d">Verified, Official claim, Audit finding: how to tell what we checked ourselves.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+
     <section class="stack">
       <div class="row-head"><span></span><button class="sw-switch" type="button" data-sw-switch aria-pressed="false" hidden>Soma kwa Kiswahili</button></div>
       <div class="sw" lang="sw">
@@ -103,4 +191,22 @@ const videos = allVideos.slice(0, 3);
       </div>
     </section>
   </div>
+  <script is:inline>
+    // The next budget date: find the first deadline on or after today and say how many days are left.
+    (function () {
+      var list = document.querySelector('[data-next-steps]'); if (!list) return;
+      var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), best = null;
+      [].forEach.call(list.children, function (li) {
+        var m = +li.getAttribute('data-m'), d = +li.getAttribute('data-d'), y = today.getFullYear();
+        var when = new Date(y, m - 1, d); if (when < today) when = new Date(y + 1, m - 1, d);
+        var days = Math.round((when - today) / 864e5);
+        if (!best || days < best.days) best = { li: li, days: days };
+      });
+      if (!best) return;
+      [].forEach.call(list.children, function (li) { li.hidden = li !== best.li; });
+      var tag = best.li.querySelector('[data-days]');
+      tag.textContent = best.days === 0 ? 'Today' : best.days === 1 ? 'Tomorrow' : 'In ' + best.days + ' days';
+      tag.hidden = false; list.classList.add('one');
+    })();
+  </script>
 </Base>

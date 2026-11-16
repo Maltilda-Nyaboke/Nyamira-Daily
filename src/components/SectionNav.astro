@@ -3,8 +3,8 @@
 // - The switcher: a "Money ▾" button at the top of the page that opens the section's pages in their groups.
 //   On phones it rises from the bottom of the screen; on wide screens it drops down. It is a <details>, so it
 //   works without JavaScript; the script in Base.astro closes it on Escape or a click outside.
-// - The side list (variant "rail"): the same groups in a slim column beside the content on wide screens, for
-//   sections that allow it (`rail` in src/nav.js). Where the rail shows, the switcher hides.
+// - The side list (variant "rail"): the same groups in a slim column beside the content from 960px, on every
+//   section page (decision #128). Where the side list shows, the switcher hides.
 import { sectionFor, stateFor, groupsOf } from '../nav.js';
 import { planned } from '../config.js';
 interface Props { path: string; variant?: 'switch' | 'rail' }
