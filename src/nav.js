@@ -70,7 +70,6 @@ export const sections = [
     { href: '/about/contact/', label: 'Contact us', group: 'Work with us', icon: 'question', desc: 'Messages, tips, concerns and corrections' },
     { href: '/about/careers/', label: 'Careers and volunteering', group: 'Work with us', icon: 'people', desc: 'Ward correspondents and culture volunteers' },
     { href: '/about/partners/', label: 'Partner with us', group: 'Work with us', icon: 'data', desc: 'Data, research and sponsorship', also: ['/about/data/'] },
-    { href: '/about/publisher/', label: 'Publisher', group: 'Legal', icon: 'source', desc: 'Who publishes Nyamira Daily' },
     { href: '/terms/', label: 'Terms and reuse', group: 'Legal', icon: 'source', desc: 'Our data licence and its limits' },
     { href: '/privacy/', label: 'Privacy', group: 'Legal', icon: 'check', desc: 'What we keep, and what we never do' },
     { href: '/how-we-work/#corrections', label: 'Corrections', group: 'Legal', icon: 'question', desc: 'What we corrected, and how to tell us', also: ['/how-we-work/'] },

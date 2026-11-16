@@ -21,7 +21,7 @@ export async function GET() {
     ['Contracts', '/money/contracts/', 'tenders contractors project tracker'], ['The Nyamira economy', '/money/economy/', 'economy tea bonus ng-cdf national contracts market prices income'],
     ['Watch', '/watch/', 'videos explainers'], ['Explainers', '/explainers/'], ['Number of the week', '/number-of-the-week/'],
     ['Administration: who holds each seat', '/administration/', 'governor deputy speaker mca senator mp woman representative'], ['What the county must do', '/administration/duties/', 'fourth schedule functions constitution devolution responsible'],
-    ['About', '/about/'], ['Publisher', '/about/publisher/', 'who runs us'], ['Contact us', '/about/contact/', 'tips concerns'], ['Careers and volunteering', '/about/careers/', 'jobs correspondents'], ['Partner with us', '/about/partners/', 'data licence research sponsorship'], ['About Nyamira County', '/about/nyamira/', 'population facts'], ['Community', '/community/', 'Abagusii Gusii culture Ekegusii language archive'], ['How we work', '/how-we-work/', 'evidence labels corrections'],
+    ['About', '/about/'], ['Contact us', '/about/contact/', 'tips concerns'], ['Careers and volunteering', '/about/careers/', 'jobs correspondents'], ['Partner with us', '/about/partners/', 'data licence research sponsorship'], ['About Nyamira County', '/about/nyamira/', 'population facts'], ['Community', '/community/', 'Abagusii Gusii culture Ekegusii language archive'], ['How we work', '/how-we-work/', 'evidence labels corrections'],
     ['Right of reply', '/right-of-reply/'], ['Glossary', '/about/glossary/'], ['Terms and reuse', '/terms/'], ['Privacy', '/privacy/'],
   ];
   for (const [t, u, k] of pages) if (!planned.has(u)) add(t, u, k);

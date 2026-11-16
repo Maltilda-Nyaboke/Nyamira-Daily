@@ -12,7 +12,8 @@ const hasRetention = Number.isSafeInteger(retention) && retention >= 1 && retent
   <PageHead eyebrow="About" title="Privacy" lead="Reading this site does not need an account, and we do not track you. Here is the little we do keep." crumbs={[{ href: '/about/', label: 'About' }, { href: '/privacy/', label: 'Privacy' }]} />
   <div class="stack" style="margin-top:16px; max-width:720px">
     <h2>Who is responsible</h2>
-    <p>{publisher.legalName} publishes {county.siteName} and is responsible for the personal data described here, under Kenya's Data Protection Act, 2019.</p>
+    <p>{county.siteName} is responsible for the personal data described here, under Kenya's Data Protection Act, 2019.</p>
+    {/* Before any form that collects personal data is switched on, name the legal entity (the data controller) here: decision #125. */}
 
     <h2>Just reading the site</h2>
     <ul>

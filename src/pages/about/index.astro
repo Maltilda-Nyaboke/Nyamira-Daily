@@ -7,7 +7,7 @@ import { county, publisher } from '../../county.js';
 const about = sections.find((s) => s.href === '/about/');
 ---
 <Base title="About" description={`About ${county.countyName}, how to reach and work with ${county.siteName}, and our legal pages.`}>
-  <PageHead title="About" lead={`${county.siteName} is a non-partisan public information service about ${county.countyName}, published by ${publisher.legalName}. Every figure has a source.`} />
+  <PageHead title="About" lead={`${county.siteName} is a non-partisan public information service about ${county.countyName}, and every figure has a source.`} />
   <div class="stack-lg" style="margin-top:16px">
     {groupsOf(about).map((g) => (
       <section class="stack">
@@ -19,7 +19,7 @@ const about = sections.find((s) => s.href === '/about/');
     ))}
     <div class="sw" lang="sw">
       <span class="eyebrow">Muhtasari kwa Kiswahili</span>
-      <p>Nyamira Daily ni huduma ya habari isiyoegemea upande wowote wa kisiasa kuhusu kaunti ya Nyamira. Inachapishwa na {publisher.legalName}. Kila takwimu ina chanzo, na tunasahihisha makosa waziwazi.</p>
+      <p>Nyamira Daily ni huduma ya habari isiyoegemea upande wowote wa kisiasa kuhusu kaunti ya Nyamira. Kila takwimu ina chanzo, na tunasahihisha makosa waziwazi.</p>
     </div>
   </div>
 </Base>

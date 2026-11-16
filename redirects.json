@@ -2863,5 +2863,6 @@
   "/tracker/ng-cdf/north-mugirango/": "/money/contracts/?group=ng-cdf",
   "/tracker/ng-cdf/west-mugirango/": "/money/contracts/?group=ng-cdf",
   "/tracker/roads/": "/money/contracts/?group=roads",
-  "/who-runs-us/": "/about/publisher/"
+  "/who-runs-us/": "/about/",
+  "/about/publisher/": "/about/"
 }
