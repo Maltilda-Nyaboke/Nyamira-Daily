@@ -46,6 +46,8 @@ A repeating pattern built from data marks (bars, dots, ticks, grid) set to the r
 "Nyamira Daily" in a geometric sans (Jost or Futura), sentence or title case, set calmly beside the symbol. No blocks, no all-caps slab.
 
 ## Palette
+**Since 16 Nov 2026 (DECISIONS #110, #111): Signal Green #1FD07A and charcoal #2A2A28 are the only colours on the website**, with charcoal steps, a deep green #1C5E3C, a green tint, paper and white. Record Red, the Highlands palette and dark mode are no longer used on the site. The list below is kept as the record of brand kit v1; the kit itself still needs updating to match (see #111).
+
 - **Primary:** Signal Green #1FD07A (alternative: Emerald #00A86B).
 - **Neutrals:** near-black ink and warm off-white paper.
 - **Optional accent:** a muted terracotta (red earth). Test it, and use it sparingly.

@@ -14,6 +14,14 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R1, the look, built** on branch `feat/refocus-r1-look` (stacked on `plan/refocus`), not pushed. Decision #111, for the owner to review.
+  - One palette block in `src/styles/global.css`: Signal Green and charcoal. The stylesheet went from 146 colour values to the palette block alone; no colour is written anywhere else in `src/`.
+  - Removed: dark mode (73 rules, the toggle in the header and menu, the script in `Base.astro`), Record Red, the Highlands palette, section tones and rotating card colours.
+  - New rules for gaps (hatched charcoal) and evidence labels (word and shape). Charts, the county map views, illustrations, the printable ward sheet and its QR code follow the palette.
+  - Checked by eye at 390 and 1280 on the home page, Money, spending to date, a ward, the county map, the Data hub and Health: no sideways scroll, no script errors.
+  - Not done: the logo (needs a new lockup from the brand kit); `apps/national` keeps its own tokens until it moves out (R7). The `.sec-*` classes and `tone` values on pages are inert and go in R2.
+  - Next: R2, structure (the five-item menu, cut pages, redirects).
+
 ## Changes on 4 Nov 2026
 
 - **County budget on the national model (decision #105).** The owner approved `docs/county-budget/SITEMAP.md`: Nyamira's money figures move into a registry in `data/county/nyamira/`, then the money section grows into year, department, programme, revenue, track and history pages under `/data/money/`, in Nyamira's own look. Next: phase C1, data, on `feat/county-phase-1-data`.

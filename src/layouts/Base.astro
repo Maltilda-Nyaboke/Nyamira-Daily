@@ -39,33 +39,8 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
   <link rel="preload" href="/brand/fonts/VarelaRound-Latin.woff2" as="font" type="font/woff2" crossorigin />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <link rel="preload" href="/brand/fonts/LeagueSpartan-Medium.woff2" as="font" type="font/woff2" crossorigin />
-  <meta name="theme-color" content="#111111" /><!-- Ink; meta tags can't read CSS tokens -->
-  <script is:inline>
-  // Light or dark, set before the page draws: the reader's choice from the header toggle (saved in this
-  // browser), otherwise the phone's setting. Choosing the same as the phone clears the saved choice.
-  (function () {
-    var KEY = 'nd-theme', root = document.documentElement;
-    root.classList.add('js'); // JavaScript is running: show the section menus and the theme toggle
-    var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-    function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
-    function phone() { return media && media.matches ? 'dark' : 'light'; }
-    function show(theme) {
-      root.setAttribute('data-theme', theme);
-      var buttons = document.querySelectorAll('[data-theme-toggle]');
-      for (var i = 0; i < buttons.length; i++) buttons[i].setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-    }
-    function apply() { show(saved() || phone()); }
-    apply();
-    document.addEventListener('DOMContentLoaded', apply);
-    if (media && media.addEventListener) media.addEventListener('change', apply);
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest || !e.target.closest('[data-theme-toggle]')) return;
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      try { if (next === phone()) localStorage.removeItem(KEY); else localStorage.setItem(KEY, next); } catch (err) {}
-      show(next);
-    });
-  })();
-  </script>
+  <meta name="theme-color" content="#1E1E1C" /><!-- deep charcoal (--ch-900); meta tags can't read CSS tokens -->
+  <script is:inline>document.documentElement.classList.add('js'); // JavaScript is running: show the section menus</script>
   <link rel="icon" href="/brand/Nyamira-Daily_favicon.ico" sizes="32x32" />
   <link rel="icon" href="/brand/Nyamira-Daily_icon-square_on-black.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/brand/Nyamira-Daily_icon-square_on-black-180px.png" />

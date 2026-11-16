@@ -17,7 +17,7 @@ const allBudgetLines = lines2526(slug);
 const lines = allBudgetLines.filter((p) => amountStatus(p.amount) !== 'unavailable').sort((a, b) => b.amount - a.amount);
 const unavailableLines = allBudgetLines.filter((p) => amountStatus(p.amount) === 'unavailable').length;
 const shown = lines.slice(0, 8);
-const qr = await QRCode.toString(r.url, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#111111', light: '#ffffff' } });
+const qr = await QRCode.toString(r.url, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#2A2A28', light: '#ffffff' } });
 const qs = r.questions.slice(0, 3);
 ---
 <Sheet title={`${r.name} Ward sheet`} kind="sheet">
