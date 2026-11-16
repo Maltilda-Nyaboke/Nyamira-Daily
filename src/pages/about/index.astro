@@ -1,17 +1,24 @@
 ---
-// About (decisions #122, #126): one short page. What the site is in two sentences, then where to go.
+// About Nyamira Daily (decisions #122, #126): everything about us on one short page. Nyamira County has its own
+// pages (the Nyamira County group in src/nav.js).
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import { sections } from '../../nav.js';
 import { county } from '../../county.js';
-const about = sections.find((s) => s.href === '/about/');
+const row = (href, t, d) => ({ href, t, d });
+const us = [
+  row('/about/contact/', 'Contact us', 'Send a message, a tip, a concern or a correction.'),
+  row('/about/careers/', 'Careers and volunteering', 'Become a ward correspondent or a culture volunteer.'),
+  row('/about/partners/', 'Partner with us', 'Data, research and sponsorship for organisations.'),
+];
 ---
-<Base title="About" description={`About ${county.siteName} and ${county.countyName}, and how to reach us.`}>
-  <PageHead title="About" lead={`${county.siteName} helps you check the facts about ${county.countyName} for yourself. It is non-partisan, and every figure has a source.`} />
+<Base title="About Nyamira Daily" description={`What ${county.siteName} is and how to reach us.`}>
+  <PageHead title="About Nyamira Daily" lead={`${county.siteName} helps you check the facts about ${county.countyName} for yourself: what is in your ward, what condition it is in, and where the county's money goes.`} />
   <div class="stack" style="margin-top:16px; max-width:760px">
+    <p>We are non-partisan. We are not part of the {county.government} or any political party. Every figure on this site has a source and a label that says how well it has been checked, and we correct mistakes openly.</p>
     <ul class="rows">
-      {about.pages.map((p) => <li><a class="row-link" href={p.href}><span><span class="t">{p.label}</span><span class="d">{p.desc}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
+      {us.map((p) => <li><a class="row-link" href={p.href}><span><span class="t">{p.t}</span><span class="d">{p.d}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
     </ul>
-    <p class="small muted">Also: <a href="/how-we-work/#corrections">corrections</a> · <a href="/right-of-reply/">right of reply</a> · <a href="/how-we-work/#evidence">what our labels mean</a></p>
+    <p>Looking for the county itself? See <a href="/about/nyamira/">About Nyamira County</a>.</p>
+    <p class="small muted">Also: <a href="/how-we-work/#corrections">corrections</a> · <a href="/right-of-reply/">right of reply</a> · <a href="/how-we-work/#evidence">what our labels mean</a> · <a href="/terms/">terms</a> · <a href="/privacy/">privacy</a></p>
   </div>
 </Base>
