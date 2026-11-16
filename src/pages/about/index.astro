@@ -1,25 +1,17 @@
 ---
-// About (decision #122): a short hub. The county, how to work with us, and the legal pages.
+// About (decisions #122, #126): one short page. What the site is in two sentences, then where to go.
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import { sections, groupsOf } from '../../nav.js';
-import { county, publisher } from '../../county.js';
+import { sections } from '../../nav.js';
+import { county } from '../../county.js';
 const about = sections.find((s) => s.href === '/about/');
 ---
-<Base title="About" description={`About ${county.countyName}, how to reach and work with ${county.siteName}, and our legal pages.`}>
-  <PageHead title="About" lead={`${county.siteName} is a non-partisan public information service about ${county.countyName}, and every figure has a source.`} />
-  <div class="stack-lg" style="margin-top:16px">
-    {groupsOf(about).map((g) => (
-      <section class="stack">
-        <h2>{g.label}</h2>
-        <ul class="rows">
-          {g.pages.map((p) => <li><a class="row-link" href={p.href}><span><span class="t">{p.label}</span><span class="d">{p.desc}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
-        </ul>
-      </section>
-    ))}
-    <div class="sw" lang="sw">
-      <span class="eyebrow">Muhtasari kwa Kiswahili</span>
-      <p>Nyamira Daily ni huduma ya habari isiyoegemea upande wowote wa kisiasa kuhusu kaunti ya Nyamira. Kila takwimu ina chanzo, na tunasahihisha makosa waziwazi.</p>
-    </div>
+<Base title="About" description={`About ${county.siteName} and ${county.countyName}, and how to reach us.`}>
+  <PageHead title="About" lead={`${county.siteName} helps you check the facts about ${county.countyName} for yourself. It is non-partisan, and every figure has a source.`} />
+  <div class="stack" style="margin-top:16px; max-width:760px">
+    <ul class="rows">
+      {about.pages.map((p) => <li><a class="row-link" href={p.href}><span><span class="t">{p.label}</span><span class="d">{p.desc}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
+    </ul>
+    <p class="small muted">Also: <a href="/how-we-work/#corrections">corrections</a> · <a href="/right-of-reply/">right of reply</a> · <a href="/how-we-work/#evidence">what our labels mean</a></p>
   </div>
 </Base>

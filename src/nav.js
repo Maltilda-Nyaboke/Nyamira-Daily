@@ -61,19 +61,14 @@ export const sections = [
     { href: '/explainers/', label: 'Explainers', icon: 'stories', group: 'Also on Watch', desc: 'Short guides to big topics' },
     { href: '/number-of-the-week/', label: 'Number of the week', icon: 'chart', group: 'Also on Watch', desc: 'One figure, explained' },
   ] },
-  { href: '/about/', label: 'About', icon: 'source', overview: 'About', groups: ['Nyamira County', 'Work with us', 'Legal'],
-    desc: 'Nyamira County, how to reach us and work with us, and our legal pages.', pages: [
-    { href: '/about/nyamira/', label: 'About Nyamira County', group: 'Nyamira County', icon: 'map', desc: 'Facts, figures and places to know' },
-    { href: '/administration/duties/', label: 'How it is governed', group: 'Nyamira County', icon: 'government', desc: 'What the county must do, and how' },
-    { href: '/administration/', label: 'Who holds each seat', group: 'Nyamira County', icon: 'people', desc: 'Each county seat and its holder, with sources' },
-    { href: '/about/glossary/', label: 'Glossary', group: 'Nyamira County', icon: 'learn', desc: 'Terms explained' },
-    { href: '/about/contact/', label: 'Contact us', group: 'Work with us', icon: 'question', desc: 'Messages, tips, concerns and corrections' },
-    { href: '/about/careers/', label: 'Careers and volunteering', group: 'Work with us', icon: 'people', desc: 'Ward correspondents and culture volunteers' },
-    { href: '/about/partners/', label: 'Partner with us', group: 'Work with us', icon: 'data', desc: 'Data, research and sponsorship', also: ['/about/data/'] },
+  { href: '/about/', label: 'About', icon: 'source', overview: 'About', groups: ['About', 'Legal'],
+    desc: 'Nyamira County, how to reach us and work with us.', pages: [
+    { href: '/about/nyamira/', label: 'About Nyamira County', group: 'About', icon: 'map', desc: 'Facts, figures, places and how it is governed', also: ['/administration/', '/about/glossary/'] },
+    { href: '/about/contact/', label: 'Contact us', group: 'About', icon: 'question', desc: 'Messages, tips, concerns and corrections', also: ['/right-of-reply/', '/how-we-work/'] },
+    { href: '/about/careers/', label: 'Careers and volunteering', group: 'About', icon: 'people', desc: 'Ward correspondents and culture volunteers' },
+    { href: '/about/partners/', label: 'Partner with us', group: 'About', icon: 'data', desc: 'Data, research and sponsorship', also: ['/about/data/'] },
     { href: '/terms/', label: 'Terms and reuse', group: 'Legal', icon: 'source', desc: 'Our data licence and its limits' },
     { href: '/privacy/', label: 'Privacy', group: 'Legal', icon: 'check', desc: 'What we keep, and what we never do' },
-    { href: '/how-we-work/#corrections', label: 'Corrections', group: 'Legal', icon: 'question', desc: 'What we corrected, and how to tell us', also: ['/how-we-work/'] },
-    { href: '/right-of-reply/', label: 'Right of reply', group: 'Legal', icon: 'question', desc: 'How anyone named can respond' },
   ] },
 ];
 
