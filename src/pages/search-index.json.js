@@ -41,7 +41,7 @@ export async function GET() {
     add(`${w.name} Ward`, `/ward/${w.slug}/`, `${w.subCounty} ${w.places.map((p) => p.name).join(' ')}`, 'Ward');
     for (const f of w.facilities) add(f.name, `/place/${f.id.toLowerCase()}/`, `${f.id} ${f.category} ${f.subtype} ${w.name} ${w.subCounty}`, `Facility · ${f.category}`);
   }
-  add('Roads', '/road/', 'roads bridges culverts road works money questions to ask', 'Map');
+  add('Roads', '/road/', 'roads bridges culverts road works money questions to ask', 'Places');
   for (const r of roads) {
     const where = r.wards.map(wardName).join(', ');
     add(r.name, roadPath(r.id), `${r.id} road ${subtypeLabel[r.subtype]} ${where}`, where ? `Road · ${where}` : 'Road');

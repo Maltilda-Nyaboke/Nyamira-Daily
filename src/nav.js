@@ -29,15 +29,15 @@ const topic = (slug) => topics.find((t) => t.slug === slug);
 // `rail: false` keeps a section's pages full width (the switcher only): the Map pages need the whole width.
 // Map pages live under /map/ and /ward/, money pages under /money/ (phase R2b).
 export const sections = [
-  { href: '/map/', label: 'Map', icon: 'map', overview: 'The county map', rail: false, groups: ['Places', 'Help us'],
+  { href: '/map/', label: 'Places', icon: 'map', overview: 'The county map', rail: false, groups: ['Find a place', 'Help us'],
     desc: 'Every ward and every place we list: what is there, and what condition it is in.', pages: [
-    { href: '/ward/', label: 'Wards', icon: 'ward', group: 'Places', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
+    { href: '/ward/', label: 'Wards', icon: 'ward', group: 'Find a place', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
       href: `/ward/#${anchorFor(s)}`, label: s,
       pages: wards.filter((w) => w.subCounty === s).map((w) => ({ href: `/ward/${w.slug}/`, label: w.name })),
     })) },
-    { href: '/road/', label: 'Roads', icon: 'road', group: 'Places', desc: 'Road money and questions to ask' },
-    { href: '/map/health/', label: topic('health').title, icon: 'health', group: 'Places', desc: 'Clinics, mothers and children' },
-    { href: '/map/education/', label: topic('education').title, icon: 'education', group: 'Places', desc: 'Schools and learners' },
+    { href: '/road/', label: 'Roads', icon: 'road', group: 'Find a place', desc: 'Road money and questions to ask' },
+    { href: '/map/health/', label: topic('health').title, icon: 'health', group: 'Find a place', desc: 'Clinics, mothers and children' },
+    { href: '/map/education/', label: topic('education').title, icon: 'education', group: 'Find a place', desc: 'Schools and learners' },
     { href: '/report/', label: 'Report a place', icon: 'check', group: 'Help us', desc: 'Tell us what you saw' },
   ] },
   { href: '/money/', label: 'Money', icon: 'money', overview: "Nyamira's money", groups: ['This year', 'Over time', 'Follow it'],

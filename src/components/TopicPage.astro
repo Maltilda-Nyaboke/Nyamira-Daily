@@ -20,7 +20,7 @@ import wards from '../data/wards.js';
 
 // One topic page (Money, Farming, Health, Education, Open data), rendered by its route file (decision #110).
 const t = topics.find((x) => x.slug === Astro.props.slug);
-const hub = ['health', 'education'].includes(t.slug) ? { href: '/map/', label: 'Map' } : t.slug === 'open-data' ? { href: '/about/', label: 'About' } : { href: '/money/', label: 'Money' };
+const hub = ['health', 'education'].includes(t.slug) ? { href: '/map/', label: 'Places' } : t.slug === 'open-data' ? { href: '/about/', label: 'About' } : { href: '/money/', label: 'Money' };
 const healthCount = wards.reduce((n, w) => n + (w.counts.Health ?? 0), 0);
 ---
 <Base title={t.title}>

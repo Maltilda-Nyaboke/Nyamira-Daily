@@ -9,7 +9,7 @@ import { sectionFor } from '../nav.js';
 const { eyebrow, title, lead, crumbs = [] } = Astro.props;
 const section = sectionFor(Astro.url.pathname);
 const norm = (t?: string) => (t ?? '').trim().toLowerCase();
-// An eyebrow that only repeats the section ("Money", "Map") adds nothing beside the switcher
+// An eyebrow that only repeats the section ("Money", "Places") adds nothing beside the switcher
 const detail = eyebrow && norm(eyebrow) !== norm(section?.label) && norm(eyebrow) !== norm(title) ? eyebrow : null;
 const showCrumbs = crumbs.length >= 3;
 ---

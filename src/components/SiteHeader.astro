@@ -25,6 +25,7 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
 
     <nav class="desk-nav" aria-label="Main sections">
       <ul>
+        <li><a class="desk-link" href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a></li>
         {sections.map((s) => (
           <li><a class="desk-link" href={s.href} aria-current={state(s)}>{s.label}</a></li>
         ))}
@@ -49,6 +50,7 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
               <label class="vh" for="sheet-q">Search Nyamira Daily</label>
               <input id="sheet-q" name="q" type="search" autocomplete="off" placeholder="Search wards, schools, budgets…" />
             </form>
+            <a class="sheet-home" href="/" aria-current={path === '/' ? 'page' : undefined}><span class="ss-title">Home</span></a>
             {sections.map((s) => (
               <details class="menu sheet-sec" open={state(s) ? true : undefined}>
                 <summary aria-current={state(s)}>
