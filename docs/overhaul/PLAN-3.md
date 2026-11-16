@@ -88,3 +88,7 @@ The visit questionnaire (one per facility type; to be drafted and reviewed with 
 - **Health scope:** essential drugs in stock on the day; staff present against staff posted; residents' reports of informal payments (always shown as reports, never as proven); maternity and emergency cover.
 - **Residents' views:** collected at visits first ("What residents told us", with how many were asked and when); open online ratings on place pages later, moderated.
 - Rules that follow from the law and our own: never record patients' or pupils' personal details; opinions are labelled as views, not facts; a named person or business gets a right of reply before a serious claim is published.
+
+## Language goal (owner, 16 Nov 2026)
+
+Once the Ekegusii dataset exists, Nyamira Daily should be fully readable in Ekegusii: a language switch for the whole site, not only summaries. Ekegusii is the site's second language (not Kiswahili). Steps: (1) move every piece of interface text into one strings file per language, so a second language can be switched on without touching pages; (2) Ekegusii speakers translate and review the strings and the key pages; (3) machine translation of longer pages only after the dataset and a reviewed model exist, always marked and checked by a speaker. Before claiming "the first", check what else exists in Ekegusii online.
