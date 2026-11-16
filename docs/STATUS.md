@@ -14,6 +14,10 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R2a, structure, built** on branch `feat/refocus-r2-structure` (stacked on R1), not pushed. Decision #112.
+  - Five-item menu; 68 page files removed; 101 old addresses redirect (`redirects.json`); new `/administration/` and `/watch/`.
+  - Checked: the build (2,825 pages), `npm test` (334 pass), `npm run check:county:pages`, every old URL from before R2 resolves or redirects, no internal link points at a removed page, all 986 search entries point at live pages.
+  - Next, R2b: move the map and money pages to `/map/` and `/money/` (with redirects), merge About, rebuild the home page compactly, delete components and data only removed pages used, remove the Administration dropdown arrow (it has no sub-pages), and update PROJECT_BRIEF, README and DATA.
 - **Phase R1, the look, built** on branch `feat/refocus-r1-look` (stacked on `plan/refocus`), not pushed. Decision #111, for the owner to review.
   - One palette block in `src/styles/global.css`: Signal Green and charcoal. The stylesheet went from 146 colour values to the palette block alone; no colour is written anywhere else in `src/`.
   - Removed: dark mode (73 rules, the toggle in the header and menu, the script in `Base.astro`), Record Red, the Highlands palette, section tones and rotating card colours.

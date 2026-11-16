@@ -46,7 +46,7 @@ const rows = [
       <dl class="dl-rows">
         {rows.filter(([, v]) => v).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
         {wardList.length > 0 && <div><dt>Ward</dt><dd>{wardList.map((w, i) => <>{i > 0 && ', '}<a href={`/ward/${w.slug}/`}>{w.name}</a></>)}</dd></div>}
-        {c.constituency && <div><dt>Constituency</dt><dd><a href={`/constituency/${c.constituency}/`}>{constituencyName[c.constituency]}</a></dd></div>}
+        {c.constituency && <div><dt>Constituency</dt><dd>{constituencyName[c.constituency]}</dd></div>}
       </dl>
       <p class="source"><EvidenceLabel kind="official" /> Source: {src.url ? <a href={src.url} rel="noopener">{src.title}</a> : src.title}{src.publisher && `, ${src.publisher}`}{c.page && `. ${c.page}`}</p>
     </section>

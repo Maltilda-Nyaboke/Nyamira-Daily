@@ -28,4 +28,4 @@ A low share does not on its own prove that money was lost. Money from the nation
 - When will they be paid for?
 - Will the money be budgeted again next year?
 
-Ask at your ward's budget forum, or write to the county. The [Ask Nyamira](/ask/) page shows how.
+Ask at your ward's budget forum, or write to the county. The [budget calendar](/learn/budget-calendar/) shows when each step happens.

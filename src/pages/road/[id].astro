@@ -67,7 +67,6 @@ const fromAudit = road.projectIds.length === 0;
           </li>
         ))}
       </ul>
-      <p class="small"><a href="/ask/">Ask the county formally with an information request</a></p>
     </section>
 
     <section class="card stack" aria-labelledby="road-responsible">
@@ -77,7 +76,7 @@ const fromAudit = road.projectIds.length === 0;
       ) : (
         <p>The works were paid for by <strong>Nyamira County Government</strong>, {detail.departments.map((d, i) => <>{i > 0 && '; '}department of {d}</>)}, as named in the county's documents.</p>
       )}
-      <p>Each county department is led by a County Executive Committee Member. See <a href="/government/executive/">The Executive</a>; the office holder for roads is not yet listed on our Leaders page.</p>
+      <p>Each county department is led by a County Executive Committee Member. The office holder for roads is not yet listed on our <a href="/administration/">Administration</a> page.</p>
       {detail.contractors.length > 0 && <p>Contractor{detail.contractors.length === 1 ? '' : 's'} named in the county's documents: {detail.contractors.join('; ')}.</p>}
       <p class="muted small">Road class and road authority: <strong>not yet confirmed</strong>. The documents name who paid for the works, not who the road belongs to: the county, or a national body (Kenya Rural Roads Authority, Kenya Urban Roads Authority or Kenya National Highways Authority).</p>
     </section>

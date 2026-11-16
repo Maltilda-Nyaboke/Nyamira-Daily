@@ -58,7 +58,7 @@ const title = first.name.length > 110 ? first.name.slice(0, 108) + '…' : first
     <section class="stack">
       <h2>Photo log</h2>
       {logs.length === 0 ? (
-        <p class="muted">No photos yet. {adoptSignupUrl ? <a href="/adopt/">Adopt this project</a> : 'Volunteers will be able to adopt projects soon'} and send a photo each month.</p>
+        <p class="muted">No photos yet. Seen it? <a href="/report/">Report what you saw</a>.</p>
       ) : (
         <ol class="timeline">{logs.map((e) => (
           <li><span class="tl-date">{date(e.data.date.toISOString())}</span>

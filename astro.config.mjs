@@ -1,6 +1,18 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 import { resolveSite } from './scripts/site-config.js';
+import refocusRedirects from './redirects.json' with { type: 'json' };
+
+// Pages removed by the refocus (decision #110, phase R2) redirect to their closest page (redirects.json).
+// Older redirects that pointed at a removed page follow it to the same place, so there are no chains.
+function withRefocus(old) {
+  const out = {};
+  for (const [from, to] of Object.entries(old)) {
+    const [path, hash] = to.split('#');
+    out[from] = refocusRedirects[path] ? refocusRedirects[path] + (hash && !refocusRedirects[path].includes('#') ? '#' + hash : '') : to;
+  }
+  return { ...out, ...refocusRedirects };
+}
 
 const isBuild = process.argv.includes('build');
 const site = resolveSite({ build: isBuild });
@@ -16,7 +28,7 @@ export default defineConfig({
   compressHTML: true,
   build: { format: 'directory' },
   // Old data pages now live inside the sector pages (decision #30)
-  redirects: {
+  redirects: withRefocus({
     '/data/projects/': '/data/money/#projects',
     '/data/audit/': '/data/money/#audit',
     '/data/compare/': '/data/money/#compare',
@@ -34,5 +46,5 @@ export default defineConfig({
     '/learn/episodes/': '/ny-watch/',
     '/data/prices/': '/data/farming/',
     '/data/plans/': '/data/money/',
-  },
+  }),
 });

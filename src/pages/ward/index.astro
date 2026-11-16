@@ -23,7 +23,6 @@ import { subCounties, anchorFor } from '../../nav.js';
               <ul class="rows">
                 {ws.map((w) => <li data-ward-row={w.slug}><a class="row-link" href={`/ward/${w.slug}/`}><span><span class="t">{w.name}</span><span class="d">{w.facilities.length} services listed · {w.places.length} places</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
               </ul>
-              <p style="margin-top:12px"><a href={`/constituency/${anchorFor(s)}/`}><strong>About {s} Constituency: MP, voters and NG-CDF money</strong></a></p>
             </Toggle>
           );
         })}

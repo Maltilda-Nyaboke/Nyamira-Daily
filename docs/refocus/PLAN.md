@@ -152,6 +152,8 @@ Estimated size afterwards: about 850 pages (about 690 places, 110 money pages, 2
 
 ## Phases
 
+**Amended 16 Nov 2026 (R2):** R2 is built in two steps. R2a cuts pages, sets the five-item menu and adds the redirects; R2b moves the existing money pages to `/money/` and the map pages to `/map/`. The move happens in R2, not R5, because the budget calendar and fees join Money now. R5 adds the economy section and the contracts table.
+
 Each phase is its own branch, checked, and approved before the next starts.
 
 | Phase | What | Done when |

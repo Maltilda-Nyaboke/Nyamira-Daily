@@ -6,7 +6,7 @@ import PageHead from '../PageHead.astro';
 interface Crumb { href: string; label: string }
 interface Props { title: string; heading?: string; lead: string; description?: string; crumbs?: Crumb[] }
 const { title, heading = title, lead, description, crumbs = [] } = Astro.props;
-const trail = [{ href: '/data/', label: 'Data' }, { href: '/data/money/', label: 'Money' }, ...crumbs];
+const trail = [{ href: '/data/money/', label: 'Money' }, ...crumbs];
 ---
 <Base title={title} description={description ?? lead}>
   <div class="sec-harvest">

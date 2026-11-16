@@ -1,0 +1,74 @@
+---
+// Administration (decision #110): who holds each seat now, for information only. Seat, holder, since and source.
+// No party, photos or profiles: the site is about the map and the money, and names officials only as office holders.
+// A note is shown only where it changes who holds the seat (the disputed Speakership, a by-election).
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import ElectionNotice from '../../components/ElectionNotice.astro';
+import L from '../../data/leaders.json';
+import wards from '../../data/wards.json';
+import { subCounties } from '../../nav.js';
+import { date } from '../../lib/fmt.js';
+
+const seatNotes = { 'Speaker, County Assembly': true };
+---
+<Base title="Administration" description="Who holds each county seat in Nyamira now: the Governor, the Deputy Governor, the Speaker and the 20 MCAs, with sources.">
+  <PageHead eyebrow="Administration" title="Who holds each seat" lead="The people in Nyamira's elected and county offices now. For information: we list the seat, the holder, since when, and where it is recorded." crumbs={[{ href: '/administration/', label: 'Administration' }]} />
+  <ElectionNotice />
+  <p class="updated">Last checked {date(L.updated)}.</p>
+
+  <section class="stack" style="margin-top:24px" aria-labelledby="county">
+    <h2 id="county">The county</h2>
+    <div class="table-box"><table class="cards">
+      <thead><tr><th>Seat</th><th>Holder</th><th>Since</th><th>Source</th></tr></thead>
+      <tbody>
+        {L.county.map((r) => (
+          <tr><td>{r.office}</td><td data-label="Holder"><strong>{r.name}</strong></td><td data-label="Since">{r.since}</td><td data-label="Source">{r.src ? <a href={r.src} rel="noopener">Source</a> : 'Not found'}</td></tr>
+        ))}
+      </tbody>
+    </table></div>
+    {L.county.filter((r) => r.note && seatNotes[r.office]).map((r) => (
+      <p class="small"><strong>{r.office}:</strong> {r.note} {r.noteSrc && <a href={r.noteSrc} rel="noopener">Source</a>}</p>
+    ))}
+  </section>
+
+  <section class="stack" style="margin-top:32px" aria-labelledby="mcas">
+    <h2 id="mcas">Members of the County Assembly</h2>
+    <p class="small muted">One MCA for each of the 20 wards. From {L.mcaSourceName}{L.mcaGazetteChecked ? '' : '; not yet checked against the Kenya Gazette'}. <a href={L.mcaSource} rel="noopener">Source</a></p>
+    {subCounties.map((s) => (
+      <div class="stack" style="gap:8px">
+        <h3>{s}</h3>
+        <div class="table-box"><table class="cards">
+          <thead><tr><th>Ward</th><th>MCA</th><th>Since</th></tr></thead>
+          <tbody>
+            {wards.filter((w) => w.subCounty === s).map((w) => {
+              const m = L.mcas[w.slug];
+              return (
+                <tr id={`ward-${w.slug}`}>
+                  <td><a href={`/ward/${w.slug}/`}>{w.name}</a></td>
+                  <td data-label="MCA"><strong>{m?.name ?? 'Not found'}</strong>{m?.note && <span class="small"> {m.note}</span>}</td>
+                  <td data-label="Since">{m?.since ?? '—'}{m?.src && <> · <a href={m.src} rel="noopener">Source</a></>}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table></div>
+      </div>
+    ))}
+  </section>
+
+  <section class="stack" style="margin-top:32px" aria-labelledby="national">
+    <h2 id="national">Nyamira's seats in Parliament</h2>
+    <p class="small muted">These are national offices, elected in Nyamira. Their budgets are national money, never added to the county's figures.</p>
+    <div class="table-box"><table class="cards">
+      <thead><tr><th>Seat</th><th>Holder</th><th>Since</th><th>Source</th></tr></thead>
+      <tbody>
+        {L.national.map((r) => (
+          <tr><td>{r.office}</td><td data-label="Holder"><strong>{r.name}</strong></td><td data-label="Since">{r.since}</td><td data-label="Source">{r.src ? <a href={r.src} rel="noopener">Source</a> : 'Not found'}</td></tr>
+        ))}
+      </tbody>
+    </table></div>
+  </section>
+
+  <p class="small" style="margin-top:32px">Spotted a mistake? <a href="/how-we-work/#corrections">Tell us</a>, with a link to the record. Anyone named on the site can <a href="/right-of-reply/">reply</a>.</p>
+</Base>

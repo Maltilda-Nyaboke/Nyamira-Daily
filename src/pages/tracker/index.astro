@@ -25,7 +25,7 @@ const rcLinked = contracts.filter((c) => c.projectIds?.length).slice(0, 6);
 const shareTable = { columns: ['Set', 'Records', 'Contractor named'], rows: per.map((p) => [p.label, p.t.count, p.t.withContractor]) };
 ---
 <Base title="Project tracker" description="Every county and national project in Nyamira we can find in official records: contractor, contract sum, dates and source.">
-  <PageHead eyebrow="Data" title="Project tracker" lead="Every project commissioned in Nyamira that we can find in official records, county and national: who got the contract, for how much, for which dates, and where it says so." icon="source" crumbs={[{ href: '/data/', label: 'Data' }, { href: '/tracker/', label: 'Project tracker' }]} />
+  <PageHead eyebrow="Money" title="Project tracker" lead="Every project commissioned in Nyamira that we can find in official records, county and national: who got the contract, for how much, for which dates, and where it says so." icon="source" crumbs={[{ href: '/data/money/', label: 'Money' }, { href: '/tracker/', label: 'Project tracker' }]} />
 
   <div class="stack-lg" style="margin-top:16px">
     <section class="fig-row" aria-label="The tracker in numbers">

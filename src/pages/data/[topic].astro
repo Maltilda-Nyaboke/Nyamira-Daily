@@ -26,7 +26,7 @@ const healthCount = wards.reduce((n, w) => n + (w.counts.Health ?? 0), 0);
 ---
 <Base title={t.title}>
   <div class={`sec-${t.tone}`}>
-    <PageHead eyebrow="Data" title={t.title} lead={t.question} tone={t.tone} crumbs={[{ href: '/data/', label: 'Data' }, { href: `/data/${t.slug}/`, label: t.title }]} />
+    <PageHead eyebrow={(['health', 'education'].includes(t.slug) ? { href: '/maps/', label: 'Map' } : t.slug === 'open-data' ? { href: '/about/', label: 'About' } : { href: '/data/money/', label: 'Money' }).label} title={t.title} lead={t.question} tone={t.tone} crumbs={t.slug === 'money' ? [{ href: '/data/money/', label: 'Money' }] : [(['health', 'education'].includes(t.slug) ? { href: '/maps/', label: 'Map' } : t.slug === 'open-data' ? { href: '/about/', label: 'About' } : { href: '/data/money/', label: 'Money' }), { href: `/data/${t.slug}/`, label: t.title }]} />
 
     {t.slug === 'money' && (
       <>
@@ -35,12 +35,6 @@ const healthCount = wards.reduce((n, w) => n + (w.counts.Health ?? 0), 0);
           <Toggle id="projects" title="Ward projects: what each ward was promised" meta="FY2025/26 budget lines, progress, questions to ask"><ProjectsPage /></Toggle>
           <Toggle id="audit" title="What the Auditor-General found" meta="Audit opinion every year, 354 findings"><AuditPage /></Toggle>
           <Toggle id="compare" title="How Nyamira compares with its neighbours" meta="Spending per person, development, local revenue"><ComparePage /></Toggle>
-          <Toggle id="tools" title="Try it yourself" meta="Budget simulator, what money could build">
-            <ul class="rows">
-              <li><a class="row-link" href="/tools/budget-simulator/"><span><span class="t">You run the county</span><span class="d">Share out the 2025/26 budget and see the trade-offs.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-              <li><a class="row-link" href="/tools/what-it-builds/"><span><span class="t">What could it build?</span><span class="d">Classrooms, boreholes, health blocks and roads, from the county's own costs.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-            </ul>
-          </Toggle>
         </div>
       </>
     )}
