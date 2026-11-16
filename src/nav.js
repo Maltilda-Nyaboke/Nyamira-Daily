@@ -15,60 +15,66 @@ export const anchorFor = (name) => name.toLowerCase().split(' ').join('-');
 
 // The Money section's own pages (decision #105)
 const moneyPages = [
-  { href: '/money/2025-26/', label: 'Budget 2025/26', also: ['/money/2025-26/departments/'] },
-  { href: '/money/track/', label: 'What was spent' },
-  { href: '/money/revenue/', label: 'Where it comes from' },
-  { href: '/money/history/', label: 'Since 2013' },
+  { href: '/money/2025-26/', label: 'Budget 2025/26', group: 'This year', also: ['/money/2025-26/departments/'] },
+  { href: '/money/track/', label: 'What was spent', group: 'This year' },
+  { href: '/money/revenue/', label: 'Where it comes from', group: 'This year' },
+  { href: '/money/history/', label: 'Since 2013', group: 'Over time' },
 ];
 const topic = (slug) => topics.find((t) => t.slug === slug);
 
 // Each section: `overview` names its own page, `desc` introduces it in the menu, `icon` is from
 // src/lib/icons.js. Each page has a short `desc` for the menu cards; pages can hold pages of their own.
-// Five sections (decision #110): the map, the money, the videos, who holds each seat, and about us.
+// Four sections (decision #110; Administration moved under About by decision #119): the map, the money, the videos, about us.
+// `group` puts a page under a heading in the section switcher and side list (SectionNav.astro); `groups` gives their order.
+// `rail: false` keeps a section's pages full width (the switcher only): the Map pages need the whole width.
 // Map pages live under /map/ and /ward/, money pages under /money/ (phase R2b).
 export const sections = [
-  { href: '/map/', label: 'Map', icon: 'map', overview: 'The county map',
+  { href: '/map/', label: 'Map', icon: 'map', overview: 'The county map', rail: false, groups: ['Places', 'Help us'],
     desc: 'Every ward and every place we list: what is there, and what condition it is in.', pages: [
-    { href: '/ward/', label: 'Wards', icon: 'ward', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
+    { href: '/ward/', label: 'Wards', icon: 'ward', group: 'Places', desc: 'All 20 wards', also: ['/place/'], pages: subCounties.map((s) => ({
       href: `/ward/#${anchorFor(s)}`, label: s,
       pages: wards.filter((w) => w.subCounty === s).map((w) => ({ href: `/ward/${w.slug}/`, label: w.name })),
     })) },
-    { href: '/road/', label: 'Roads', icon: 'road', desc: 'Road money and questions to ask' },
-    { href: '/map/health/', label: topic('health').title, icon: 'health', desc: 'Clinics, mothers and children' },
-    { href: '/map/education/', label: topic('education').title, icon: 'education', desc: 'Schools and learners' },
-    { href: '/report/', label: 'Report a place', icon: 'check', desc: 'Tell us what you saw' },
+    { href: '/road/', label: 'Roads', icon: 'road', group: 'Places', desc: 'Road money and questions to ask' },
+    { href: '/map/health/', label: topic('health').title, icon: 'health', group: 'Places', desc: 'Clinics, mothers and children' },
+    { href: '/map/education/', label: topic('education').title, icon: 'education', group: 'Places', desc: 'Schools and learners' },
+    { href: '/report/', label: 'Report a place', icon: 'check', group: 'Help us', desc: 'Tell us what you saw' },
   ] },
-  { href: '/money/', label: 'Money', icon: 'money', overview: "Nyamira's money",
+  { href: '/money/', label: 'Money', icon: 'money', overview: "Nyamira's money", groups: ['This year', 'Over time', 'Follow it'],
     desc: 'The county budget, what was spent, where the money comes from, and the local economy.', pages: [
     ...moneyPages,
-    { href: '/money/farming/', label: topic('farming').title, icon: 'farming', desc: 'Tea bonuses and farm spending' },
-    { href: '/money/economy/', label: 'The economy', icon: 'chart', desc: 'Money coming into Nyamira, and how it moves' },
-    { href: '/money/contracts/', label: 'Contracts', icon: 'source', desc: 'Every contract: who, how much, when' },
-    { href: '/money/calendar/', label: 'Budget calendar', icon: 'calendar', desc: 'When money decisions are made' },
-    { href: '/money/fees/', label: 'Fees you pay', icon: 'money', desc: 'County fees and charges' },
+    { href: '/money/contracts/', label: 'Contracts', icon: 'source', group: 'Follow it', desc: 'Every contract: who, how much, when' },
+    { href: '/money/economy/', label: 'The economy', icon: 'chart', group: 'Follow it', desc: 'Money coming into Nyamira, and how it moves' },
+    { href: '/money/farming/', label: topic('farming').title, icon: 'farming', group: 'Follow it', desc: 'Tea bonuses and farm spending' },
+    { href: '/money/calendar/', label: 'Budget calendar', icon: 'calendar', group: 'Over time', desc: 'When money decisions are made' },
+    { href: '/money/fees/', label: 'Fees you pay', icon: 'money', group: 'Follow it', desc: 'County fees and charges' },
   ] },
-  { href: '/watch/', label: 'Watch', icon: 'camera', overview: 'Watch',
+  { href: '/watch/', label: 'Watch', icon: 'camera', overview: 'Watch', groups: ['Also on Watch'],
     desc: 'Our videos, each with the figures and sources behind it.', pages: [
-    { href: '/explainers/', label: 'Explainers', icon: 'stories', desc: 'Short guides to big topics' },
-    { href: '/number-of-the-week/', label: 'Number of the week', icon: 'chart', desc: 'One figure, explained' },
+    { href: '/explainers/', label: 'Explainers', icon: 'stories', group: 'Also on Watch', desc: 'Short guides to big topics' },
+    { href: '/number-of-the-week/', label: 'Number of the week', icon: 'chart', group: 'Also on Watch', desc: 'One figure, explained' },
   ] },
-  { href: '/administration/', label: 'Administration', icon: 'people', overview: 'Who holds each seat',
-    desc: 'Who holds each county seat now, with sources, and what the county must do.', pages: [
-    { href: '/administration/duties/', label: 'What the county must do', icon: 'source', desc: "The county's functions, from the Constitution" },
-  ] },
-  { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily',
+  { href: '/about/', label: 'About', icon: 'source', overview: 'About Nyamira Daily', groups: ['Us', 'Reference', 'The small print'],
     desc: 'Who we are, how we check facts, how corrections work and how to reach us.', pages: [
-    { href: '/who-runs-us/', label: 'Who runs us', icon: 'people', desc: 'Our publisher and independence' },
-    { href: '/how-we-work/', label: 'How we work', icon: 'check', desc: 'Our rules for facts and fairness' },
-    { href: '/how-we-work/#evidence', label: 'Evidence labels', icon: 'source', desc: 'What each label on a figure means' },
-    { href: '/how-we-work/#corrections', label: 'Corrections', icon: 'question', desc: 'What we corrected, and how to tell us' },
-    { href: '/right-of-reply/', label: 'Right of reply', icon: 'question', desc: 'How anyone named can respond' },
-    { href: '/about/data/', label: 'Use our data', icon: 'data', desc: 'Free to reuse, with credit' },
-    { href: '/about/glossary/', label: 'Glossary', icon: 'learn', desc: 'Terms explained' },
-    { href: '/terms/', label: 'Terms and reuse', icon: 'source', desc: 'Our data licence and its limits' },
-    { href: '/privacy/', label: 'Privacy', icon: 'check', desc: 'What we keep, and what we never do' },
+    { href: '/who-runs-us/', label: 'Who runs us', group: 'Us', icon: 'people', desc: 'Our publisher and independence' },
+    { href: '/how-we-work/', label: 'How we work', group: 'Us', icon: 'check', desc: 'Our rules for facts and fairness' },
+    { href: '/how-we-work/#evidence', label: 'Evidence labels', group: 'Us', icon: 'source', desc: 'What each label on a figure means' },
+    { href: '/how-we-work/#corrections', label: 'Corrections', group: 'Us', icon: 'question', desc: 'What we corrected, and how to tell us' },
+    { href: '/right-of-reply/', label: 'Right of reply', group: 'Us', icon: 'question', desc: 'How anyone named can respond' },
+    { href: '/administration/', label: 'Who holds each seat', group: 'Reference', icon: 'people', desc: 'Who holds each county seat now, with sources' },
+    { href: '/administration/duties/', label: 'What the county must do', group: 'Reference', icon: 'source', desc: "The county's functions, from the Constitution" },
+    { href: '/about/data/', label: 'Use our data', group: 'Reference', icon: 'data', desc: 'Free to reuse, with credit' },
+    { href: '/about/glossary/', label: 'Glossary', group: 'Reference', icon: 'learn', desc: 'Terms explained' },
+    { href: '/terms/', label: 'Terms and reuse', group: 'The small print', icon: 'source', desc: 'Our data licence and its limits' },
+    { href: '/privacy/', label: 'Privacy', group: 'The small print', icon: 'check', desc: 'What we keep, and what we never do' },
   ] },
 ];
+
+// A section's pages in their groups, in order, for the switcher and the side list (decision #119).
+export function groupsOf(section) {
+  const names = section.groups ?? [...new Set(section.pages.map((p) => p.group ?? ''))];
+  return names.map((label) => ({ label, pages: section.pages.filter((p) => (p.group ?? '') === label) })).filter((g) => g.pages.length);
+}
 
 // Section colours are retired (decision #111): every page reads the same tokens. Kept so pages still build.
 export const sectionTone = {};

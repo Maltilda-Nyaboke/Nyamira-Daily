@@ -1,33 +1,21 @@
 ---
-// Site footer (decision #68): minimal, and it does not repeat the site's navigation. Always Ink, under the
-// palette strip: the logo, our social accounts (only those set in src/config.js `social`), and one line naming
-// the publisher with the credits the map licences require. Decision #73: name the publisher exactly and link the
-// trust pages.
+// Site footer (decision #120): only our social accounts and "© year Nyamira Daily". Everything that used to sit
+// here (the publisher line, the trust pages, licences) lives under About; map credits sit on the maps themselves.
+// Social icons show only for accounts set in src/config.js `social`.
 import Icon from './Icon.astro';
 import { socialLinks } from '../config.js';
-import { county, publisher } from '../county.js';
+import { county } from '../county.js';
 const names = { whatsapp: 'WhatsApp Channel', youtube: 'YouTube', facebook: 'Facebook', x: 'X', instagram: 'Instagram', tiktok: 'TikTok' };
 ---
 <footer class="site-footer">
   <div class="wrap ft-min">
-    <div class="ft-row">
-      <img class="footer-logo" src="/brand/Nyamira-Daily_horizontal_reverse.svg" alt="Nyamira Daily" width="1197" height="228" loading="lazy" />
-      {socialLinks.length > 0 && (
-        <ul class="ft-social" aria-label="Nyamira Daily on social media">
-          {socialLinks.map(([k, url]) => (
-            <li><a href={url} rel="noopener me" aria-label={`Nyamira Daily on ${names[k] ?? k}`}><Icon name={k} size={22} /></a></li>
-          ))}
-        </ul>
-      )}
-    </div>
-    <p class="ft-fine">© {new Date().getFullYear()} {county.siteName}, built and published by <strong>{publisher.legalName}</strong>. A non-partisan, editorially independent public information site, not affiliated with the {county.government} or any political party.</p>
-    <ul class="ft-links" aria-label="About this site">
-      <li><a href="/who-runs-us/">Who runs us</a></li>
-      <li><a href="/how-we-work/">How we work</a></li>
-      <li><a href="/right-of-reply/">Right of reply</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href="/terms/">Terms and reuse</a></li>
-    </ul>
-    <p class="ft-fine ft-credits">Maps: geoBoundaries (CC BY 4.0), © OpenStreetMap contributors. Our data: CC BY 4.0.</p>
+    {socialLinks.length > 0 && (
+      <ul class="ft-social" aria-label={`${county.siteName} on social media`}>
+        {socialLinks.map(([k, url]) => (
+          <li><a href={url} rel="noopener me" aria-label={`${county.siteName} on ${names[k] ?? k}`}><Icon name={k} size={22} /></a></li>
+        ))}
+      </ul>
+    )}
+    <p class="ft-copy">© {new Date().getFullYear()} {county.siteName}</p>
   </div>
 </footer>

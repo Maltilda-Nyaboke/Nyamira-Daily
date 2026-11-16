@@ -10,6 +10,12 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 
 ## Changes on 16 Nov 2026
 
+- **Navigation option B and the footer** on branch `feat/nav-switcher` (from `9a99de8`), not pushed. Decisions #119 and #120.
+  - The secondary tab bar is replaced by a section switcher and, from 1,180 px, a side list of the section's pages in groups (`src/components/SectionNav.astro`, groups in `src/nav.js`). The Map section keeps full width (switcher only). Administration leaves the main menu; its two pages sit under About, in a Reference group.
+  - Footer: social icons (none set yet in `src/config.js`) and "© year Nyamira Daily" only.
+  - Checked: the build, `npm test` (330 pass); Money, Map, Watch and Who holds each seat at 1280 and 1500 px, and Money at 390 px with the switcher open: no sideways scroll, no script errors.
+  - Next: set the social account links; the home page as a summary and the stories collection (design boards on the canvas).
+
 - **Refocus plan (decision #110), approved by the owner.** The owner set a new direction: the map (facility condition, status and services) and the money (county budget and the private economy), YouTube first, static and living databases, Signal Green and charcoal only, Kenya Budget Explained in its own repository. The plan, with every page's fate and phases R0 to R7, is `docs/refocus/PLAN.md` on branch `plan/refocus`. Nothing is built or deleted yet.
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.

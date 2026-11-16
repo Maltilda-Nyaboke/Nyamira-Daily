@@ -1,9 +1,9 @@
 ---
 import '../styles/global.css';
-import { toneFor } from '../nav.js';
+import { toneFor, sectionFor } from '../nav.js';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import SectionTabs from '../components/SectionTabs.astro';
+import SectionNav from '../components/SectionNav.astro';
 
 import PageTools from '../components/PageTools.astro';
 interface Props { title: string; description?: string; tools?: boolean; image?: string; imageAlt?: string; noindex?: boolean }
@@ -17,9 +17,12 @@ const {
   noindex = false,
 } = Astro.props;
 
-// Navigation (src/nav.js, SiteHeader.astro, SectionTabs.astro) works from this page's address.
+// Navigation (src/nav.js, SiteHeader.astro, SectionNav.astro) works from this page's address.
 const path = Astro.url.pathname;
 const isHome = path === '/';
+// Pages in a section that allows it get the side list of the section's pages on wide screens (decision #119).
+const navSection = isHome ? null : sectionFor(path);
+const rail = Boolean(navSection && navSection.rail !== false);
 const pageTitle = title === 'Today' ? 'Nyamira Daily' : `${title} · Nyamira Daily`;
 
 // Sharing (WhatsApp, Facebook, X): pages without their own image use the default card.
@@ -65,13 +68,15 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
 <body id="top">
   <a class="skip" href="#main">Skip to content</a>
   <SiteHeader path={path} />
-  <SectionTabs path={path} />
-
   <main id="main" class={`sec-${toneFor(path)}`}>
     <slot name="hero" />
-    <div class="wrap">
-      <slot />
-      {tools && <PageTools title={title} />}
+    <div class={rail ? 'wrap with-rail' : 'wrap'}>
+      {rail && <SectionNav path={path} variant="rail" />}
+      <div class="page-col">
+        <SectionNav path={path} />
+        <slot />
+        {tools && <PageTools title={title} />}
+      </div>
     </div>
   </main>
 
@@ -114,11 +119,12 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
     }
     openTo(); window.addEventListener('hashchange', openTo);
 
-    // Secondary bar: on phones it scrolls sideways; centre the current tab if it starts off screen
-    all('.tabs-scroll').forEach(function (bar) {
-      var cur = bar.querySelector('[aria-current]');
-      if (cur && cur.offsetLeft + cur.offsetWidth > bar.clientWidth) bar.scrollLeft = cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2;
+    // Section switcher (decision #119): one open at a time; a click outside it or on a link closes it
+    var switches = all('details.sec-switch');
+    document.addEventListener('click', function (e) {
+      switches.forEach(function (d) { if (d.open && (!d.contains(e.target) || e.target.closest('.sw-panel a'))) d.open = false; });
     });
+    switches.forEach(function (d) { d.addEventListener('toggle', function () { document.documentElement.classList.toggle('switch-open', d.open); }); });
 
     // Desktop mega menus: a section button opens its panel under the bar; clicking it again, clicking
     // elsewhere or pressing Escape closes it. Only one is open at a time.
@@ -151,6 +157,7 @@ const shareImage = new URL(image ?? '/brand/og-default.png', Astro.site).toStrin
       var open = items.filter(function (b) { return b.getAttribute('aria-expanded') === 'true'; })[0];
       if (open) { closeMegas(); open.focus(); }
       if (sheet && sheet.open) { sheet.open = false; sheet.querySelector('summary').focus(); }
+      switches.forEach(function (d) { if (d.open) { d.open = false; d.querySelector('summary').focus(); } });
     });
   })();
   </script>
