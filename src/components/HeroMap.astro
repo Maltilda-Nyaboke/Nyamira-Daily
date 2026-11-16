@@ -148,7 +148,11 @@ const data = JSON.stringify({ wards: info, lead: leadW, centres: Object.fromEntr
     var r = svg.getBoundingClientRect(); if (!r.width || !r.height) return;
     var a = r.width / r.height, h = wide.matches ? 1080 : 1120, w = h * a;
     if (!wide.matches && w < 700) { w = 700; h = w / a; }
-    svg.setAttribute('viewBox', [300 - w / 2, (wide.matches ? 470 : 480) - h / 2, w, h].map(function (n) { return n.toFixed(1); }).join(' '));
+    var cx = 300, cy = wide.matches ? 470 : 480;
+    // The reader's own ward (decision #123): the camera moves in on it
+    var own = C[document.documentElement.getAttribute('data-ward') || ''];
+    if (own) { cx = own[0]; cy = own[1]; h = 460; w = h * a; if (w < 420) { w = 420; h = w / a; } }
+    svg.setAttribute('viewBox', [cx - w / 2, cy - h / 2, w, h].map(function (n) { return n.toFixed(1); }).join(' '));
     svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
   }
   // Float the card beside the highlighted ward (desktop); on phones it docks under the map
@@ -228,8 +232,8 @@ const data = JSON.stringify({ wards: info, lead: leadW, centres: Object.fromEntr
 
   // The reader's own ward (from the picker) is outlined on the map
   function mine() { var w = document.documentElement.getAttribute('data-ward') || ''; each('[data-w]', function (a) { a.classList.toggle('mine', a.getAttribute('data-w') === w); }); }
-  document.addEventListener('nd-ward', mine);
-  document.addEventListener('DOMContentLoaded', mine);
+  document.addEventListener('nd-ward', function () { mine(); refit(); });
+  document.addEventListener('DOMContentLoaded', function () { mine(); refit(); });
   mine();
   draw();
 })();

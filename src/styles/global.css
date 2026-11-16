@@ -1119,9 +1119,9 @@ details.sec-switch[open] { padding-bottom: 0; }
 }
 .hero-stage { position: relative; margin-top: 8px; }
 .hero-map { margin: 0; display: block; width: 100%; }
-.hero-map svg, .hero-map svg:is(*) { display: block; width: 100%; max-width: none; height: min(118vw, 620px); overflow: hidden;
+.hero-map svg, .hero-map svg:is(*) { display: block; width: 100%; max-width: none; height: min(80vw, 380px); overflow: hidden;
   -webkit-mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, #000 58%, transparent 100%); mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, #000 58%, transparent 100%); }
-@media (min-width: 900px) { .hero-map svg, .hero-map svg:is(*) { height: clamp(560px, 74vh, 820px); -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(0deg, transparent 0, #000 14%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(0deg, transparent 0, #000 14%); mask-composite: intersect; } }
+@media (min-width: 900px) { .hero-map svg, .hero-map svg:is(*) { height: clamp(360px, 46vh, 460px); -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(0deg, transparent 0, #000 14%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(0deg, transparent 0, #000 14%); mask-composite: intersect; } }
 .hm-nb path { fill: rgb(255 255 255 / 0.03); stroke: rgb(255 255 255 / 0.22); }
 .hm-nbl text { font-size: 28px; fill: rgb(255 255 255 / 0.36); }
 .hero-map figcaption { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px);
