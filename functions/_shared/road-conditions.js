@@ -1,4 +1,4 @@
-import roadData from '../../src/data/roads.json' with { type: 'json' };
+import { roadData } from './data.generated.js';
 import { nairobiDate, validIsoDate, validSourceUrl } from './corrections.js';
 import { clean, INTAKE_EVIDENCE, SOURCE_CATEGORIES } from './facility-observations.js';
 

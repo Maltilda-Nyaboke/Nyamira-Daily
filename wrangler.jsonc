@@ -3,11 +3,13 @@
   "name": "nyamira-daily",
   "pages_build_output_dir": "./dist",
   "compatibility_date": "2026-10-26",
+  // The public address the build needs (scripts/site-config.js). Cloudflare Pages reads build variables from this file.
+  "vars": { "ND_SITE_URL": "https://nyamiradaily.org" },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "nyamira-corrections",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "1dc6105c-ebe4-4cee-bae7-a6313905d98e",
       "migrations_dir": "migrations"
     }
   ]

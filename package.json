@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build-function-data.js && astro build",
+    "build:functions-data": "node scripts/build-function-data.js",
     "preview": "astro preview",
     "pages:dev": "wrangler pages dev dist",
     "db:migrate:local": "wrangler d1 migrations apply nyamira-corrections --local",

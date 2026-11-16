@@ -1,4 +1,4 @@
-import facilityRecords from '../../src/data/facilities.json' with { type: 'json' };
+import { facilityRecords } from './data.generated.js';
 import { nairobiDate, validIsoDate, validSourceUrl } from './corrections.js';
 
 const STATUSES = new Set(['reported-available', 'reported-unavailable', 'unknown']);
