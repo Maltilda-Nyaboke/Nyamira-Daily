@@ -62,7 +62,7 @@ export const placesInWard = (slug) => places.filter((p) => p.wards.includes(slug
 // Living events
 export const FIELDS = ['status', 'condition'];
 export const statusLabel = { open: 'Open', closed: 'Closed', 'under-construction': 'Under construction', stalled: 'Stalled', unknown: 'Not yet checked' };
-export const conditionLabel = { good: 'Good', fair: 'Fair', poor: 'Poor', unknown: 'Not yet checked' };
+export const conditionLabel = { good: 'Good', fair: 'Fair', poor: 'Poor', impassable: 'Impassable (roads)', unknown: 'Not yet checked' };
 const METHODS = new Set(['visit', 'resident-report', 'document']);
 
 export function validateEvents(list) {

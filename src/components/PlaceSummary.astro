@@ -12,6 +12,8 @@ const history = historyOf(place.id);
 const methodLabel = { visit: 'Seen on a visit', 'resident-report': 'Reported by a resident', document: 'From a document' };
 const show = (e, labels) => (e ? e.text ?? labels[e.value] : 'Not yet checked');
 const wardList = place.wards.map((w) => wardName(w)).join(' and ');
+// The latest reading of each service (history is newest first)
+const services = state.services.filter((e, i, all) => all.findIndex((x) => x.field === e.field) === i);
 ---
 <section class="card stack place-summary" aria-labelledby="place-now">
   <h2 id="place-now" class="vh">This place now</h2>
@@ -23,6 +25,7 @@ const wardList = place.wards.map((w) => wardName(w)).join(' and ');
       {state.status && <span class="small muted"> · {methodLabel[state.status.method]}{state.status.fy ? `, FY${state.status.fy}` : ''}{state.status.observed_on ? `, ${date(state.status.observed_on)}` : ''} <EvidenceLabel kind={state.status.evidence} /></span>}</dd></div>
     <div><dt>Condition</dt><dd>{show(state.condition, conditionLabel)}
       {state.condition && <span class="small muted"> · {methodLabel[state.condition.method]}, {date(state.condition.observed_on)} <EvidenceLabel kind={state.condition.evidence} /></span>}</dd></div>
+    {services.length > 0 && <div><dt>Services, as last seen</dt><dd>{services.map((e, i) => <>{i > 0 && '; '}{e.field.slice(8).split('-').join(' ')}: {({ yes: 'yes', no: 'no' })[e.value] ?? e.value}</>)} <span class="small muted">({date(services[0].observed_on)})</span></dd></div>}
     <div><dt>Last checked on site</dt><dd>{state.lastChecked ? date(state.lastChecked) : 'Not yet'}</dd></div>
     {place.partOf && <div><dt>Part of</dt><dd><a href={placePath(place.partOf.id)}>{place.partOf.name}</a></dd></div>}
   </dl>

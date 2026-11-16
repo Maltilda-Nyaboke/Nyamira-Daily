@@ -1,0 +1,61 @@
+---
+// The changes list (decision #115): the editorial queue for update videos. What changed, newest first, with the
+// changes that differ from the place's previous value marked; which places are due a return visit; and which
+// have never been visited. Not indexed: it is a working page for the team.
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import EvidenceLabel from '../../components/EvidenceLabel.astro';
+import { places, placeById, placePath, statusLabel, conditionLabel, currentState } from '../../lib/places.js';
+import events from '../../data/living/events.json';
+import { date } from '../../lib/fmt.js';
+
+const REVISIT_DAYS = 180;
+const today = new Date().toISOString().slice(0, 10);
+const reviewed = events.filter((e) => e.reviewed_by).sort((a, b) => b.observed_on.localeCompare(a.observed_on));
+const previous = (e) => events.filter((x) => x.reviewed_by && x.place === e.place && x.field === e.field && x.observed_on < e.observed_on).sort((a, b) => b.observed_on.localeCompare(a.observed_on))[0];
+const valueText = (e) => (e.field === 'status' ? statusLabel[e.value] : e.field === 'condition' ? conditionLabel[e.value] : e.value);
+const fieldText = (f) => (f.startsWith('service:') ? f.slice(8).split('-').join(' ') : f);
+const rows = reviewed.slice(0, 200).map((e) => { const p = previous(e); return { e, place: placeById.get(e.place), before: p ? valueText(p) : null, changed: p ? p.value !== e.value : false }; });
+const daysSince = (d) => Math.round((Date.parse(today) - Date.parse(d)) / 86400000);
+const visited = places.map((p) => ({ p, last: currentState(p).lastChecked })).filter((x) => x.last);
+const due = visited.filter((x) => daysSince(x.last) >= REVISIT_DAYS).sort((a, b) => a.last.localeCompare(b.last));
+const never = places.filter((p) => !visited.some((x) => x.p.id === p.id));
+const neverByType = Object.entries(never.reduce((m, p) => ({ ...m, [p.type]: (m[p.type] ?? 0) + 1 }), {})).sort((a, b) => b[1] - a[1]);
+---
+<Base title="Changes" noindex>
+  <PageHead eyebrow="Team" title="What changed" lead={`Reviewed changes to places, newest first, and the places due a return visit (none for ${REVISIT_DAYS} days). Built ${date(today)}.`} crumbs={[{ href: '/review/changes/', label: 'Changes' }]} />
+
+  <section class="stack" style="margin-top:24px" aria-labelledby="latest">
+    <h2 id="latest">Latest changes</h2>
+    {rows.length === 0 ? <p class="muted">No reviewed changes yet.</p> : (
+      <div class="table-box"><table class="cards">
+        <thead><tr><th>Date</th><th>Place</th><th>What</th><th>Now</th><th>Before</th><th>How</th></tr></thead>
+        <tbody>
+          {rows.map(({ e, place, before, changed }) => (
+            <tr>
+              <td>{date(e.observed_on)}</td>
+              <td data-label="Place"><a href={placePath(e.place)}>{place?.name ?? e.place}</a></td>
+              <td data-label="What">{fieldText(e.field)}</td>
+              <td data-label="Now"><strong>{valueText(e)}</strong>{changed && <span class="tag-planned" style="margin-left:6px">Changed</span>}</td>
+              <td data-label="Before">{before ?? 'First record'}</td>
+              <td data-label="How">{e.method}{e.video && <> · video {e.video}</>} <EvidenceLabel kind={e.evidence} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+    )}
+  </section>
+
+  <section class="stack" style="margin-top:32px" aria-labelledby="due">
+    <h2 id="due">Due a return visit</h2>
+    {due.length === 0 ? <p class="muted">No visited place is due yet.</p> : (
+      <ul class="rows">{due.map(({ p, last }) => <li><a class="row-link" href={placePath(p.id)}><span><span class="t">{p.name}</span><span class="d">Last visited {date(last)} · {daysSince(last)} days ago</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul>
+    )}
+  </section>
+
+  <section class="stack" style="margin-top:32px" aria-labelledby="never">
+    <h2 id="never">Never visited</h2>
+    <p>{never.length} of {places.length} places have no visit on record.</p>
+    <ul class="small">{neverByType.map(([t, n]) => <li>{t}: {n}</li>)}</ul>
+  </section>
+</Base>

@@ -1,0 +1,18 @@
+type,name,label,hint,required,relevant,constraint,constraint_message,appearance,choice_filter
+start,start,,,,,,,,
+end,end,,,,,,,,
+today,today,,,,,,,,
+note,intro,"Record the road as it is today. Do not record anyone's name, face or phone number.",,,,,,,
+select_one ward,ward,Ward,,yes,,,,minimal,
+select_one road,road,Road,"Type part of the name. Choose ""Not on the list"" if you cannot find it.",yes,,,,minimal autocomplete,"selected(wards, ${ward}) or wards='any'"
+text,new_road_name,Name or description of the road,For example: from Kebirigo market to the dispensary,yes,${road}='new',,,,
+geopoint,location,Location,Where you checked it,,,,,,
+select_one condition,condition,What condition is it in?,"Good: smooth. Fair: rough but usable. Poor: deep holes or ruts. Impassable: vehicles cannot pass.",yes,,,,,
+select_multiple passable,passable_by,What can pass today?,,,,,,,
+select_one drainage,drainage,Drains and culverts,,,,,,,
+select_one yesno,works_seen,Is road work going on?,,,,,,,
+image,photo,Photo of the road surface,No people in the photo,,,,,,
+select_one method,method,Who is recording this?,,yes,,,,,
+text,video_id,YouTube video ID,If this check was filmed,,${method}='visit',"regex(., '^[A-Za-z0-9_-]{11}$')",An 11-character YouTube ID,,
+text,notes,Notes for the reviewer,Never published. No names.,,,,,multiline,
+acknowledge,privacy_ok,"I have not recorded anyone's name, face or phone number.",,yes,,,,,

@@ -1,0 +1,18 @@
+type,name,label,hint,required,relevant,constraint,constraint_message,appearance,choice_filter
+start,start,,,,,,,,
+end,end,,,,,,,,
+today,today,,,,,,,,
+note,intro,"Record today's prices at one market, from at least two sellers per item. Do not record anyone's name, face or phone number.",,,,,,,
+select_one ward,ward,Ward,,yes,,,,minimal,
+select_one market,market,Market,,yes,,,,minimal autocomplete,"selected(wards, ${ward}) or wards='any'"
+text,new_market_name,Name of the market,,yes,${market}='new',,,,
+begin_repeat,price,A price,,,,,,,
+select_one item,item,Item,,yes,,,,minimal,
+select_one unit,unit,Sold by,,yes,,,,,
+decimal,quantity,How many units for this price?,Usually 1,yes,,. > 0 and . <= 100,From 0.1 to 100,,
+integer,price_ksh,Price in KSh,For the quantity above,yes,,. > 0 and . < 100000,A price from 1 to 99999,,
+select_one seller,seller,Who sells it?,,,,,,,
+end_repeat,price,,,,,,,,
+select_one method,method,Who is recording this?,,yes,,,,,
+text,notes,Notes for the reviewer,Never published. No names.,,,,,multiline,
+acknowledge,privacy_ok,"I have not recorded anyone's name, face or phone number.",,yes,,,,,

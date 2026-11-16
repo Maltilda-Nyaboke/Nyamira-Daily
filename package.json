@@ -28,7 +28,9 @@
     "test:national:visual": "npm run test:visual -w @kbe/national",
     "check:county": "node scripts/county/check-county.mjs",
     "build:county-data": "node scripts/county/build-figures.mjs",
-    "check:county:pages": "node scripts/county/check-pages.mjs"
+    "check:county:pages": "node scripts/county/check-pages.mjs",
+    "fieldwork:forms": "node scripts/fieldwork/build-forms.mjs",
+    "living:sync": "node scripts/living/sync.mjs"
   },
   "dependencies": {
     "astro": "7.4.4",

@@ -14,6 +14,11 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R4, living data, built** on the same branch, not pushed. Decision #115.
+  - Three Kobo forms (`fieldwork/kobo/*.xlsx`, built from CSV sources by `npm run fieldwork:forms`), a four-tab sheet layout (`fieldwork/sheets/`), the sync (`npm run living:sync`), `/review/changes/`, and `fieldwork/README.md` for the team.
+  - Checked: the forms open as valid XLSX with survey, choices and settings sheets (not yet uploaded to KoboToolbox, which is the real test); an end-to-end run from test exports produced valid events that showed on a place page and on the changes page (then reset to empty); the build; `npm test` (331 pass, 6 new for the sync); `npm run check:county:pages`.
+  - Waiting for a person: create the KoboToolbox account and upload the three forms; create the Google Sheet with the four tabs and publish them as CSV; set the variables in `fieldwork/README.md`; then run the sync.
+  - Next: R5, the money (the economy section, the contracts table, prices from the market form).
 - **Phase R3, places, built** on the same branch, not pushed. Decision #114.
   - 686 place pages at `/place/<id>/` with a shared summary (status, condition, last checked, who is responsible, what you can do, history); 686 old addresses redirect; living events file `src/data/living/events.json` (empty) with build-time checks.
   - Checked: the build, `npm test` (325 pass, 4 new for places), `npm run check:county:pages`, a facility, a project and a road page at 390px with no sideways scroll or script errors.
