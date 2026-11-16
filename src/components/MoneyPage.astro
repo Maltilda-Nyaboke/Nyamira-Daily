@@ -6,7 +6,6 @@ import ColumnChart from './charts/ColumnChart.astro';
 import Illustration from './Illustration.astro';
 import EvidenceLabel from './EvidenceLabel.astro';
 import SplitBar from './viz/SplitBar.astro';
-import EmbedCode from './EmbedCode.astro';
 import Toggle from './Toggle.astro';
 const ys = money.years;
 const last = ys[ys.length - 1];
@@ -95,7 +94,7 @@ const date = new Date(money.updated).toLocaleDateString('en-GB', { day: 'numeric
     <ColumnChart label={`Share of the development budget used each year, ${labels[0]} to ${last.fy}`} labels={labels} values={devVals} max={100} format={fmtPct} tone="gap" also={devLowIdx} />
   </ChartFrame>
 
-  <p class="callout"><span><strong>What did the Auditor-General find?</strong> See the audit opinion on the county's accounts for every year, and the findings behind it: <a href="/data/money/#audit">What the Auditor-General found</a>.</span></p>
+  <p class="callout"><span><strong>What did the Auditor-General find?</strong> See the audit opinion on the county's accounts for every year, and the findings behind it: <a href="/money/#audit">What the Auditor-General found</a>.</span></p>
 
   <div class="sw" lang="sw">
     <span class="eyebrow">Muhtasari kwa Kiswahili</span>

@@ -18,7 +18,7 @@ import {
 } from '../../functions/_shared/corrections.js';
 
 test('correction page paths must stay on the public site', () => {
-  assert.equal(validPagePath('/data/health/'), true);
+  assert.equal(validPagePath('/map/health/'), true);
   assert.equal(validPagePath('/how-we-work/#corrections'), true);
   assert.equal(validPagePath('https://attacker.example/'), false);
   assert.equal(validPagePath('//attacker.example/'), false);
@@ -50,7 +50,7 @@ test('review acceptance requires independently entered source provenance', () =>
   const decision = {
     status: 'accepted',
     note: 'Source checked by editor',
-    page: '/data/health/',
+    page: '/map/health/',
     changed: 'Updated the reported facility count',
     reason: 'The current official report gives the corrected figure.',
     source: 'https://example.org/report.pdf',
@@ -183,14 +183,14 @@ test('rate limiting stores only a keyed IP digest, never the raw address', async
 test('reviewed export uses public values and the Nairobi review date', () => {
   assert.deepEqual(acceptedCorrectionFromRow({
     reviewed_at: '2026-10-26 04:10:00',
-    public_page: '/data/health/',
+    public_page: '/map/health/',
     public_changed: 'Corrected a label',
     public_reason: 'Official source checked',
     public_source: 'https://example.org/source.pdf',
     public_source_date: '2026-10-01',
   }), {
     date: '2026-10-26',
-    page: '/data/health/',
+    page: '/map/health/',
     changed: 'Corrected a label',
     reason: 'Official source checked',
     source: 'https://example.org/source.pdf',
@@ -201,7 +201,7 @@ test('reviewed export uses public values and the Nairobi review date', () => {
 test('reviewed correction date rolls over at Nairobi midnight', () => {
   assert.equal(acceptedCorrectionFromRow({
     reviewed_at: '2026-10-25 21:30:00',
-    public_page: '/data/health/',
+    public_page: '/map/health/',
     public_changed: 'Corrected a label',
     public_reason: 'Official source checked',
     public_source: 'https://example.org/source.pdf',

@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { county, publisher } from '../../county.js';
+---
+<Base title="About Nyamira Daily" description="What Nyamira Daily is, who runs it, and how we keep it honest.">
+  <PageHead title="About Nyamira Daily" lead={`A non-partisan public information service about ${county.countyName}, built and published by ${publisher.legalName}.`} />
+  <div class="stack" style="margin-top:16px; max-width:720px">
+    <h2>What we do</h2>
+    <p>We do two things, in plain language and with a source behind every figure.</p>
+    <ul>
+      <li><strong>The map.</strong> Every facility in every ward of {county.countyName}: what it is, what condition it is in, whether it is open, and what services it gives. See <a href="/map/">the map</a>.</li>
+      <li><strong>The money.</strong> How much the county receives and spends, and how money moves through the county's economy. Public offices come in where the budget does: who approved it and who spent it. See <a href="/money/">the money</a>.</li>
+    </ul>
+    <p>Much of our work starts as a video: a visit to a dispensary, a look at a new budget, a return visit to see what changed. Each one links to the page with its figures. See <a href="/watch/">Watch</a>.</p>
+    <h2>Who runs us</h2>
+    <p>Nyamira Daily is built and published by {publisher.legalName}, {publisher.kind}. Our editorial decisions are made independently of the company's other work, and we have committed to move Nyamira Daily into its own non-profit organisation. <a href="/who-runs-us/">Who runs us and who funds us</a>.</p>
+    <h2>What we are not</h2>
+    <p>We are not a news site, and we are not affiliated with the {county.government} or any political party. We do not campaign for any party or candidate. We report what public records and on-the-ground checks show, including what works well.</p>
+    <h2>How we keep it honest</h2>
+    <ul>
+      <li>Every figure links to its source, usually an official report.</li>
+      <li>Every claim carries a label: Verified, Audit finding, Official claim or Unverified.</li>
+      <li>We ask anyone we raise questions about to respond before we publish. See <a href="/right-of-reply/">right of reply</a>.</li>
+      <li>When an allegation is cleared or a case is dropped, we say so as clearly as we reported the allegation.</li>
+      <li>We correct mistakes openly. See <a href="/how-we-work/#corrections">corrections</a>.</li>
+    </ul>
+    <h2>Using our data</h2>
+    <p>Our tables are free to reuse under the Creative Commons Attribution licence (CC BY 4.0): credit Nyamira Daily and link to the page. <a href="/about/data/">Download the data</a> or read our <a href="/terms/">terms and reuse</a> page.</p>
+    <p class="small muted">Also see: <a href="/privacy/">privacy</a>.</p>
+    <div class="sw" lang="sw">
+      <span class="eyebrow">Muhtasari kwa Kiswahili</span>
+      <p>Nyamira Daily ni huduma ya habari isiyoegemea upande wowote wa kisiasa kuhusu kaunti ya Nyamira. Inaandaliwa na kuchapishwa na {publisher.legalName}. Haiungi mkono chama wala mgombea yeyote. Kila takwimu ina chanzo, na tunasahihisha makosa waziwazi.</p>
+    </div>
+    <!-- Kiswahili summary updated 31 Oct 2026: needs native-speaker review. -->
+  </div>
+</Base>

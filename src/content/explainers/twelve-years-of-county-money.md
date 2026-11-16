@@ -43,4 +43,4 @@ The share of the development budget the county actually used has ranged from **2
 - Which development projects in my ward were budgeted but not paid for, and will they be budgeted again?
 - Why do the county's own reports for 2024/25 give a different total from the Controller of Budget?
 
-All the figures, year by year and with each report's page, are on the [Money page](/data/money/), and you can [download them](/data/open-data/).
+All the figures, year by year and with each report's page, are on the [Money page](/money/), and you can [download them](/about/data/).

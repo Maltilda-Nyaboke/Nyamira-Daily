@@ -14,7 +14,7 @@ This note explains how we produced the figures in [KSh 59.6 billion: twelve year
 
 ## Sources
 
-We used one source for every year: the Controller of Budget's annual County Governments Budget Implementation Review Report, from FY2013/14 to FY2024/25. Each year's report and page reference is listed on the [Money page](/data/money/) and in the [download](/files/money-v1.csv).
+We used one source for every year: the Controller of Budget's annual County Governments Budget Implementation Review Report, from FY2013/14 to FY2024/25. Each year's report and page reference is listed on the [Money page](/money/) and in the [download](/files/money-v1.csv).
 
 ## Steps
 

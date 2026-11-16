@@ -14,6 +14,11 @@ For any assistant or developer picking this up (Codex, Claude Code, a person). R
 - Found while studying the repo: none of the 247 facilities has been checked on site, 178 have no coordinates, and none has a condition or status field. The D1 tables for facility observations and road conditions exist, but `wrangler.jsonc` still has a placeholder database id, so they were never switched on.
 - R0 done: the plan is approved and `main` (cfa390f) is tagged `archive/pre-refocus-2026-11`. Next: R1, the look.
 
+- **Phase R2b built** on the same branch, not pushed. Decision #113.
+  - New addresses `/map/`, `/money/` and the rest; 217 redirects in `redirects.json`, every target checked; compact home page; 27 unused files deleted; About states the new purpose.
+  - Checked: the build, `npm test` (321 pass: the tests of the three deleted modules went with them), `npm run check:county:pages`, every pre-R2 URL resolves or redirects, no internal link points at a missing page; home page at 390 and 1280 with no sideways scroll.
+  - Not done in R2: `/administration/duties/` (the Fourth Schedule page; the Constitution redirects go to `/administration/` until it exists); the CSS of removed features (alerts, NY Watch, on-air strip) is still in `global.css`; the alert plumbing on the maps renders nothing while no alert is live, and goes with R3. The older sections of PROJECT_BRIEF, ROADMAP and DATA still describe the old site.
+  - Next: the owner's review of R1 and R2, then R3, places.
 - **Phase R2a, structure, built** on branch `feat/refocus-r2-structure` (stacked on R1), not pushed. Decision #112.
   - Five-item menu; 68 page files removed; 101 old addresses redirect (`redirects.json`); new `/administration/` and `/watch/`.
   - Checked: the build (2,825 pages), `npm test` (334 pass), `npm run check:county:pages`, every old URL from before R2 resolves or redirects, no internal link points at a removed page, all 986 search entries point at live pages.

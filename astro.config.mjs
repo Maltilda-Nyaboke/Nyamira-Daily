@@ -29,13 +29,13 @@ export default defineConfig({
   build: { format: 'directory' },
   // Old data pages now live inside the sector pages (decision #30)
   redirects: withRefocus({
-    '/data/projects/': '/data/money/#projects',
-    '/data/audit/': '/data/money/#audit',
-    '/data/compare/': '/data/money/#compare',
+    '/data/projects/': '/money/#projects',
+    '/data/audit/': '/money/#audit',
+    '/data/compare/': '/money/#compare',
     '/data/then-and-now/': '/community/nyamira-since-2013/',
     '/data/elections/': '/government/elections/',
-    '/data/tea-milk/': '/data/farming/',
-    '/data/schools/': '/data/education/',
+    '/data/tea-milk/': '/money/farming/',
+    '/data/schools/': '/map/education/',
     '/data/sub-locations/': '/community/people-and-places/#sub-locations',
     '/data/services/': '/community/people-and-places/#services',
     // Stories became Community, and People and places moved there from Data (decision #58)
@@ -44,7 +44,7 @@ export default defineConfig({
     '/data/people/': '/community/people-and-places/',
     // Show episodes moved to Today as NY Watch, now a podcast (decision #63)
     '/learn/episodes/': '/ny-watch/',
-    '/data/prices/': '/data/farming/',
-    '/data/plans/': '/data/money/',
+    '/data/prices/': '/money/farming/',
+    '/data/plans/': '/money/',
   }),
 });

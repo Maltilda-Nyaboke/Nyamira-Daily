@@ -7,7 +7,7 @@ sources:
     url: ""
 datasets:
   - label: "Ward projects"
-    href: "/data/money/#projects"
+    href: "/money/#projects"
 evidenceLabel: unverified
 draft: true
 ---

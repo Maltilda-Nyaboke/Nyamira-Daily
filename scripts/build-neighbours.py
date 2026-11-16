@@ -1,5 +1,5 @@
 """Build src/data/neighbours.json: Nyamira and its neighbouring counties, clipped to a frame around the
-county and drawn in the same SVG projection as src/data/geo.json, for map context (hero map, /maps/).
+county and drawn in the same SVG projection as src/data/geo.json, for map context (hero map, /map/).
 Source: geoBoundaries gbOpen KEN ADM1, simplified (CC BY 4.0), e.g.
 https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/gbOpen/KEN/ADM1/geoBoundaries-KEN-ADM1_simplified.geojson
   python3 scripts/build-neighbours.py <geoBoundaries-KEN-ADM1_simplified.geojson>

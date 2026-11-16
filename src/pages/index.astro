@@ -1,85 +1,65 @@
 ---
+// Home (decision #110): the map first, then one money band, then the places, then the topics as a short list.
+// No podcast, news or alerts. The number of the week sits beside the year's money, since both are money figures.
 import Base from '../layouts/Base.astro';
 import HeroMap from '../components/HeroMap.astro';
-import NyWatchLogo from '../components/NyWatchLogo.astro';
 import EvidenceLabel from '../components/EvidenceLabel.astro';
-import Illustration from '../components/Illustration.astro';
 import SplitBar from '../components/viz/SplitBar.astro';
 import NumberCard from '../components/NumberCard.astro';
-import NewsBrief from '../components/NewsBrief.astro';
-import { entries } from '../lib/content.js';
 import { getNumbers } from '../lib/numbers.js';
-const [numberNow] = await getNumbers();
 import wards from '../data/wards.js';
-import { topics } from '../data/topics.js';
+import { topics, topicPath } from '../data/topics.js';
 import Icon from '../components/Icon.astro';
 import { topicIcon } from '../lib/icons.js';
 import money from '../lib/county-money.js';
-import { publisher } from '../county.js';
 
+const [numberNow] = await getNumbers();
 const facilities = wards.reduce((n, w) => n + w.facilities.length, 0);
 const health = wards.reduce((n, w) => n + (w.counts.Health ?? 0), 0);
 const last = money.years[money.years.length - 1];
 const bn = (m) => 'KSh ' + parseFloat((m / 1000).toFixed(2)) + 'B';
-// News stays small and below the data (decision #63): the three latest briefs, only once real ones exist.
-const latestNews = (await entries('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 3);
 ---
-<Base title="Today" tools={false}>
+<Base title="Home" tools={false}>
   <HeroMap slot="hero" />
 
   <div class="stack-lg" style="padding-top:40px">
-    <section class="cols-2 glance" aria-label="Nyamira at a glance">
-      <div class="figure graphic-panel">
-        <span class="eyebrow">Money · {last.fy}</span>
+    <section class="cols-2 glance" aria-labelledby="money-now">
+      <div class="figure">
+        <span class="eyebrow" id="money-now">Money · {last.fy}</span>
         <span class="num is-lead">{bn(last.spent)}</span>
         <p class="say">spent by the county, out of a <strong>{bn(last.budget)}</strong> budget. <strong class="hot">{bn(last.budget - last.spent)}</strong> was not spent.</p>
-        <Illustration id="money" tone="harvest" />
-        <h3 class="mini">Development money: roads, buildings, water</h3>
-        <SplitBar title={`Development budget ${last.fy}`} parts={[{ value: last.devAbs, label: 'used', tone: 'good' }, { value: 100 - last.devAbs, label: 'not used', tone: 'gap' }]} />
+        <SplitBar title={`Development money: roads, buildings, water, ${last.fy}`} parts={[{ value: last.devAbs, label: 'used', tone: 'good' }, { value: 100 - last.devAbs, label: 'not used', tone: 'gap' }]} />
         <p class="source"><EvidenceLabel kind="official" /> Source: Controller of Budget, FY{last.fy}</p>
-        <a href="/data/money/"><strong>See 12 years of county money</strong></a>
+        <a href="/money/"><strong>The county's money, department by department</strong></a>
       </div>
-      <div class="stack">
-        <div class="tiles three">
-          <a class="tile graphic-tile" href="/ward/"><Icon name="ward" size={22} badge /><b>20</b><span>wards, each with an elected MCA</span><EvidenceLabel kind="verified" /></a>
-          <a class="tile graphic-tile" href="/maps/"><Icon name="market" size={22} badge /><b>{facilities}</b><span>public places and services listed</span><EvidenceLabel kind="unverified" /></a>
-          <a class="tile graphic-tile" href="/data/health/#facilities"><Icon name="health" size={22} badge /><b>{health}</b><span>health facilities in the 2017 national list</span><EvidenceLabel kind="official" /></a>
-        </div>
-        <p class="small muted">Sources: IEBC ward list and geoBoundaries (wards); the Nyamira Daily list, mostly not yet checked on site (services); Kenya Master Health Facility List, 2017 export (health). <span class="updated">Figures last updated 22 Oct 2026.</span></p>
+      {numberNow && <div class="panel sec-harvest"><NumberCard e={numberNow} full={false} /></div>}
+    </section>
+
+    <section class="stack" aria-labelledby="places">
+      <h2 id="places">The places</h2>
+      <div class="tiles">
+        <a class="tile" href="/map/"><Icon name="market" size={22} badge /><b>{facilities}</b><span>public places and services listed</span><EvidenceLabel kind="unverified" /></a>
+        <a class="tile" href="/map/health/#facilities"><Icon name="health" size={22} badge /><b>{health}</b><span>health facilities in the 2017 national list</span><EvidenceLabel kind="official" /></a>
+        <a class="tile" href="/report/"><Icon name="check" size={22} badge /><b>Seen one?</b><span>Tell us what condition a place is in</span></a>
       </div>
+      <p class="small muted">Sources: the Nyamira Daily list, mostly not yet checked on site; Kenya Master Health Facility List, 2017 export.</p>
     </section>
 
     <section class="stack" aria-labelledby="explore">
-      <h2 id="explore">Explore the data</h2>
-      <div class="sector-tiles compact">
+      <h2 id="explore">Explore</h2>
+      <ul class="rows">
         {topics.map((t) => (
-          <a class={`sector-tile sec-${t.tone}`} href={`/data/${t.slug}/`}><Icon name={topicIcon[t.slug] ?? 'chart'} size={24} badge /><h3>{t.title}</h3><p>{t.question}</p><span class="go" aria-hidden="true">→</span></a>
+          <li><a class="row-link has-ico" href={topicPath[t.slug]}><Icon name={topicIcon[t.slug] ?? 'chart'} size={22} badge /><span style="flex:1"><span class="t">{t.title}</span><span class="d">{t.question}</span></span><span class="go" aria-hidden="true">→</span></a></li>
         ))}
-      </div>
+        <li><a class="row-link has-ico" href="/tracker/"><Icon name="source" size={22} badge /><span style="flex:1"><span class="t">Contracts</span><span class="d">Every contract we can find: who, how much, when.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+      </ul>
     </section>
 
-    <section class="stack" aria-labelledby="this-week">
-      <div class="row-head"><h2 id="this-week">This week</h2><button class="sw-switch" type="button" data-sw-switch aria-pressed="false" hidden>Soma kwa Kiswahili</button></div>
-      <div class="week-row">
-        {numberNow && <div class="panel sec-harvest"><NumberCard e={numberNow} full={false} /></div>}
-        <section class="nyw nyw-band on-ink stack" aria-labelledby="show">
-          <NyWatchLogo on="dark" />
-          <span class="eyebrow">Podcast</span>
-          <span class="nyw-badge" data-onair hidden>Live now</span>
-          <h3 id="show">NY Watch</h3>
-          <p class="muted">The data review podcast, hosted by {publisher.founder}: one set of figures from this site each episode, what the records say, and the questions to ask.</p>
-        </section>
-        {latestNews.length > 0 && (
-          <section class="stack week-news" aria-labelledby="news">
-            <h3 id="news">News</h3>
-            {latestNews.map((brief) => <NewsBrief brief={brief} />)}
-            <a href="/watch/">Watch</a>
-          </section>
-        )}
-      </div>
+    <section class="stack">
+      <div class="row-head"><span></span><button class="sw-switch" type="button" data-sw-switch aria-pressed="false" hidden>Soma kwa Kiswahili</button></div>
       <div class="sw" lang="sw">
         <span class="eyebrow">Muhtasari kwa Kiswahili</span>
-        <p>Nyamira Daily inaeleza kwa lugha rahisi jinsi pesa za kaunti zinavyotumika, huduma zilizopo katika kila wadi, na nani anawajibika. Kila takwimu ina chanzo chake.</p>
+        <p>Nyamira Daily inaeleza kwa lugha rahisi jinsi pesa za kaunti zinavyotumika, huduma zilizopo katika kila wadi, na hali yake. Kila takwimu ina chanzo chake.</p>
       </div>
     </section>
   </div>

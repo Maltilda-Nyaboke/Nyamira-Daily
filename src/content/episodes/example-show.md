@@ -7,6 +7,6 @@ summary: "EXAMPLE. A daily show episode about life in a market centre, with the 
 hosts: ["EXAMPLE host"]
 datasets:
   - label: "Fees you pay"
-    href: "/learn/fees/"
+    href: "/money/fees/"
 draft: true
 ---

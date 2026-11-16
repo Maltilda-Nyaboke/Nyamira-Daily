@@ -17,13 +17,10 @@ import Pictos from '../../components/viz/Pictos.astro';
 import { roadsForWard, roadPath, subtypeLabel } from '../../lib/roads.js';
 import SplitBar from '../../components/viz/SplitBar.astro';
 import HBars from '../../components/viz/HBars.astro';
-import EmbedCode from '../../components/EmbedCode.astro';
 import CommunityReports from '../../components/CommunityReports.astro';
 import AuditFinding from '../../components/data/AuditFinding.astro';
 import { forWard as auditFor } from '../../lib/audit.js';
 const auditHere = auditFor(Astro.params.slug);
-import E from '../../data/elections.json';
-const reg22 = E.registeredByWard.find((r) => r.year === 2022 && r.ward === Astro.params.slug);
 import { getAlerts } from '../../lib/alerts-data.js';
 import { levelLabel } from '../../lib/alerts.js';
 import { amountLabel } from '../../lib/project-amounts.js';
@@ -155,7 +152,7 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
     {auditHere.length > 0 && (
     <Toggle id="audit" title={`What the Auditor-General said about ${w.name}`} meta={'Audit findings, not court rulings'}>
       <section class="stack">
-        <p class="muted small">From the Auditor-General's reports on the county. These are the auditor's findings, not court rulings. <a href="/data/money/#audit">All audit findings</a></p>
+        <p class="muted small">From the Auditor-General's reports on the county. These are the auditor's findings, not court rulings. <a href="/money/#audit">All audit findings</a></p>
         <ul class="alist">{auditHere.map((f) => <li><AuditFinding f={f} /></li>)}</ul>
       </section>
     </Toggle>
@@ -214,7 +211,7 @@ const constSlug = w.subCounty.toLowerCase().split(' ').join('-');
           })}</ul>
         </details>
       ))}
-      <a class="small" href="/data/money/#projects">Compare all wards</a>
+      <a class="small" href="/money/#projects">Compare all wards</a>
     </section>
     </Toggle>
 

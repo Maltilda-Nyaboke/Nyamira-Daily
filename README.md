@@ -49,7 +49,7 @@ The Astro site requires Node.js 18.20.8 or later. The optional Cloudflare Pages/
 
 ## Sections
 
-Eight sections form the navigation bar: Today · Wards · Data · Community · Government · Take part · Learn · About. Tapping a section opens a menu listing everything in it: the section's own page first, then its pages. The Constitution pages sit under Learn; Opportunities, Alerts and the NY Watch podcast under Today; the trust pages (Who runs us, Right of reply, Privacy, Terms) under About. Without JavaScript the sections are plain links to their pages. The menus are defined in `src/nav.js`.
+Five sections form the navigation bar (decision #112): Map · Money · Watch · Administration · About. Map holds the county map, the 20 ward pages, places, roads, Health, Education and Report a place. Money holds the county budget pages, Farming, contracts, the budget calendar and fees. Watch holds the explainers and the number of the week. Administration lists who holds each seat. About holds the trust pages, open data and the glossary. The menus are defined in `src/nav.js`. Removed and moved pages redirect through `redirects.json`.
 
 ## Maps and the ward filter
 

@@ -10,3 +10,6 @@ export const topics = [
 
 // People and places moved from Data to Community (decision #58); same content, now at /community/people-and-places/.
 export const peopleAndPlaces = { slug: 'people', tone: 'bloom', title: 'People and places', question: 'How many people live in Nyamira and in your sub-location, and what services are listed?', status: '2019 census for the county, sub-counties and all 113 sub-locations; services listed by ward', sources: ['KNBS 2019 census', 'Nyamira Daily list'] };
+
+// Where each topic page lives since the refocus (decision #110): Health and Education under Map, Money and Farming under Money, Open data under About.
+export const topicPath = { money: '/money/', farming: '/money/farming/', health: '/map/health/', education: '/map/education/', 'open-data': '/about/data/' };

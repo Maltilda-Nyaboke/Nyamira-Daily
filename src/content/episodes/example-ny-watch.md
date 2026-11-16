@@ -8,13 +8,13 @@ hosts: ["Keith Morangwa Nyahach"]
 guests: []
 datasets:
   - label: "County money"
-    href: "/data/money/"
+    href: "/money/"
   - label: "What does \"development budget used\" mean?"
     href: "/explainers/development-budget/"
 claims:
   - claim: "EXAMPLE: A listener said most of the development budget was spent."
     by: "EXAMPLE listener question"
     check: "The Controller of Budget reports 37% of the development budget used in 2024/25."
-    href: "/data/money/"
+    href: "/money/"
 draft: true
 ---

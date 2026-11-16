@@ -20,7 +20,7 @@ export function slugify(name) {
   return name.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').split('-').slice(0, 8).join('-');
 }
 
-export const yearPath = (fy = FY_PATH) => `/data/money/${fy}/`;
+export const yearPath = (fy = FY_PATH) => `/money/${fy}/`;
 export const departmentPath = (vote) => `${yearPath()}departments/${vote}/`;
 export const programmePath = (vote, slug) => `${departmentPath(vote)}${slug}/`;
 

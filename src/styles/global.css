@@ -1125,6 +1125,7 @@ main :is(.figure .num, .tile b, .card .big, .callout b, .hc-title.big, .pc-text 
 }
 .desk-item { display: none; }
 .js .desk-link { display: none; }
+.js .desk-link.solo { display: inline-flex; } /* a section with no pages is a plain link (Administration) */
 .js .desk-item { display: inline-flex; }
 .desk-item .chev { opacity: 0.55; transition: transform 0.15s; }
 .desk-nav :is(.desk-link, .desk-item):not([aria-expanded="true"]):hover { background: color-mix(in srgb, var(--sec) 16%, transparent); }

@@ -1,4 +1,4 @@
-// Shared wrapper for machine-readable outputs (/api/…), documented on /data/open-data/.
+// Shared wrapper for machine-readable outputs (/api/…), documented on /about/data/.
 export const licence = {
   licence: 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/): free to reuse with credit to Nyamira Daily and a link to the page.',
   credit: 'Source: Nyamira Daily',

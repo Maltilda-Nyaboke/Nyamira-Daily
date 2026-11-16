@@ -40,22 +40,17 @@ Every page leads with one number, one plain sentence and one evidence label. The
 
 ## Structure of the site
 
-Eight sections, in the main menu (`src/nav.js`):
+Since 16 Nov 2026 (decisions #110, #112, #113) the site has two goals, the map and the money, and five sections (`src/nav.js`):
 
 | Section | What it answers |
 |---|---|
-| Today | What our county has, spends and does: headline figures, alerts, the number of the week, opportunities, the NY Watch podcast |
-| Wards | A page per ward (20) and per constituency (4): ward receipt, map, MCA, services, county projects, roads |
-| Data | Money, health, education, farming, the project tracker, plus open data downloads |
-| Community | Who lives here (census), what's working, heritage and people |
-| Government | Who's in charge of what, leaders, elections, the Executive, the County Assembly, watchdogs |
-| Take part | Ask Nyamira, reports, submissions, public hearings, the budget simulator |
-| Learn | How the county works, the Constitution, the budget calendar, fees, glossary, explainers |
-| About | Who runs us and funds us, how we work, right of reply, the impact log, terms, privacy |
+| Map | What is in each ward, what condition it is in, and what services it gives: the county map, ward pages, places, roads, health, education, Report a place |
+| Money | What the county receives and spends: the budget by department and programme, spending to date, revenue, history, farming, contracts, the budget calendar, fees |
+| Watch | Our videos and explainers, each with the figures and sources behind it |
+| Administration | Who holds each seat now, for information only |
+| About | Who runs us, how we work, right of reply, open data, the glossary, terms, privacy |
 
-The work follows three pillars: **money** (budgets, spending, audits, contracts), **ground truth** (what is actually there in each ward, checked on site) and **voice** (taking part, and stories of what works).
-
-A **"Your ward" picker** sits on every page. Readers choose their ward once; the site then shows that ward's figures first. Each ward also keeps its own page, with its own share image, so it can be shared on WhatsApp.
+YouTube comes first: the site holds the figures behind each video. The full plan is `docs/refocus/PLAN.md`. The sections below this one describe the site before the refocus and are being updated phase by phase.
 
 ## Who runs it
 

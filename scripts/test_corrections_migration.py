@@ -22,7 +22,7 @@ class CorrectionMigrationTests(unittest.TestCase):
         self.assertNotIn("phone", columns)
         self.db.execute(
             "INSERT INTO correction_submissions (id, page_path, details) VALUES (?, ?, ?)",
-            ("submission-1", "/data/health/", "The page may cite an older report."),
+            ("submission-1", "/map/health/", "The page may cite an older report."),
         )
         self.assertEqual(
             self.db.execute(
@@ -35,7 +35,7 @@ class CorrectionMigrationTests(unittest.TestCase):
     def test_accepted_submission_requires_complete_public_evidence(self):
         self.db.execute(
             "INSERT INTO correction_submissions (id, page_path, details) VALUES (?, ?, ?)",
-            ("submission-2", "/data/health/", "Please check the source."),
+            ("submission-2", "/map/health/", "Please check the source."),
         )
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute(
@@ -46,7 +46,7 @@ class CorrectionMigrationTests(unittest.TestCase):
     def test_decision_event_is_added_once_and_cannot_be_overwritten_silently(self):
         self.db.execute(
             "INSERT INTO correction_submissions (id, page_path, details) VALUES (?, ?, ?)",
-            ("submission-3", "/data/health/", "The source date appears incorrect."),
+            ("submission-3", "/map/health/", "The source date appears incorrect."),
         )
         self.db.execute(
             """
@@ -59,7 +59,7 @@ class CorrectionMigrationTests(unittest.TestCase):
             (
                 "editor@example.org",
                 "Source checked",
-                "/data/health/",
+                "/map/health/",
                 "Corrected the source date",
                 "Official report checked",
                 "https://example.org/report.pdf",
@@ -92,7 +92,7 @@ class CorrectionMigrationTests(unittest.TestCase):
             )
         self.db.execute(
             "INSERT INTO correction_submissions (id, page_path, details) VALUES (?, ?, ?)",
-            ("submission-4", "/data/health/", "Please verify this source."),
+            ("submission-4", "/map/health/", "Please verify this source."),
         )
         self.db.execute(
             """

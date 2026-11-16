@@ -29,10 +29,12 @@ const chev = '<svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-
       <ul>
         {sections.map((s) => (
           <li class={`sec-${tone(s)}`}>
-            <a class="desk-link" href={s.href} aria-current={state(s)}>{s.label}</a>
-            <button class="desk-item" type="button" aria-expanded="false" aria-controls={`mega-${anchorFor(s.label)}`} aria-current={state(s)}>
-              {s.label}<Fragment set:html={chev} />
-            </button>
+            {s.pages.length ? (<>
+              <a class="desk-link" href={s.href} aria-current={state(s)}>{s.label}</a>
+              <button class="desk-item" type="button" aria-expanded="false" aria-controls={`mega-${anchorFor(s.label)}`} aria-current={state(s)}>
+                {s.label}<Fragment set:html={chev} />
+              </button>
+            </>) : <a class="desk-link solo" href={s.href} aria-current={state(s)}>{s.label}</a>}
           </li>
         ))}
       </ul>

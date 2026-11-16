@@ -1,6 +1,6 @@
 ---
 // The front of the Money section (decision #105): where this year's budget is, its total, what was spent, and the
-// pages one tap deeper. The twelve-year charts moved to /data/money/history/.
+// pages one tap deeper. The twelve-year charts moved to /money/history/.
 import EvidenceLabel from '../EvidenceLabel.astro';
 import StageStrip from './StageStrip.astro';
 import { ksh } from '../../lib/fmt.js';
@@ -14,9 +14,9 @@ const cobPct = t.cob.absorption.value;
 const cards = [
   { href: yearPath(), t: `Budget ${FY}`, d: `${ksh(y.total.value)}: where each KSh 100 goes and comes from` },
   { href: `${yearPath()}departments/`, t: 'The 24 departments', d: `${top.short} gets the most: ${ksh(top.total)}. Each with its programmes` },
-  { href: '/data/money/track/', t: 'What was spent this year', d: `Each department's spending to 30 June 2026, and questions to ask` },
-  { href: '/data/money/revenue/', t: 'Where the money comes from', d: 'Equitable share, local revenue and grants since 2013' },
-  { href: '/data/money/history/', t: 'Twelve years of money', d: 'Budget and spending, development, unpaid bills since 2013/14' },
+  { href: '/money/track/', t: 'What was spent this year', d: `Each department's spending to 30 June 2026, and questions to ask` },
+  { href: '/money/revenue/', t: 'Where the money comes from', d: 'Equitable share, local revenue and grants since 2013' },
+  { href: '/money/history/', t: 'Twelve years of money', d: 'Budget and spending, development, unpaid bills since 2013/14' },
 ];
 ---
 <div class="stack-lg" style="margin-top:24px">
