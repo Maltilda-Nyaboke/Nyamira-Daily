@@ -15,11 +15,14 @@ const sections = navSections.filter((s) => s.href && !planned.has(s.href));
       <img src="/brand/Nyamira-Daily_horizontal_full-colour.svg" alt="Nyamira Daily" width="168" height="33" />
     </a>
 
-    <form class="fg-hdr-search" action="/search/" method="get" role="search">
-      <label class="vh" for="fg-hdr-q">Search Nyamira Daily</label>
-      <Icon name="search" size={16} />
-      <input id="fg-hdr-q" type="search" name="q" placeholder="Search the directory..." autocomplete="off" />
-    </form>
+    <div class="fg-hdr-search-wrap" data-live-search>
+      <form class="fg-hdr-search" action="/search/" method="get" role="search">
+        <label class="vh" for="fg-hdr-q">Search Nyamira Daily</label>
+        <Icon name="search" size={16} />
+        <input id="fg-hdr-q" type="search" name="q" placeholder="Search the directory..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fg-hdr-hits" />
+      </form>
+      <div class="fg-search-pop" id="fg-hdr-hits" role="listbox" aria-label="Quick search results" hidden></div>
+    </div>
 
     <nav class="fg-nav" aria-label="Sections">
       <ul>
@@ -105,23 +108,123 @@ const sections = navSections.filter((s) => s.href && !planned.has(s.href));
 (function () {
   var sheet = document.getElementById('site-menu');
   var openBtn = document.querySelector('[data-menu-open]');
-  if (!sheet || !openBtn) return;
-  var closes = sheet.querySelectorAll('[data-menu-close]');
-  var closeBtn = sheet.querySelector('button[data-menu-close]');
-  function setOpen(on) {
-    sheet.hidden = !on;
-    openBtn.setAttribute('aria-expanded', String(on));
-    document.documentElement.classList.toggle('sheet-open', on);
-    (on ? closeBtn : openBtn).focus();
-  }
-  openBtn.addEventListener('click', function () { setOpen(true); });
-  closes.forEach(function (el) { el.addEventListener('click', function () { setOpen(false); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
-  sheet.querySelectorAll('details.sheet-sec').forEach(function (d) {
-    d.addEventListener('toggle', function () {
-      if (!d.open) return;
-      sheet.querySelectorAll('details.sheet-sec').forEach(function (o) { if (o !== d) o.open = false; });
+  if (sheet && openBtn) {
+    var closes = sheet.querySelectorAll('[data-menu-close]');
+    var closeBtn = sheet.querySelector('button[data-menu-close]');
+    function setOpen(on) {
+      sheet.hidden = !on;
+      openBtn.setAttribute('aria-expanded', String(on));
+      document.documentElement.classList.toggle('sheet-open', on);
+      (on ? closeBtn : openBtn).focus();
+    }
+    openBtn.addEventListener('click', function () { setOpen(true); });
+    closes.forEach(function (el) { el.addEventListener('click', function () { setOpen(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
+    sheet.querySelectorAll('details.sheet-sec').forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (!d.open) return;
+        sheet.querySelectorAll('details.sheet-sec').forEach(function (o) { if (o !== d) o.open = false; });
+      });
     });
+  }
+
+  // Instant Field Guide directory search dropdown
+  var wrap = document.querySelector('[data-live-search]');
+  var input = document.getElementById('fg-hdr-q');
+  var pop = document.getElementById('fg-hdr-hits');
+  if (!wrap || !input || !pop) return;
+  var cache = null, waiters = null, activeIdx = -1;
+  function norm(s) { return (s || '').toLowerCase().replace(/[’']/g, ''); }
+  function hide() { pop.hidden = true; input.setAttribute('aria-expanded', 'false'); activeIdx = -1; }
+  function load(cb) {
+    if (cache) return cb(cache);
+    if (waiters) { waiters.push(cb); return; }
+    waiters = [cb];
+    fetch('/search-index.json')
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (d) {
+        cache = Array.isArray(d) ? d : [];
+        var q = waiters; waiters = null;
+        q.forEach(function (fn) { fn(cache); });
+      })
+      .catch(function () { waiters = null; });
+  }
+  function render() {
+    var raw = input.value.trim();
+    var q = norm(raw);
+    if (q.length < 2) { hide(); return; }
+    load(function (items) {
+      var words = q.split(/\s+/);
+      var hits = items.map(function (it) {
+        var t = norm(it.t), k = norm(it.k), g = norm(it.g), s = 0;
+        for (var i = 0; i < words.length; i++) {
+          var w = words[i];
+          if (t.indexOf(w) === 0) s += 8;
+          else if (t.indexOf(w) > -1) s += 5;
+          else if (g.indexOf(w) > -1) s += 3;
+          else if (k.indexOf(w) > -1) s += 1;
+          else return null;
+        }
+        return { it: it, s: s };
+      }).filter(Boolean).sort(function (a, b) { return b.s - a.s; }).slice(0, 7);
+
+      pop.textContent = '';
+      activeIdx = -1;
+      if (!hits.length) {
+        var empty = document.createElement('div');
+        empty.className = 'fg-pop-empty';
+        empty.textContent = 'No instant match for "' + raw + '". Press Enter for full search.';
+        pop.appendChild(empty);
+      } else {
+        hits.forEach(function (h) {
+          var a = document.createElement('a');
+          a.className = 'fg-pop-item';
+          a.href = h.it.u;
+          a.setAttribute('role', 'option');
+          var arr = document.createElement('span');
+          arr.className = 'fg-pop-arr';
+          arr.setAttribute('aria-hidden', 'true');
+          arr.textContent = '↗';
+          var title = document.createElement('span');
+          title.className = 'fg-pop-title';
+          title.textContent = h.it.t;
+          var tag = document.createElement('span');
+          tag.className = 'fg-pop-tag';
+          tag.textContent = (h.it.g || 'Record').split('·')[0].trim();
+          a.appendChild(arr);
+          a.appendChild(title);
+          a.appendChild(tag);
+          pop.appendChild(a);
+        });
+      }
+      var all = document.createElement('a');
+      all.className = 'fg-pop-all';
+      all.href = '/search/?q=' + encodeURIComponent(raw);
+      all.textContent = 'See all directory results for "' + raw + '" →';
+      pop.appendChild(all);
+      pop.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    });
+  }
+  input.addEventListener('input', render);
+  input.addEventListener('focus', function () { if (input.value.trim().length >= 2) render(); else load(function () {}); });
+  input.addEventListener('keydown', function (e) {
+    if (pop.hidden) return;
+    var links = pop.querySelectorAll('a');
+    if (e.key === 'Escape') { hide(); }
+    else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = (activeIdx + 1) % links.length;
+      links.forEach(function (l, i) { l.classList.toggle('is-active', i === activeIdx); });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = (activeIdx - 1 + links.length) % links.length;
+      links.forEach(function (l, i) { l.classList.toggle('is-active', i === activeIdx); });
+    } else if (e.key === 'Enter' && activeIdx >= 0 && links[activeIdx]) {
+      e.preventDefault();
+      window.location.href = links[activeIdx].href;
+    }
   });
+  document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) hide(); });
 })();
 </script>

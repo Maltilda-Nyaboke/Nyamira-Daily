@@ -65,7 +65,8 @@ export const sections = [
     desc: 'What Nyamira Daily is, and how to reach us.', pages: [
     { href: '/about/contact/', label: 'Tell us', group: 'Nyamira Daily', icon: 'question', desc: 'A place, a tip, a story or a correction', also: ['/report/'] },
     { href: '/about/careers/', label: 'Careers and volunteering', group: 'Nyamira Daily', icon: 'people', desc: 'Ward correspondents and culture volunteers' },
-    { href: '/about/partners/', label: 'Partner with us', group: 'Nyamira Daily', icon: 'data', desc: 'Data, research and sponsorship', also: ['/about/data/'] },
+    { href: '/about/partners/', label: 'Partner with us', group: 'Nyamira Daily', icon: 'data', desc: 'Data, research and sponsorship' },
+    { href: '/about/data/', label: 'Open data', group: 'Nyamira Daily', icon: 'data', desc: 'CSV tables and live JSON endpoints' },
     { href: '/about/rules/', label: 'Rules and legal', group: 'Nyamira Daily', icon: 'source', desc: 'How we work, right of reply, terms, privacy' },
   ] },
 ];

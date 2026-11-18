@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import Toggle from '../../components/Toggle.astro';
+import Icon from '../../components/Icon.astro';
 import wards from '../../data/wards.js';
 import leaders from '../../data/leaders.json';
 import WardMap from '../../components/WardMap.astro';
@@ -9,19 +10,34 @@ import { subCounties, anchorFor } from '../../nav.js';
 ---
 <Base title="Wards">
   <div class="sec-tea">
-    <PageHead eyebrow="Wards" title="Choose your ward" lead="Nyamira has 20 wards in four constituencies. Tap yours on the map, or find it in the list." tone="tea" tools={false} />
+    <PageHead eyebrow="All 20 Wards · 4 Constituencies" title="Choose your ward" lead="Nyamira has 20 wards in four constituencies. Tap yours on the map, filter by name, or open a constituency below." tone="tea" tools={false} />
   </div>
   <div class="stack-lg" style="margin-top:16px">
-    <div class="cols-2">
+    <div class="cols-2 fg-wards-layout">
       <WardMap mode="county" />
-      <div class="stack sec-tea">
-        {subCounties.map((s) => {
+      <div class="stack sec-tea" data-ward-directory>
+        <div class="fg-ward-filter">
+          <label class="vh" for="ward-filter-q">Filter the 20 wards</label>
+          <Icon name="search" size={16} />
+          <input id="ward-filter-q" type="search" placeholder="Filter 20 wards by name or constituency..." autocomplete="off" />
+        </div>
+        {subCounties.map((s, idx) => {
           const mp = leaders.national.find((l) => l.office === `MP, ${s}`);
           const ws = wards.filter((w) => w.subCounty === s);
           return (
-            <Toggle id={anchorFor(s)} title={`${s} Constituency`} meta={`${ws.length} wards${mp ? ` · MP ${mp.name}` : ''}`}>
-              <ul class="rows">
-                {ws.map((w) => <li data-ward-row={w.slug}><a class="row-link" href={`/ward/${w.slug}/`}><span><span class="t">{w.name}</span><span class="d">{w.facilities.length} services listed · {w.places.length} places</span></span><span class="go" aria-hidden="true">→</span></a></li>)}
+            <Toggle id={anchorFor(s)} title={`${s} Constituency`} meta={`${ws.length} wards${mp ? ` · MP ${mp.name}` : ''}`} open={idx === 0}>
+              <ul class="fg-pill-stack" style="margin-top:8px">
+                {ws.map((w) => (
+                  <li data-ward-row={w.slug} data-ward-name={`${w.name} ${s}`.toLowerCase()}>
+                    <a class="fg-dir-pill fg-ward-dir-pill" href={`/ward/${w.slug}/`}>
+                      <span class="fg-pill-arrow" aria-hidden="true">↗</span>
+                      <span class="fg-ward-dir-body">
+                        <strong>{w.name}</strong>
+                        <small>{w.facilities.length} services listed · {w.places.length} places</small>
+                      </span>
+                    </a>
+                  </li>
+                ))}
               </ul>
             </Toggle>
           );
@@ -29,4 +45,27 @@ import { subCounties, anchorFor } from '../../nav.js';
       </div>
     </div>
   </div>
+  <script is:inline>
+  (function () {
+    var q = document.getElementById('ward-filter-q');
+    var root = document.querySelector('[data-ward-directory]');
+    if (!q || !root) return;
+    var toggles = Array.prototype.slice.call(root.querySelectorAll('details'));
+    q.addEventListener('input', function () {
+      var term = q.value.trim().toLowerCase();
+      toggles.forEach(function (det, i) {
+        var rows = det.querySelectorAll('[data-ward-name]');
+        var visible = 0;
+        rows.forEach(function (li) {
+          var ok = !term || (li.getAttribute('data-ward-name') || '').indexOf(term) > -1;
+          li.hidden = !ok;
+          if (ok) visible++;
+        });
+        det.hidden = Boolean(term) && visible === 0;
+        if (term && visible > 0) det.open = true;
+        else if (!term) det.open = i === 0;
+      });
+    });
+  })();
+  </script>
 </Base>

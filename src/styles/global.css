@@ -2870,13 +2870,402 @@ a.fg-ft-pill {
 }
 a.fg-ft-pill:hover { background: var(--nd-green); }
 
+/* ── Live instant search dropdown in Field Guide header ──────────────── */
+.fg-hdr-search-wrap {
+  position: relative;
+  flex: 1 1 240px;
+  max-width: 340px;
+}
+.fg-hdr-search-wrap .fg-hdr-search { max-width: none; width: 100%; }
+.fg-search-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(460px, 90vw);
+  background: var(--nd-white);
+  border: 1.5px solid var(--ch-900);
+  border-radius: 16px;
+  box-shadow: var(--fg-shadow-md);
+  padding: 8px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fg-search-pop[hidden] { display: none; }
+a.fg-pop-item {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ch-900);
+  font-size: 14px;
+  transition: background 0.12s ease;
+}
+a.fg-pop-item:hover,
+a.fg-pop-item.is-active {
+  background: var(--nd-green-soft);
+}
+.fg-pop-arr {
+  color: var(--nd-green-deep);
+  font-weight: 700;
+  font-size: 14px;
+}
+.fg-pop-title {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fg-pop-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--nd-green-soft);
+  border: 1px solid var(--fg-pill-border);
+  color: var(--nd-green-deep);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fg-pop-empty {
+  padding: 12px 14px;
+  font-size: 13.5px;
+  color: var(--ch-600);
+}
+a.fg-pop-all {
+  display: block;
+  margin-top: 4px;
+  padding: 10px 14px;
+  border-top: 1px dashed var(--ch-200);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--nd-green-deep);
+  text-decoration: none;
+  border-radius: 0 0 10px 10px;
+}
+a.fg-pop-all:hover,
+a.fg-pop-all.is-active { background: var(--nd-paper); color: var(--ch-900); }
+@media (max-width: 980px) {
+  .fg-hdr-search-wrap { display: none; }
+}
+
+/* ── Knowledgebase Search Page (/search/) ────────────────────────────── */
+.fg-search-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.fg-search-starters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.fg-search-starters[hidden],
+.fg-search-filters[hidden] { display: none; }
+.fg-starter-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ch-600);
+  margin-right: 4px;
+}
+button.fg-ward-chip {
+  cursor: pointer;
+  font-family: inherit;
+}
+.fg-search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+.fg-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ch-900);
+  background: var(--nd-white);
+  color: var(--ch-900);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.fg-filter-pill:hover { background: var(--nd-green-soft); }
+.fg-filter-pill.is-active {
+  background: var(--nd-green);
+  box-shadow: var(--fg-shadow-sm);
+}
+.fg-search-status {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ch-600);
+}
+.fg-search-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 760px) {
+  .fg-search-grid { grid-template-columns: 1fr; }
+}
+a.fg-search-card {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--fg-pill-border);
+  background: var(--nd-white);
+  color: var(--ch-900);
+  text-decoration: none;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease, background 0.14s ease;
+}
+a.fg-search-card:hover {
+  border-color: var(--ch-900);
+  background: var(--nd-green-soft);
+  box-shadow: var(--fg-shadow-sm);
+  transform: translate(-1px, -1px);
+}
+.fg-search-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.fg-search-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ch-900);
+}
+.fg-search-meta {
+  font-size: 12.5px;
+  color: var(--ch-600);
+}
+
+/* ── Open Data, Contact Ways, Careers & Partners cards ───────────────── */
+.fg-data-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .fg-data-grid { grid-template-columns: 1fr; }
+}
+.fg-data-card,
+a.fg-way-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 26px;
+  border-radius: 18px;
+  border: 1.5px solid var(--ch-900);
+  background: var(--nd-white);
+  box-shadow: var(--fg-shadow-md);
+  color: var(--ch-900);
+  text-decoration: none;
+}
+.fg-data-card h2,
+.fg-data-card h3,
+a.fg-way-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--ch-900);
+}
+.fg-data-card p,
+a.fg-way-card p { margin: 0; }
+.fg-data-actions {
+  margin-top: auto;
+  padding-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+a.fg-way-card {
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+a.fg-way-card:hover {
+  background: var(--nd-green-soft);
+  transform: translate(-2px, -2px);
+}
+.fg-way-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* ── Wards Directory filter & enhanced legend swatches ───────────────── */
+.fg-ward-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ch-900);
+  background: var(--nd-white);
+  box-shadow: var(--fg-shadow-sm);
+}
+.fg-ward-filter svg { color: var(--nd-green-deep); flex-shrink: 0; }
+.fg-ward-filter input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--ch-900);
+  outline: none;
+}
+a.fg-ward-dir-pill {
+  align-items: flex-start;
+  padding: 11px 16px;
+}
+.fg-ward-dir-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.fg-ward-dir-body strong { font-size: 15px; color: var(--ch-900); }
+.fg-ward-dir-body small { font-size: 12.5px; font-weight: 500; color: var(--ch-600); }
+.map-key .sw, .ward-key .sw, .legend .sw {
+  border: 1.5px solid var(--ch-900);
+  border-radius: 4px;
+}
+
+/* ── Explainer & Number-of-the-Week Reading Sheet ────────────────────── */
+.fg-article-sheet {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 20px;
+  border: 1.5px solid var(--ch-900);
+  background: var(--nd-white);
+  box-shadow: var(--fg-shadow-md);
+}
+.fg-article-sources {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--ch-200);
+}
+
+/* ── Shared Field Guide Sheet Container ──────────────────────────────── */
+.fg-sheet {
+  padding: clamp(24px, 3.5vw, 38px);
+  border-radius: 20px;
+  border: 1.5px dashed var(--ch-900);
+  background: var(--nd-white);
+  box-shadow: var(--fg-shadow-md);
+}
+.fg-sheet.fg-sheet-solid {
+  border-style: solid;
+}
+.fg-sec-head h2 em {
+  font-style: normal;
+  color: var(--nd-green-deep);
+}
+.fg-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+/* ── Report a Place & Clinic Check studio ────────────────────────────── */
+.fg-report-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .fg-report-grid { grid-template-columns: 1fr; }
+}
+.fg-report-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--ch-200);
+}
+.fg-report-head h2 { margin: 4px 0 0; }
+.fg-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 600px) {
+  .fg-form-row { grid-template-columns: 1fr; }
+}
+.fg-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.fg-report-form .choice label:has(input:checked) {
+  background: var(--nd-green);
+  border-color: var(--ch-900);
+  box-shadow: var(--fg-shadow-sm);
+  font-weight: 700;
+}
+
+/* ── Standalone lead KPI card (e.g. Budget 2025/26) & table polish ──── */
+section.figure {
+  padding: 26px 30px;
+  border-radius: 18px;
+  border: 1.5px solid var(--ch-900);
+  background: var(--nd-green-soft);
+  box-shadow: var(--fg-shadow-md);
+  margin-bottom: 24px;
+}
+.table-box td:not(:first-child),
+.table-box th:not(:first-child) {
+  white-space: nowrap;
+}
+.table-box table.cards td:last-child {
+  white-space: normal;
+}
+@media (max-width: 760px) {
+  .table-box td:not(:first-child),
+  .table-box th:not(:first-child) {
+    white-space: normal;
+  }
+}
+
 @media print {
   .fg-header, .fg-subnav, .fg-footer { display: none; }
   .fg-page-hero { width: auto; margin-left: 0; background: none; border: 0; padding: 0 0 12px; text-align: left; }
   .fg-page-wrap { background: var(--nd-white); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fg-cta-btn, .fg-outline-btn, main .btn, .fg-peek-card, .fg-ins-thumb, .fg-block-card, .fg-pill-stack a, .fg-pill-grid a, .money-cards a, .rows a.row-link {
+  .fg-cta-btn, .fg-outline-btn, main .btn, .fg-peek-card, .fg-ins-thumb, .fg-block-card, .fg-pill-stack a, .fg-pill-grid a, .money-cards a, .rows a.row-link, a.fg-search-card, a.fg-way-card, .fg-filter-pill, a.fg-pop-item {
     transition: none;
   }
 }

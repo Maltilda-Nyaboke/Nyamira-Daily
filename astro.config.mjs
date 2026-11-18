@@ -22,7 +22,10 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   site,
   // The county figure registry is read from the repo at build time (src/lib/county-registry.js)
-  vite: { define: { __ND_ROOT__: JSON.stringify(root) } },
+  vite: {
+    define: { __ND_ROOT__: JSON.stringify(root) },
+    server: { allowedHosts: true },
+  },
   trailingSlash: 'always',
   // Astro 7's default ('jsx') drops spaces between inline elements; keep the spacing the pages were written with
   compressHTML: true,

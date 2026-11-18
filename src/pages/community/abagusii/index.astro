@@ -6,23 +6,43 @@ import PageHead from '../../../components/PageHead.astro';
 import CommunityRules from '../../../components/CommunityRules.astro';
 import { archiveItems } from '../../../lib/archive.js';
 const history = (await archiveItems()).filter((e) => e.data.kind === 'history');
+const areas = [
+  ['01', 'Origins & settlement', 'Where the Abagusii came from and how they settled, as different elders and written sources tell it.'],
+  ['02', 'Clans as heritage', 'Clan names, totems and customs — documented strictly as cultural heritage, never counts, rankings or elections.'],
+  ['03', 'Everyday culture', 'Food, crafts, songs, naming traditions and ceremonies recorded from consenting knowledge holders.'],
+];
 ---
 <Base title="The Abagusii" description="Who the Abagusii are: history and culture, from named sources.">
-  <PageHead title="The Abagusii" lead="Who we are and where we came from, told by our elders and from named sources." />
-  <div class="stack-lg" style="margin-top:16px; max-width:760px">
-    {history.length > 0 ? (
-      <ul class="rows">{history.map((e) => <li><a class="row-link" href={`/community/archive/#${e.id}`}><span><span class="t">{e.data.title}</span><span class="d">{e.data.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul>
-    ) : (
-      <p class="callout"><span><strong>The first pieces are being prepared.</strong> We publish an account only when it names its source and our review panel has checked it. Nothing is published here yet.</span></p>
-    )}
-    <section class="stack">
-      <h2>What we will cover</h2>
-      <ul>
-        <li>Where the Abagusii came from and how they settled, as different elders and written sources tell it.</li>
-        <li>Clans as heritage: names, totems and customs.</li>
-        <li>Everyday culture: food, crafts, songs, naming and ceremonies.</li>
-      </ul>
-      <p>Do you know an elder we should record, or hold a book, photograph or recording? <a href="/community/share/">Share it with us</a>.</p>
+  <PageHead eyebrow="Community · Living Heritage" title="The Abagusii" lead="Who we are and where we came from, told by our elders and from named sources." crumbs={[{ href: '/community/', label: 'Community' }]} />
+  <div class="stack-lg">
+    <section class="fg-sheet">
+      <div class="fg-sec-head" style="margin-bottom:20px">
+        <span class="fg-kicker">WHAT WE WILL COVER</span>
+        <h2>Documented history with <em>every source named</em></h2>
+      </div>
+      {history.length > 0 ? (
+        <ul class="rows">{history.map((e) => <li><a class="row-link" href={`/community/archive/#${e.id}`}><span><span class="t">{e.data.title}</span><span class="d">{e.data.summary}</span></span><span class="go" aria-hidden="true">→</span></a></li>)}</ul>
+      ) : (
+        <p class="callout" style="margin-bottom:20px"><span><strong>The first pieces are being prepared.</strong> We publish an account only when it names its source and our review panel has checked it. Nothing is published here yet.</span></p>
+      )}
+      <div class="fg-ticket-grid">
+        {areas.map(([num, title, desc], i) => (
+          <div class={`fg-ticket${i === 0 ? ' is-next' : ''}`}>
+            <div class="fg-ticket-stub">
+              <span class="fg-stub-k">PART</span>
+              <strong class="fg-stub-d">{num}</strong>
+            </div>
+            <div class="fg-ticket-body">
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="fg-cta-row">
+        <a class="fg-cta-btn" href="/community/share/">Share a source, book or elder to record</a>
+        <a class="fg-outline-btn" href="/community/archive/">See the culture archive</a>
+      </div>
     </section>
     <CommunityRules />
   </div>
