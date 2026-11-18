@@ -1,25 +1,48 @@
 ---
-// Ekegusii language (decision #122): the first goal is an open, documented text and speech dataset.
 import Base from '../../../layouts/Base.astro';
 import PageHead from '../../../components/PageHead.astro';
 import CommunityRules from '../../../components/CommunityRules.astro';
+
+const steps = [
+  ['Step 1', 'Collect', 'Volunteers record stories, proverbs, songs and everyday speech from speakers who agree to take part.'],
+  ['Step 2', 'Write & check', 'Native speakers of Ekegusii transcribe, translate and cross-check every recording.'],
+  ['Step 3', 'Record consent', 'Each entry records its source, reviewer and permissions — with a separate yes required for AI training.'],
+  ['Step 4', 'Share openly', 'Published for the community, schools and researchers once reviewed (licence being finalised).'],
+];
 ---
-<Base title="Ekegusii language" description="An open Ekegusii text and speech dataset, built with the community.">
-  <PageHead title="Ekegusii language" lead="Phones and computers barely understand Ekegusii, because so little of it has been recorded. We are building that record together." />
-  <div class="stack-lg" style="margin-top:16px; max-width:760px">
-    <section class="stack">
-      <h2>The first goal: a dataset</h2>
-      <p>We are collecting Ekegusii as it is spoken and written: stories, proverbs, songs and everyday speech. Each piece is written down, translated, and recorded with who shared it and what they agreed to.</p>
-      <ol>
-        <li><strong>Collect.</strong> Volunteers record speakers who agree to take part.</li>
-        <li><strong>Write down and translate.</strong> Speakers of Ekegusii check every transcript.</li>
-        <li><strong>Document.</strong> Each item carries its source, its consent and its review.</li>
-        <li><strong>Share.</strong> The dataset is published for the community, schools and researchers. The licence is still being set.</li>
-      </ol>
-      <p>Tools such as a translator come later, and only from recordings whose speakers gave a separate yes to that use.</p>
-      <p class="callout"><span><strong>Nothing has been published yet.</strong> The first recordings are being planned.</span></p>
+<Base title="Ekegusii language" description="An open record of spoken and written Ekegusii, built with speakers' consent, so tools and phones can understand our language.">
+  <PageHead
+    eyebrow="Community · Language & Open AI"
+    title="The open Ekegusii language dataset"
+    lead="Phones and computers barely understand Ekegusii because so little of it has been openly documented. We are building a speaker-consented text and speech record together."
+    crumbs={[{ href: '/community/', label: 'Community' }, { href: '/community/language/', label: 'Ekegusii language' }]}
+  />
+
+  <div class="stack-lg">
+    <section class="fg-solid-sheet stack" aria-labelledby="how">
+      <div class="fg-sec-head is-compact">
+        <span class="fg-kicker">Four-Stage Workflow</span>
+        <h2 id="how">How the <span class="fg-hl">Ekegusii dataset</span> is built</h2>
+        <p class="small muted">Language tools such as translators come later, using only recordings whose speakers gave separate permission.</p>
+      </div>
+      <ul class="fg-ticket-grid">
+        {steps.map(([no, head, body], i) => (
+          <li class={`fg-ticket${i === 0 ? ' is-next' : ''}`}>
+            <div class="fg-ticket-stub"><b>{no}</b></div>
+            <div class="fg-ticket-body">
+              <strong>{head}</strong>
+              <p>{body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="callout"><strong>Current status: nothing published yet.</strong> The first recording rounds are being planned.</p>
+      <div class="fg-center-actions">
+        <a class="fg-cta-btn" href="/community/share/">Volunteer to record or share</a>
+        <a class="fg-outline-btn" href="/community/archive/">See the culture archive</a>
+      </div>
     </section>
-    <p><a href="/community/share/">Volunteer to record, or offer a recording</a></p>
+
     <CommunityRules />
   </div>
 </Base>
